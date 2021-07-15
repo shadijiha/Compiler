@@ -6896,11 +6896,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\shadi\\Desktop\\code\\Projects\\University\\Cs Compile test\\Cs Compiler unit tests\\Cs Compiler unit tests.csproj",
+      "projectUniqueName": "C:\\Users\\shadi\\Desktop\\code\\Projects\\Compiler\\Cs Compiler unit tests\\Cs Compiler unit tests.csproj",
       "projectName": "Cs Compiler unit tests",
-      "projectPath": "C:\\Users\\shadi\\Desktop\\code\\Projects\\University\\Cs Compile test\\Cs Compiler unit tests\\Cs Compiler unit tests.csproj",
+      "projectPath": "C:\\Users\\shadi\\Desktop\\code\\Projects\\Compiler\\Cs Compiler unit tests\\Cs Compiler unit tests.csproj",
       "packagesPath": "C:\\Users\\shadi\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\shadi\\Desktop\\code\\Projects\\University\\Cs Compile test\\Cs Compiler unit tests\\obj\\",
+      "outputPath": "C:\\Users\\shadi\\Desktop\\code\\Projects\\Compiler\\Cs Compiler unit tests\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\shadi\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -6916,8 +6916,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "C:\\Users\\shadi\\Desktop\\code\\Projects\\University\\Cs Compile test\\Cs Compile test\\Cs Compile test.csproj": {
-              "projectPath": "C:\\Users\\shadi\\Desktop\\code\\Projects\\University\\Cs Compile test\\Cs Compile test\\Cs Compile test.csproj"
+            "C:\\Users\\shadi\\Desktop\\code\\Projects\\Compiler\\Cs Compile test\\Cs Compile test.csproj": {
+              "projectPath": "C:\\Users\\shadi\\Desktop\\code\\Projects\\Compiler\\Cs Compile test\\Cs Compile test.csproj"
             }
           }
         }

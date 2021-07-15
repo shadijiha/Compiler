@@ -114,6 +114,8 @@ namespace Cs_Compile_test.com {
 				// Register this class
 				ShadoClass clazz = new ShadoClass(className);
 				clazz.AddParentClass(VM.GetSuperType());
+
+				// Add constructor and the class() method
 				clazz.AddMethod(new ShadoMethod(className, 0, className).SetCode((ctx, args) => {
 
 					// Call constructor of all parent
@@ -122,6 +124,10 @@ namespace Cs_Compile_test.com {
 
 					return new ShadoObject(clazz, null);
 				}));
+				clazz.AddMethod(new ShadoMethod("class", 0, "string")
+					.SetCode((ctx, args) => className)
+					.AddAttribute(ShadoMethod.Attributes.STATIC));
+
 				VM.instance.AddType(clazz);
 
 				// Extract methods

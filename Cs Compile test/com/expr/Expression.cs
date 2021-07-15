@@ -425,6 +425,15 @@ namespace Cs_Compile_test.com {
 			if (rhs.StartsWith("'") && rhs.EndsWith("'"))
 				return new ShadoObject("char", rhs);
 
+			// See if it is a pointer
+			if (rhs.StartsWith("&")) {
+				var vname = rhs.Substring(1);
+				var ptr = scope.GetVariable(vname) ?? VM.instance.Get(vname);
+				checkVariable(ptr);
+
+				return new ShadoObject(type + "*", ptr.GetHashCode());
+			}
+
 			// Otherwise throw an exception
 			throw new RuntimeError("Invalid expression\n\t--> {0}", rhs);
 		}
