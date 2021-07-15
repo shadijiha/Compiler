@@ -1,0 +1,12 @@
+*.exe
+*.ipch
+*.tlog
+*.log
+*.ipdb
+*.obj
+*.iobj
+*.ilk
+*.pdb
+*.class
+TestResults/
+*.testlog

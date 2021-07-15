@@ -1,0 +1,39 @@
+#include "__PATH__/core.sscript"
+//#include "__PATH__/main.shado"
+
+class Math  {
+
+    public static int min(int a, int b) {
+        return min(a, b);
+    }
+
+}
+
+void change(int* i) {
+    *i = 200;
+}
+
+int main()	{
+
+   
+    int a = Math.min(6, 9);
+    print(a);
+
+    /*FileWriter writer = new FileWriter("D:/Wamp64/www/GitHub/University/Cs Compile test/Cs Compile test/text.txt");
+    writer.open();
+    
+    int i = 0;
+    while(i < 10)   {
+        writer.writeln(random());
+        i = i + 1;
+    }
+    writer.writeln("Text!!!!");
+    writer.writeln("Testing the autoclosable!");
+    writer.close();
+
+    FileReader reader = new FileReader("D:/Wamp64/www/GitHub/University/Cs Compile test/Cs Compile test/text.txt");
+
+    reader.open();
+    string text = reader.readToEnd();
+    print(text);*/
+}

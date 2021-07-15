@@ -1,0 +1,165 @@
+// This is the core library of shado script
+#include "__PATH__/math.sscript"
+
+/**
+ * This function prints the arg to the console
+ * @param arg The argument to print
+ * @returns void
+ * @example: print("Hello", "this", name)
+ */
+native void print(object arg);
+
+/**
+ * This function returns the type of object arg
+ * @param arg The argument to get the type of
+ * @returns string
+ * @example: typeof(aString) --> string
+ */
+native string typeof(object obj);
+
+/**
+ * Clears the console
+ */ 
+native void clear();
+
+/**
+ * Sleeps the main thread
+ * @param ms milliseconds to sleep
+ */
+native void sleep(int ms);
+
+/**
+ * Prints all the defined types in the VM
+ */
+native void print_all_types();
+
+/**
+ * Prints all types exluding premitives
+ */
+native void print_user_defined_types();
+
+/**
+ * Prints all the variable contained in the VM
+ */
+native void inspect_vm();
+
+/**
+ * Prints the content of the memory manager
+ */
+native void inspect_memory();
+
+/** 
+ * All objects extend this class
+ */
+class object {
+
+    public native object();
+
+    public native object(object o);
+
+    public native object(void* ptr);
+
+    public native string toString();
+
+    public native int hashCode();
+}
+
+class function  {  
+}
+
+native class FileReader {
+
+    public native FileReader(string filepath);
+
+    public native void open();
+
+    public native void close();
+
+    public native string readLine();
+
+    public native bool hasNext();
+
+    public native string readToEnd();
+}
+
+native class FileWriter {
+
+    public native FileWriter(string filepath, bool? append);
+
+    public native void open();
+
+    public native void close();
+
+    public native void write(string text);
+
+    public native void writeln(string text);
+
+    public native void flush();
+}
+
+/**
+ * All arrays have this class as super class
+ *
+ * PLEASE NOTE: Objects are pushed into the array by value!
+ */ 
+native class Array {
+
+    public native int length();
+
+    public native dynamic at(int index);
+
+    public native void add(dynamic element);
+
+    public native void addAt(int index, dynamic element);
+
+    public native dynamic pop();
+
+    public native bool contains(dynamic element); 
+};
+
+/**
+ * This is the shado string class
+ */
+native class string {
+
+    public native string(char[] array);
+
+    public native string(string s);
+
+    public native string(string* ptr);
+
+    public native int length();
+
+    public native char charAt(int index);
+
+    public native char[] toCharArray();
+
+    public native string concat(string other);
+
+    public native bool contains(string other);
+
+    public native bool startsWith(string s);
+
+    public native bool endsWith(string s);
+
+    public native bool equals(string s);
+
+    public native bool equalsIgnoreCase(string s);
+
+    public native string toLowerCase();
+
+    public native string toUpperCase();
+
+    public native int indexOf(string s);
+
+    public native bool isEmpty();
+
+    public native string trim();
+
+    public native string replace(string old, string newVal);
+
+    public native string[] split(string splitter);
+}
+
+
+

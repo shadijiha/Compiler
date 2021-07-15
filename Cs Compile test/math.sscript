@@ -1,0 +1,96 @@
+// This is the core Math library of shado script
+
+/**
+ * This function compares 2 numbers and return the smaller one
+ *
+ * @param a the first number
+ * @param b the second number
+ * @returns the smaller number between the 2
+ */
+int min(int a, int b)   {
+    if (a < b)  {
+        return a;
+    }
+    return b;
+}
+
+/**
+ * This function compares 2 numbers and return the bigger one
+ *
+ * @param a the first number
+ * @param b the second number
+ * @returns the bigger number between the 2
+ */
+int max(int x, int y)   {
+    if (x > y)  {
+        return x;
+    }
+    return y;
+}
+
+int factorial(int n)    {
+
+    int product = 1;
+    int j = 1;
+    while(j <= n) {
+        product = product * j;
+        j = j + 1;
+    }
+    return product;
+}
+
+double sin(double a) {
+    double PI = pi();
+
+    a = a % (2 * PI);
+
+    if (a < 0) {
+        a = 2 * PI - a;
+    }
+
+    int sign = 1;
+    if (a > PI) {
+        a = a - PI;
+        sign = -1;
+    }
+
+    int PRECISION = 50;
+    double temp = 0;
+    int i = 0;
+    while (i <= PRECISION) {
+        double pow1 =  pow(-1, i);
+        double pow2 =  pow(a, 2 * i + 1);
+        int fac = factorial(2 * i + 1);
+        temp = temp + pow1 * (pow2 / fac);
+        i = i + 1;
+    }
+
+    return sign * temp;
+}
+
+/**
+ * @returns pi 
+ */
+double pi() {
+    return 3.14159265359;
+}
+
+double randomRange(int min, int max) {
+    double r = random();
+    return r * (max - min) + min;
+}
+
+/**
+ * This function returns a randomly generated double
+ */
+native double random();
+
+/**
+ * @returns The square root of a number
+ */
+native double sqrt(double number);
+
+/**
+ * @return a to the power of b
+ */
+native double pow(double a, double b);
