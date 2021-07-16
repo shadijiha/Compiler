@@ -1,21 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\shadi\\Desktop\\code\\Projects\\Compiler\\Cs Compiler unit tests\\Cs Compiler unit tests.csproj": {}
+    "D:\\Code\\Projects\\Compiler\\Cs Compiler unit tests\\Cs Compiler unit tests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\shadi\\Desktop\\code\\Projects\\Compiler\\Cs Compile test\\Cs Compile test.csproj": {
+    "D:\\Code\\Projects\\Compiler\\Cs Compile test\\Cs Compile test.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\shadi\\Desktop\\code\\Projects\\Compiler\\Cs Compile test\\Cs Compile test.csproj",
+        "projectUniqueName": "D:\\Code\\Projects\\Compiler\\Cs Compile test\\Cs Compile test.csproj",
         "projectName": "Cs Compile test",
-        "projectPath": "C:\\Users\\shadi\\Desktop\\code\\Projects\\Compiler\\Cs Compile test\\Cs Compile test.csproj",
+        "projectPath": "D:\\Code\\Projects\\Compiler\\Cs Compile test\\Cs Compile test.csproj",
         "packagesPath": "C:\\Users\\shadi\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\shadi\\Desktop\\code\\Projects\\Compiler\\Cs Compile test\\obj\\",
+        "outputPath": "D:\\Code\\Projects\\Compiler\\Cs Compile test\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
           "C:\\Users\\shadi\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -52,22 +57,27 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.404\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\shadi\\Desktop\\code\\Projects\\Compiler\\Cs Compiler unit tests\\Cs Compiler unit tests.csproj": {
+    "D:\\Code\\Projects\\Compiler\\Cs Compiler unit tests\\Cs Compiler unit tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\shadi\\Desktop\\code\\Projects\\Compiler\\Cs Compiler unit tests\\Cs Compiler unit tests.csproj",
+        "projectUniqueName": "D:\\Code\\Projects\\Compiler\\Cs Compiler unit tests\\Cs Compiler unit tests.csproj",
         "projectName": "Cs Compiler unit tests",
-        "projectPath": "C:\\Users\\shadi\\Desktop\\code\\Projects\\Compiler\\Cs Compiler unit tests\\Cs Compiler unit tests.csproj",
+        "projectPath": "D:\\Code\\Projects\\Compiler\\Cs Compiler unit tests\\Cs Compiler unit tests.csproj",
         "packagesPath": "C:\\Users\\shadi\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\shadi\\Desktop\\code\\Projects\\Compiler\\Cs Compiler unit tests\\obj\\",
+        "outputPath": "D:\\Code\\Projects\\Compiler\\Cs Compiler unit tests\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
           "C:\\Users\\shadi\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -79,8 +89,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "C:\\Users\\shadi\\Desktop\\code\\Projects\\Compiler\\Cs Compile test\\Cs Compile test.csproj": {
-                "projectPath": "C:\\Users\\shadi\\Desktop\\code\\Projects\\Compiler\\Cs Compile test\\Cs Compile test.csproj"
+              "D:\\Code\\Projects\\Compiler\\Cs Compile test\\Cs Compile test.csproj": {
+                "projectPath": "D:\\Code\\Projects\\Compiler\\Cs Compile test\\Cs Compile test.csproj"
               }
             }
           }
@@ -126,7 +136,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.404\\RuntimeIdentifierGraph.json"
         }
       }
     }

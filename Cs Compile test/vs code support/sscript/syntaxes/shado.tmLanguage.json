@@ -2,11 +2,11 @@
     "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
     "name": "Shado",
     "patterns": [{
+            "include": "#comments-javadoc"
+        }, {
             "include": "#comments"
         },
-        {
-            "include": "#comments-javadoc"
-        },
+
         {
             "include": "#predefined_macros"
         },
@@ -100,7 +100,7 @@
                         "name": "keyword.other.documentation.javadoc.shado"
                     },
                     {
-                        "match": "(@param)\\s+(\\S+)",
+                        "match": "(@param|@returns)\\s+(\\S+)",
                         "captures": {
                             "1": {
                                 "name": "keyword.other.documentation.javadoc.shado"
@@ -152,7 +152,7 @@
                     "name": "keyword.control.ternary.java"
                 },
                 {
-                    "match": "\\b(return|yield|break|case|continue|default|do|while|for|switch|if|else|new|class|struct|static|native|dynamic|public|protected|private|module)\\b",
+                    "match": "\\b(return|yield|break|case|continue|default|do|while|for|switch|if|else|new|class|struct|static|native|dynamic|public|protected|private|module|interface|implements|extends)\\b",
                     "name": "keyword.control.java"
                 },
                 {

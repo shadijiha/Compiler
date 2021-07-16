@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "V8h2Wc+z3lNFxnNoLYDuA1U5sJF74ELjSSxgrh4a2jvJWlWdBYp8rRMZmdqVVI9HWOSE8h3KAkPCxjXmE9S2EA==",
+  "dgSpecHash": "e6p9wmxOIrALdBMKxfBUygNwzeXi+2jaewr5q/r3NhYh9boNik1cBv9b+aIMoTxU5G7QLdYOzYauS/8Ivy7HhQ==",
   "success": true,
-  "projectFilePath": "D:\\Wamp64\\www\\GitHub\\University\\Cs Compile test\\Cs Compile test\\Cs Compile test.csproj",
+  "projectFilePath": "D:\\Code\\Projects\\Compiler\\Cs Compile test\\Cs Compile test.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

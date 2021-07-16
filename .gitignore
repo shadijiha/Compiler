@@ -10,3 +10,5 @@
 *.class
 TestResults/
 *.testlog
+*.cache
+*.cache

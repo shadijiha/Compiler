@@ -2,6 +2,7 @@
 
 /* Classses support */
 class TestClass {
+
     public void sayHello()  {
         string name = TestClass.class();
         print("Hello from -->", name);
@@ -16,9 +17,9 @@ void change(int* i) {
     *i = 200;
 }
 
-int main()	{
+int main(int argc, string[] argv)	{
     /* Pointers */
-    int a = 10;
+    int a = 10 + 20;
     change(&a);
     print(a);
 
@@ -26,6 +27,9 @@ int main()	{
     double[] array = {1.1, 3.145, 530.0};
     double index2 = array.at(2);
     print(index2);
+    
+    array.add(pi());
+    print(array)
     print("---------------------------------");
 
     /* Strings (Check all string operations in core.sscript) */

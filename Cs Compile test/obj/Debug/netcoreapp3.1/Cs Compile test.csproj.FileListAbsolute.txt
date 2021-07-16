@@ -46,3 +46,16 @@ C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compile test\obj\Debug\netcorea
 C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compile test\obj\Debug\netcoreapp3.1\Cs Compile test.AssemblyInfo.cs
 C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compile test\obj\Debug\netcoreapp3.1\Cs Compile test.dll
 C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compile test\obj\Debug\netcoreapp3.1\Cs Compile test.pdb
+D:\Code\Projects\Compiler\Cs Compile test\bin\Debug\netcoreapp3.1\Cs Compile test.exe
+D:\Code\Projects\Compiler\Cs Compile test\bin\Debug\netcoreapp3.1\Cs Compile test.deps.json
+D:\Code\Projects\Compiler\Cs Compile test\bin\Debug\netcoreapp3.1\Cs Compile test.runtimeconfig.json
+D:\Code\Projects\Compiler\Cs Compile test\bin\Debug\netcoreapp3.1\Cs Compile test.runtimeconfig.dev.json
+D:\Code\Projects\Compiler\Cs Compile test\bin\Debug\netcoreapp3.1\Cs Compile test.dll
+D:\Code\Projects\Compiler\Cs Compile test\bin\Debug\netcoreapp3.1\Cs Compile test.pdb
+D:\Code\Projects\Compiler\Cs Compile test\obj\Debug\netcoreapp3.1\Cs Compile test.csprojAssemblyReference.cache
+D:\Code\Projects\Compiler\Cs Compile test\obj\Debug\netcoreapp3.1\Cs Compile test.AssemblyInfoInputs.cache
+D:\Code\Projects\Compiler\Cs Compile test\obj\Debug\netcoreapp3.1\Cs Compile test.AssemblyInfo.cs
+D:\Code\Projects\Compiler\Cs Compile test\obj\Debug\netcoreapp3.1\Cs Compile test.csproj.CoreCompileInputs.cache
+D:\Code\Projects\Compiler\Cs Compile test\obj\Debug\netcoreapp3.1\Cs Compile test.dll
+D:\Code\Projects\Compiler\Cs Compile test\obj\Debug\netcoreapp3.1\Cs Compile test.pdb
+D:\Code\Projects\Compiler\Cs Compile test\obj\Debug\netcoreapp3.1\Cs Compile test.genruntimeconfig.cache

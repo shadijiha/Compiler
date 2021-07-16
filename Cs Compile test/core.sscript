@@ -67,7 +67,11 @@ class object {
 class function  {  
 }
 
-native class FileReader {
+interface IAutoClosable {
+    public void close();
+}
+
+native class FileReader implements IAutoClosable {
 
     public native FileReader(string filepath);
 
@@ -82,7 +86,7 @@ native class FileReader {
     public native string readToEnd();
 }
 
-native class FileWriter {
+native class FileWriter implements IAutoClosable {
 
     public native FileWriter(string filepath, bool? append);
 
