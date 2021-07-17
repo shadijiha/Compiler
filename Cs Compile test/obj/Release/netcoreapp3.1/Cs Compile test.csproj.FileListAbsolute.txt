@@ -1,0 +1,12 @@
+D:\Code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\Cs Compile test.exe
+D:\Code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\Cs Compile test.deps.json
+D:\Code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\Cs Compile test.runtimeconfig.json
+D:\Code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\Cs Compile test.runtimeconfig.dev.json
+D:\Code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\Cs Compile test.dll
+D:\Code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\Cs Compile test.pdb
+D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.AssemblyInfoInputs.cache
+D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.AssemblyInfo.cs
+D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.csproj.CoreCompileInputs.cache
+D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.dll
+D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.pdb
+D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.genruntimeconfig.cache
