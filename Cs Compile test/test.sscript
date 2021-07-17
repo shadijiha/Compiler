@@ -19,6 +19,7 @@ void change(int* i) {
 
 int main(int argc, string[] argv)	{
     /* Pointers */
+   
     int a = 10 + 20;
     change(&a);
     print(a);
