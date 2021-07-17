@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Cs_Compile_test.com {
 	public class ShadoObject {
-		public static readonly ShadoObject Global = new ShadoObject("object", "GLOBAL", null);
+		public static readonly ShadoObject Global = new ShadoObject("object", "GLOBAL", "GLOBAL");
 
 		public ShadoClass type { get; set; }
 		public string name { get; set; }
@@ -18,7 +18,9 @@ namespace Cs_Compile_test.com {
 			this.value = value;
 			// Keep the string literal without the quotes ("")
 			if (type != null && type.name == "string")
-				this.value = value?.ToString().ReplaceFirstOccurrence("\"", "").ReplaceLastOccurrence("\"", "").Trim() ?? "";
+				this.value = value?.ToString()
+					.ReplaceFirstOccurrence("\"", "")
+					.ReplaceLastOccurrence("\"", "") ?? "";
 
 			this.id = VM.instance.random.Next(int.MaxValue);
 			this.instanceVariables = new List<ShadoObject>();

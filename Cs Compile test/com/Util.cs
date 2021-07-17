@@ -78,15 +78,19 @@ namespace Cs_Compile_test.com {
 			ShadoMethod method_print = new ShadoMethod("print", 1, "void", true, new string[] { "object" });
 			method_print.SetCode((context, obj) => {
 				foreach (object e in obj) {
-					string o = e?.ToString().Trim() ?? "\"null\"";
-					if (o.StartsWith("\"") && o.EndsWith("\"")) {
-						o = Regex.Unescape(o.Substring(1,
-							o.Length - 2)); // Keep the string literal without the quotes ("")
+					string o = e?.ToString() ?? "\"null\"";
+					if (o.Contains("\"")) {
+						Console.WriteLine("Printed string!");
+						o = Regex.Unescape(o
+							.ReplaceFirstOccurrence("\"", "")
+							.ReplaceLastOccurrence("\"", "")); // Keep the string literal without the quotes ("")
+
 					} else if (context.HasVariable(o) || vm.Get(o) != null) {
 						o = context.GetVariable(o)?.ToString() ??
 							VM.instance.Get(o)?.ToString(); // Get the value of the variable if it is not a raw string
 					}
-					// Otherwise try to find the type of the variable or just print the C# type (Mainly the variable is an R-value)
+					// Otherwise try to find the type of the variable or just print the C#
+					// type (Mainly the variable is an R-value)
 					else {
 						ShadoObject temp = new ShadoObject(vm.GetTypeOf(e), e);
 						o = temp.ToString() ?? o;
@@ -94,10 +98,17 @@ namespace Cs_Compile_test.com {
 
 					Console.Write(o);
 				}
-				Console.WriteLine();
 				return null;
 			});
 			vm.PushVariable(method_print);
+
+			ShadoMethod method_println = new ShadoMethod("println", 1, "void", true, new[] { "object" });
+			method_println.SetCode((context, obj) => {
+				(vm.Get("print") as ShadoMethod).Call(context, obj);
+				Console.WriteLine();
+				return null;
+			});
+			vm.PushVariable(method_println);
 
 			ShadoMethod method_typeof = new ShadoMethod("typeof", 1, "string", new string[] { "object" });
 			method_typeof.SetCode((ctx, obj) =>

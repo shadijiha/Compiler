@@ -52,7 +52,7 @@ namespace Cs_Compiler_unit_tests {
 			ShadoObject line = VM.instance.Get("main").GetVariable("all");
 
 			File.Delete(path);
-			Assert.AreEqual("This is a test line\r\nanother string", line.ToString());
+			Assert.AreEqual("This is a test line\r\nanother string\r\n", line.ToString());
 		}
 
 		[TestMethod]

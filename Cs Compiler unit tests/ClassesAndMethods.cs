@@ -17,7 +17,7 @@ namespace Cs_Compiler_unit_tests {
 
 			TestUtil.CompileAndRun(code);
 
-			Assert.AreEqual("Hello world!\r\n", console.ToString());
+			Assert.AreEqual("Hello world!", console.ToString());
 		}
 
 		[TestMethod]
@@ -47,7 +47,7 @@ namespace Cs_Compiler_unit_tests {
 
 			TestUtil.CompileAndRun(code);
 
-			Assert.AreEqual("Hello world!\r\n", console.ToString());
+			Assert.AreEqual("Hello world!", console.ToString());
 		}
 
 		[TestMethod]

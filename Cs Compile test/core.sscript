@@ -10,6 +10,13 @@
 native void print(object arg);
 
 /**
+ * This function prints the arg to the console with a new line
+ * @param arg The argument to print
+ * @returns void
+ */
+native void println(object arg);
+
+/**
  * This function returns the type of object arg
  * @param arg The argument to get the type of
  * @returns string
