@@ -12,3 +12,10 @@ TestResults/
 *.testlog
 *.cache
 *.cache
+Cs Compile test/obj/Cs Compile test.csproj.nuget.dgspec.json
+Cs Compile test/obj/Cs Compile test.csproj.nuget.dgspec.json
+Cs Compile test/obj/project.assets.json
+Cs Compile test/obj/Release/netcoreapp3.1/Cs Compile test.dll
+Cs Compiler unit tests/obj/Cs Compiler unit tests.csproj.nuget.dgspec.json
+Cs Compiler unit tests/obj/project.assets.json
+*.dll

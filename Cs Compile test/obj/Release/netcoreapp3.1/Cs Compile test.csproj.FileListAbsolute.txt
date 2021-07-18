@@ -1,3 +1,13 @@
+C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\Cs Compile test.exe
+C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\Cs Compile test.deps.json
+C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\Cs Compile test.runtimeconfig.json
+C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\Cs Compile test.runtimeconfig.dev.json
+C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\Cs Compile test.dll
+C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\Cs Compile test.pdb
+C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.AssemblyInfoInputs.cache
+C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.AssemblyInfo.cs
+C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.dll
+C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.pdb
 D:\Code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\Cs Compile test.exe
 D:\Code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\Cs Compile test.deps.json
 D:\Code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\Cs Compile test.runtimeconfig.json
@@ -10,13 +20,3 @@ D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile t
 D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.dll
 D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.pdb
 D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.genruntimeconfig.cache
-C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\Cs Compile test.exe
-C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\Cs Compile test.deps.json
-C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\Cs Compile test.runtimeconfig.json
-C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\Cs Compile test.runtimeconfig.dev.json
-C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\Cs Compile test.dll
-C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\Cs Compile test.pdb
-C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.AssemblyInfoInputs.cache
-C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.AssemblyInfo.cs
-C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.dll
-C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.pdb
