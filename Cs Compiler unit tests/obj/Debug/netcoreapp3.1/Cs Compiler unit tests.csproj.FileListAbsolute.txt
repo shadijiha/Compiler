@@ -382,3 +382,4 @@ D:\Code\Projects\Compiler\Cs Compiler unit tests\obj\Debug\netcoreapp3.1\Cs Comp
 D:\Code\Projects\Compiler\Cs Compiler unit tests\obj\Debug\netcoreapp3.1\Cs Compiler unit tests.dll
 D:\Code\Projects\Compiler\Cs Compiler unit tests\obj\Debug\netcoreapp3.1\Cs Compiler unit tests.pdb
 D:\Code\Projects\Compiler\Cs Compiler unit tests\obj\Debug\netcoreapp3.1\Cs Compiler unit tests.genruntimeconfig.cache
+D:\Code\Projects\Compiler\Cs Compiler unit tests\bin\Debug\netcoreapp3.1\DynamicExpresso.Core.dll

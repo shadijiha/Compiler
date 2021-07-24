@@ -6,7 +6,7 @@ namespace Cs_Compile_test.com {
 
 		[Flags]
 		public enum Attributes {
-			PUBLIC, PRIVATE, PROTECTED, STATIC, NATIVE
+			PUBLIC, PRIVATE, PROTECTED, STATIC, NATIVE, C_SHARP
 		}
 
 		public delegate object MethodCall(ShadoObject context, object[] args);

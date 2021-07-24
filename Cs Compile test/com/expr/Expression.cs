@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using DynamicExpresso;
 
 namespace Cs_Compile_test.com {
 
@@ -395,26 +396,20 @@ namespace Cs_Compile_test.com {
 		private ShadoObject executeGetValueOf() {
 
 			// See if it is a variable in the method scope
-			string modifiedExpr = rhs;
 			foreach (ShadoObject variable in scope.GetAllVariables()) {
 				if (variable.name == rhs)
 					return variable;
-				else
-					modifiedExpr = modifiedExpr.Replace(variable.name, variable.ToString());
 			}
 
 			// See if it is a variable in the global scope
 			foreach (ShadoObject variable in VM.instance.AllVariables()) {
 				if (variable.name == rhs)
 					return variable;
-				else {
-					modifiedExpr = modifiedExpr.Replace(variable.name, variable.ToString());
-				}
 			}
 
 			// Otherwise see if it is a math expression
 			object val = null;
-			if (isMathExpression(modifiedExpr, ref val))
+			if (isMathExpression(rhs, ref val))
 				return new ShadoObject(VM.GetSuperType(), val);
 
 			// See if it is a string
@@ -439,21 +434,42 @@ namespace Cs_Compile_test.com {
 		}
 
 		private bool isMathExpression(string expression, ref object output) {
+			// TODO: try this instead of the 2 below https://eval-expression.net/
 			try {
 				// First replace all the variables with their scope values
+				List<ShadoObject> varInExpr = new List<ShadoObject>();
+
 				foreach (var variable in scope.GetAllVariables()) {
-					expression = expression.Replace(variable.name, variable.value?.ToString());
+					if (Regex.IsMatch(expression, $"\\b{variable.name}\\b")) {
+						varInExpr.Add(variable);
+					}
 				}
 
-				// Replace whats left with their global value
-				/*foreach (var variable in VM.instance.AllVariables()) {
-					expression = expression.Replace(variable.name, variable.ToString());
-				}*/
+				var interpreter = new Interpreter();
+				// Push variables to interpreter
+				foreach (var shadoObject in varInExpr) {
+					interpreter.SetVariable(shadoObject.name, shadoObject.value);
+				}
 
-				DataTable dt = new DataTable();
-				output = dt.Compute(expression, "");
+				output = interpreter.Eval(expression);
 				return true;
-			} catch (Exception) { }
+			}
+			// Otherwise evaluate using DataTable
+			catch (Exception) {
+
+				try {
+
+					foreach (var variable in scope.GetAllVariables()) {
+						expression = expression.Replace(variable.name, variable.ToString());
+					}
+
+					DataTable table = new DataTable();
+					output = table.Compute(expression, "");
+					return true;
+				}
+				catch (Exception) {}
+
+			}
 			return false;
 		}
 

@@ -7,21 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using Cs_Compile_test.com.interfaces;
 
 namespace Cs_Compile_test.com {
 	public static class Util {
 
 		public static string[] RemoveBlanks(this string[] array) {
 			return array.Where(e => !string.IsNullOrWhiteSpace(e)).ToArray();
-		}
-
-		public static bool EvaluateBoolExpression(string expression) {
-			try {
-				DataTable dt = new DataTable();
-				var output = dt.Compute(expression, "");
-				return bool.Parse(output.ToString());
-			} catch (Exception) { }
-			return false;
 		}
 
 		public static string ReplaceLastOccurrence(this string Source, string Find, string Replace) {
@@ -55,6 +47,10 @@ namespace Cs_Compile_test.com {
 
 		public static void Close(this ICloseBeforeExit stream, ShadoObject context) {
 			context.type.GetMethod("close").Call(context, null);
+		}
+
+		public static string[] Clean(this AbstractExpression expr, string[] lines) {
+			return lines.Where(e => !string.IsNullOrEmpty(e) && e.Trim() != "{" && e.Trim() != "}").ToArray();
 		}
 	}
 
