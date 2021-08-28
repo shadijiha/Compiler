@@ -86,7 +86,8 @@ namespace Cs_Compile_test.com {
 
 	public class Expression : AbstractExpression {
 		public enum Type {
-			DECLARATION, ASSIGNMENT, FUNC_CALL, OBJECT_FUNC_CALL, RETURN, POINTER_ASSIGNMENT, OBJECT_INSTATIATION, GET_VALUE
+			DECLARATION, ASSIGNMENT, FUNC_CALL, OBJECT_FUNC_CALL, RETURN, POINTER_ASSIGNMENT, OBJECT_INSTATIATION, GET_VALUE, OBJECT_VAR_CALL,
+			THIS_VAR_CALL
 		}
 
 		private string raw;
@@ -121,6 +122,8 @@ namespace Cs_Compile_test.com {
 					return executeObjectInstantiation();
 				case Type.GET_VALUE:
 					return executeGetValueOf();
+				case Type.OBJECT_VAR_CALL:
+					return executeVarCallOnObj();
 				default: return rhs;
 			}
 		}
@@ -159,6 +162,7 @@ namespace Cs_Compile_test.com {
 				this.rhs = raw;
 				this.expressionType = Type.OBJECT_FUNC_CALL;
 			}
+
 			// If it is a function call
 			else if (new ExpressionSyntax("IDENTIFIER(ANY)").Matches(raw) && !raw.Contains("{")) {
 				this.type = null;
@@ -166,6 +170,13 @@ namespace Cs_Compile_test.com {
 				this.rhs = raw;
 				this.expressionType = Type.FUNC_CALL;
 			}
+			// If it is a variable call on object
+			/*else if (new ExpressionSyntax("IDENTIFIER.IDENTIFIER").Matches(raw) && !raw.Contains("{") && !raw.StartsWith("\"")) {
+				this.type = null;
+				this.name = null;
+				this.rhs = raw;
+				this.expressionType = Type.OBJECT_VAR_CALL;
+			}*/
 			// If it is a declaration
 			else if (ExpressionSyntax.DECLARATION.Matches(raw)) {
 				this.type = VM.instance.GetClass(tokens[0]);
@@ -269,10 +280,15 @@ namespace Cs_Compile_test.com {
 
 				// If the value is a ShadoObject then you need to copy its value
 				// To avoid shallow copy bugs
-				if (value is ShadoObject sobj)
+				ShadoClass alternativeType = null;
+				if (value is ShadoObject sobj) {
+					alternativeType = sobj.type;
 					value = sobj.value;
+				}
 
-				scope.AddOrUpdateVariable(type?.name ?? "object", name, value);
+				
+
+				scope.AddOrUpdateVariable(type?.name ?? alternativeType?.name ?? "object", name, value);
 			}
 
 			return value;
@@ -391,6 +407,26 @@ namespace Cs_Compile_test.com {
 			obj.name = this.name;
 			scope.AddVariable(obj);
 			return obj;
+		}
+
+		public object executeVarCallOnObj() {
+			// Parse function name
+			string[] tokens = rhs.Split(".", 2);
+			string objectName = tokens[0].Trim();
+			string varName = tokens[1].Trim();
+
+			ShadoObject ctx;
+			if (objectName == "this") {
+				ctx = scope;
+			}
+			else {
+				ctx = scope.GetVariable(objectName) ?? VM.instance.GetOrThrow(objectName);
+			}
+
+			// Get the variable
+			ShadoObject variable = ctx.GetVariable(varName);
+
+			return variable;
 		}
 
 		private ShadoObject executeGetValueOf() {

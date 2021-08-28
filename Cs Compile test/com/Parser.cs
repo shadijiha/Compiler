@@ -94,6 +94,9 @@ namespace Cs_Compile_test.com {
 						try {
 							methodCodeLines[i++].Execute(ref status);
 						} catch (Exception e) {
+#if DEBUG
+							Console.WriteLine(e);
+#endif
 							throw new Exception(e.Message + $"\n\t @ line: {i + 1}\n" + $"--->\t{lines[i]}");
 						}
 					}
@@ -128,9 +131,24 @@ namespace Cs_Compile_test.com {
 						try { className = tokens[i + 1]; } catch (Exception) { throw new SyntaxError("Class does not have a name"); }
 				}
 
+
 				// Register this class
 				ShadoClass clazz = new ShadoClass(className);
 				clazz.AddParentClass(VM.GetSuperType());
+
+
+				// This is the object the constructor will return
+				ShadoObject constructorReturn = new ShadoObject(clazz, null);
+
+				// Extract all instance variables
+				/*foreach (var l in lines) {
+					if (IsInstanceVariable(l)) {
+						ExecutionStatus dummy = new ExecutionStatus();
+						new Expression(l, constructorReturn).Execute(ref dummy);
+					}
+				}
+
+				constructorReturn.AddVariable("string", "class", className);*/
 
 				// Add constructor and the class() method
 				clazz.AddMethod(new ShadoMethod(className, 0, className).SetCode((ctx, args) => {
@@ -139,7 +157,7 @@ namespace Cs_Compile_test.com {
 					foreach (var parent in clazz.GetParentClasses())
 						parent.GetConstructor().Call(ctx, args);
 
-					return new ShadoObject(clazz, null);
+					return constructorReturn;
 				}));
 				clazz.AddMethod(new ShadoMethod("class", 0, "string")
 					.SetCode((ctx, args) => className)
@@ -192,6 +210,10 @@ namespace Cs_Compile_test.com {
 		private static bool IsClassDefinition(string line) {
 			return new ExpressionSyntax("ANYclassANY{").Matches(line) ||
 				new ExpressionSyntax("ANYstructANY{").Matches(line);
+		}
+
+		private static bool IsInstanceVariable(string line) {
+			return new ExpressionSyntax("ANYTYPE IDENTIFIER = ANY").Matches(line);
 		}
 
 		private static MethodInfo ExtractMethodInfo(string signature) {

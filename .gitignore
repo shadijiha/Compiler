@@ -19,3 +19,7 @@ Cs Compile test/obj/Release/netcoreapp3.1/Cs Compile test.dll
 Cs Compiler unit tests/obj/Cs Compiler unit tests.csproj.nuget.dgspec.json
 Cs Compiler unit tests/obj/project.assets.json
 *.dll
+*.v2
+Cs Compiler unit tests/bin/Release/netcoreapp3.1/Cs Compiler unit tests.runtimeconfig.dev.json
+Cs Compiler unit tests/obj/Debug/netcoreapp3.1/Cs Compiler unit tests.csproj.FileListAbsolute.txt
+Cs Compiler unit tests/obj/Release/netcoreapp3.1/Cs Compiler unit tests.csproj.FileListAbsolute.txt

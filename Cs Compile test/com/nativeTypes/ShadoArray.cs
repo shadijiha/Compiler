@@ -7,18 +7,21 @@ using Cs_Compile_test.com.exceptions;
 namespace Cs_Compile_test.com.nativeTypes {
 	public class ShadoArray : ShadoClass {
 
-		public ShadoArray(string name) : base(name, new TypeValidator(name, o => {
-			var type = VM.instance.GetClass(name).GetUnitType();
-			var list = o as List<object>;
-			if (list == null)
-				return false;
-
-			foreach (var obj in list) {
-				if (!type.IsValid(obj))
+		public ShadoArray(string name): base(name, null) {
+			this.validator = new TypeValidator(name, o => {
+				var type = this.GetUnitType();
+				var list = o as List<object>;
+				if (list == null)
 					return false;
-			}
-			return true;
-		})) { }
+
+				foreach (var obj in list) {
+					if (!type.IsValid(obj))
+						return false;
+				}
+
+				return true;
+			});
+		}
 
 		protected override void initializeMethods() {
 			base.initializeMethods();
