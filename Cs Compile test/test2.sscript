@@ -3,10 +3,10 @@
 
 int main(int argc, string[] argv)  { 
 
-    if (true)  {
-        Module mod = import("__PATH__/test.sscript");
-    }
+    println("OMEGALUL!");
+
     int a = 10;
-    mod.main(argc, []);
-    print(a);
+    Module mod = import("__PATH__/test.sscript");
+    mod.change(&a);     
+    println(a);
 }

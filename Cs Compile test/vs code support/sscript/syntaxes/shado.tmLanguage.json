@@ -141,7 +141,7 @@
         "keywords": {
             "patterns": [{
                     "name": "keyword.control.shado",
-                    "match": "(#(if|endif|include|error|stop|using))\\b"
+                    "match": "(#(if|endif|include|error|stop|using|define))\\b"
                 },
                 {
                     "match": "\\bthrow\\b",
@@ -152,7 +152,7 @@
                     "name": "keyword.control.ternary.java"
                 },
                 {
-                    "match": "\\b(return|yield|break|case|continue|default|do|while|for|switch|if|else|new|class|struct|static|native|dynamic|public|protected|private|module|interface|implements|extends|this|super)\\b",
+                    "match": "\\b(return|yield|break|case|continue|default|do|while|for|switch|if|else|new|class|struct|static|native|dynamic|public|protected|private|module|interface|implements|extends|this|super|true|false|null|as|in|out|undefined|export|volatile|abstract|sealed)\\b",
                     "name": "keyword.control.java"
                 },
                 {
@@ -340,7 +340,7 @@
         },
         "predefined_macros": {
             "patterns": [{
-                    "match": "(__FILE__|__LINE__|__DATE__|__PATH__)",
+                    "match": "(__FILE__|__LINE__|__DATE__|__PATH__|__COMPILER__)",
                     "name": "entity.name.other.preprocessor.macro.predefined.shado"
                 },
                 {
@@ -351,7 +351,7 @@
         },
         "function-call": {
             "patterns": [{
-                "match": "(?i)\\b(print|println|typeof|sleep|clear)\\b",
+                "match": "(?i)\\b(print|println|typeof|sleep|clear|import)\\b",
                 "name": "support.function.construct.output.shado"
             }]
         }
