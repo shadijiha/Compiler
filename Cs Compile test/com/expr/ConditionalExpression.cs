@@ -17,9 +17,9 @@ namespace Cs_Compile_test.com.expr {
 
 		public object Execute(ref ExecutionStatus status) {
 
-			if (Evaluate()) {
+			if (Evaluate(ref status)) {
 				var lines = block.Split("\n");
-				lines = Clean(lines);
+				lines = this.Clean(lines);
 
 				for (int i = 1; i < lines.Length - 1; i++) {
 					new Expression(lines[i], scope).Execute(ref status);
@@ -31,19 +31,13 @@ namespace Cs_Compile_test.com.expr {
 			return null;
 		}
 
-		private bool Evaluate() {
+		private bool Evaluate(ref ExecutionStatus status) {
 			string line = condition.Replace("if", "").Trim();
-			line = line.Substring(0, line.Length - 1);
+			line = line.ReplaceFirstOccurrence("(", "").ReplaceLastOccurrence(")", "").Replace("{", "").Replace("}", "").Trim();
 
-			foreach (var variable in scope.GetAllVariables()) {
-				line = line.Replace(variable.name, variable.value?.ToString());
-			}
+			bool.TryParse(new Expression(line, scope).Execute(ref status).ToString(), out var result);
 
-			return Util.EvaluateBoolExpression(line);
-		}
-
-		private string[] Clean(string[] lines) {
-			return lines.Where(e => !string.IsNullOrEmpty(e) && e.Trim() != "{" && e.Trim() != "}").ToArray();
+			return result;
 		}
 
 		public static bool IsIfStatement(string line) => line.Trim().StartsWith("if");

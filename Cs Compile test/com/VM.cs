@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Cs_Compile_test.com {
 	public sealed class VM {
-		public static readonly VM instance = new VM();
+		public static VM instance = new VM();
 
 		public readonly Random random;
 		private IList<ShadoClass> classes;
@@ -40,6 +40,29 @@ namespace Cs_Compile_test.com {
 			this.SetupBasicMethods();
 			this.SetupMathMethods();
 			this.SetupInspectMethods();
+
+			// Setup the dynamic import function
+			ShadoMethod import = new ShadoMethod("import", 1,  "object");
+			import.SetCode((context, args) => {
+				var temp = this;
+				VM.instance = new VM();
+				Compiler c = new Compiler(args[0].ToString());
+				c.compile();
+
+				string moduleType = "Module";
+				ShadoClass clazz = new ShadoClass(moduleType);
+				VM.instance.AddType(clazz);
+				temp.classes.Add(clazz); // TODO change this
+
+				ShadoObject returnObj = new ShadoObject(clazz, null);
+				foreach (var variable in VM.instance.variables) {
+					if (variable is ShadoMethod method)	
+						clazz.AddMethod(method);
+				}
+
+				return returnObj;
+			});
+			this.PushVariable(import);
 		}
 
 		public void Shutdown() {

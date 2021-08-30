@@ -38,10 +38,15 @@ namespace Cs_Compile_test.com.expr {
 
 			string[] lines = block.Split("\n");
 			lines = Clean(lines);
-			while (Util.EvaluateBoolExpression(ReplaceVariablesWithVals(loopCondition, ref status))) {
+			while (EvaluateCondition(loopCondition, ref status)) {
 
 				for (int i = 1; i < lines.Length; i++) {
-					new Expression(lines[i], scope).Execute(ref status);
+					if (IsLoopStatement(lines[i])) {
+						new LoopExpression(string.Join('\n', lines[i..^1]), lines[i], scope).Execute(ref status);
+					}
+					else {
+						new Expression(lines[i], scope).Execute(ref status);
+					}
 				} 
 
 				if (type == Type.FOR)
@@ -94,8 +99,9 @@ namespace Cs_Compile_test.com.expr {
 			return varInfo[^1];
 		}
 
-		private string ReplaceVariablesWithVals(string expression, ref ExecutionStatus status) {
-			return new Expression(expression, scope).Execute(ref status).ToString();
+		private bool EvaluateCondition(string expression, ref ExecutionStatus status) {
+			bool.TryParse(new Expression(expression, scope).Execute(ref status).ToString(), out var result);
+			return result;
 		}
 
 		private enum Type

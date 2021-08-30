@@ -94,3 +94,8 @@ native double sqrt(double number);
  * @return a to the power of b
  */
 native double pow(double a, double b);
+
+/**
+ * @return the integer part of x
+ */
+native int floor(double x);

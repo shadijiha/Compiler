@@ -1,6 +1,9 @@
 // This is the core library of shado script
 #include "__PATH__/math.sscript"
 
+#define MAX_INT 2147483647
+#define MIN_INT -2147483648
+
 /**
  * This function prints the arg to the console
  * @param arg The argument to print
@@ -170,6 +173,24 @@ native class string {
     public native string replace(string old, string newVal);
 
     public native string[] split(string splitter);
+}
+
+/**
+ * This class represents a dynamicly loaded module
+ */
+native class Module {
+    public native operator () (string funcName, dynamic... args);
+}
+
+class Random    {
+    public int nextInt()    {
+        double temp = randomRange(0, MAX_INT);
+        return floor(temp);
+    }
+
+    public double nextDouble()    {
+        return randomRange(0, MAX_INT);
+    }
 }
 
 

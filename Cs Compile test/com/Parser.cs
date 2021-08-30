@@ -43,6 +43,13 @@ namespace Cs_Compile_test.com {
 					method.AddVariable(temp[0], temp[1]);
 				}
 
+				// If method is C# method
+				if (method.Is(ShadoMethod.Attributes.C_SHARP)) {
+					var CScode = string.Join('\n', lines[1..^0]);
+					methodCodeLines.Add(new CSharpExpression("C#{\n" + CScode, method));
+					goto AfterLoop;
+				}
+
 				// Parse method lines
 				for (int i = 1; i < lines.Length - 1; i++) {
 					// Check if the statement is an if statement
@@ -62,12 +69,22 @@ namespace Cs_Compile_test.com {
 
 						// Do not add the if statement content for parsing
 						i += loopBlock.First().Split("\n").Length - 1;
-					} else {
+					} 
+					// Else check if it is a C# block
+					else if (CSharpExpression.IsCSharpStatement(lines[i])) {
+						var CSBlock = ExtractBlocks(string.Join('\n', lines[i..lines.Length]));
+						methodCodeLines.Add(new CSharpExpression(CSBlock.First(), method));
+
+						// Do not add the if statement content for parsing
+						i += CSBlock.First().Split("\n").Length - 1;
+					}
+					else {
 						// Otherwise just push an Expression
 						methodCodeLines.Add(new Expression(lines[i], method));
 					}
 				}
 
+				AfterLoop:
 				method.SetCode((ctx, args) => {
 
 					var status = new ExecutionStatus();
@@ -77,6 +94,9 @@ namespace Cs_Compile_test.com {
 						try {
 							methodCodeLines[i++].Execute(ref status);
 						} catch (Exception e) {
+#if DEBUG
+							Console.WriteLine(e);
+#endif
 							throw new Exception(e.Message + $"\n\t @ line: {i + 1}\n" + $"--->\t{lines[i]}");
 						}
 					}
@@ -111,9 +131,24 @@ namespace Cs_Compile_test.com {
 						try { className = tokens[i + 1]; } catch (Exception) { throw new SyntaxError("Class does not have a name"); }
 				}
 
+
 				// Register this class
 				ShadoClass clazz = new ShadoClass(className);
 				clazz.AddParentClass(VM.GetSuperType());
+
+
+				// This is the object the constructor will return
+				ShadoObject constructorReturn = new ShadoObject(clazz, null);
+
+				// Extract all instance variables
+				/*foreach (var l in lines) {
+					if (IsInstanceVariable(l)) {
+						ExecutionStatus dummy = new ExecutionStatus();
+						new Expression(l, constructorReturn).Execute(ref dummy);
+					}
+				}
+
+				constructorReturn.AddVariable("string", "class", className);*/
 
 				// Add constructor and the class() method
 				clazz.AddMethod(new ShadoMethod(className, 0, className).SetCode((ctx, args) => {
@@ -122,7 +157,7 @@ namespace Cs_Compile_test.com {
 					foreach (var parent in clazz.GetParentClasses())
 						parent.GetConstructor().Call(ctx, args);
 
-					return new ShadoObject(clazz, null);
+					return constructorReturn;
 				}));
 				clazz.AddMethod(new ShadoMethod("class", 0, "string")
 					.SetCode((ctx, args) => className)
@@ -177,6 +212,10 @@ namespace Cs_Compile_test.com {
 				new ExpressionSyntax("ANYstructANY{").Matches(line);
 		}
 
+		private static bool IsInstanceVariable(string line) {
+			return new ExpressionSyntax("ANYTYPE IDENTIFIER = ANY").Matches(line);
+		}
+
 		private static MethodInfo ExtractMethodInfo(string signature) {
 
 			string[] tokens = Regex.Split(signature, "\\s+");
@@ -197,6 +236,10 @@ namespace Cs_Compile_test.com {
 						info.attributes |= (ShadoMethod.Attributes)att;
 					}
 				}
+			}
+
+			if (signature.Contains("C#")) {
+				info.attributes |= ShadoMethod.Attributes.C_SHARP;
 			}
 
 			foreach (var token in tokens) {
