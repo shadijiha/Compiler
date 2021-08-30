@@ -132,6 +132,10 @@ namespace Cs_Compile_test.com {
 			ShadoMethod method_pow = new ShadoMethod("pow", 2, "double");
 			method_pow.SetCode((ctx, obj) => Math.Pow(double.Parse(obj[0].ToString()), double.Parse(obj[1].ToString())));
 			vm.PushVariable(method_pow);
+
+			ShadoMethod method_floot = new ShadoMethod("floor", 1, "int");
+			method_floot.SetCode((ctx, obj) => Math.Floor(double.Parse(obj[0].ToString())));
+			vm.PushVariable(method_floot);
 		}
 
 		public static void SetupInspectMethods(this VM vm) {

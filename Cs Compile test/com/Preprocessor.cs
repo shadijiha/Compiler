@@ -21,7 +21,6 @@ namespace Cs_Compile_test.com {
 		}
 
 		static PreprocessorCommand() {
-			Compiler compiler = null;
 
 			var include = new PreprocessorCommand("include", 1,
 				filename => {
@@ -31,8 +30,13 @@ namespace Cs_Compile_test.com {
 
 					return "";
 				});
-
 			commands.Add(include);
+			
+			var define = new PreprocessorCommand("define", 2, args => {
+				constants.Add(args[0], compiler => args.Length >= 2 ? args[1] : "");
+				return "";
+			});
+			commands.Add(define);
 
 			// Constants
 			constants.Add("__LINE__", compiler => compiler.lineNumber);

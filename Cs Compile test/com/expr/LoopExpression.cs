@@ -41,7 +41,12 @@ namespace Cs_Compile_test.com.expr {
 			while (EvaluateCondition(loopCondition, ref status)) {
 
 				for (int i = 1; i < lines.Length; i++) {
-					new Expression(lines[i], scope).Execute(ref status);
+					if (IsLoopStatement(lines[i])) {
+						new LoopExpression(string.Join('\n', lines[i..^1]), lines[i], scope).Execute(ref status);
+					}
+					else {
+						new Expression(lines[i], scope).Execute(ref status);
+					}
 				} 
 
 				if (type == Type.FOR)

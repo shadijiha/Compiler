@@ -74,6 +74,11 @@ namespace Cs_Compile_test {
 					i = 0;
 				}
 
+				// Replace prepressor constants again in case there were any #define commands
+				foreach (var constant in PreprocessorCommand.constants) {
+					line = line.Replace(constant.Key, constant.Value(this)?.ToString() ?? "");
+					lines[i] = line;
+				}
 			}
 
 			filecontent = string.Join('\n', lines);
