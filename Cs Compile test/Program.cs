@@ -14,8 +14,7 @@ namespace Cs_Compile_test {
 				// Example of args: --filepath FILE_PATH_HERE
 				if (args.Length > 0 && args[0].ToLower() == "--filepath") {
 					FULL_FILE_PATH = args[1]
-						.ReplaceFirstOccurrence("\"", "")
-						.ReplaceLastOccurrence("\"", "")
+						.Replace("\"", "")
 						.Trim();
 				}
 

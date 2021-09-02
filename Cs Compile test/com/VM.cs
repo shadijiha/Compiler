@@ -90,9 +90,10 @@ namespace Cs_Compile_test.com {
 
 		public void InvokeMain(int argc = 0, string[] argv = null) {
 			ShadoMethod main = Get("main") as ShadoMethod;
-			main.optionalArgs = true;
 			if (main == null)
 				throw new RuntimeError("Method main not found!");
+
+			main.optionalArgs = true;
 			main.Call(ShadoObject.Global, new object[] { argc, argv.Cast<object>().ToList() });
 		}
 

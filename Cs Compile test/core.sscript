@@ -1,5 +1,5 @@
 // This is the core library of shado script
-#include "__PATH__/math.sscript"
+#include "__PATH_TO_CORE__/math.sscript"
 
 #define MAX_INT 2147483647
 #define MIN_INT -2147483648
@@ -37,6 +37,11 @@ native void clear();
  * @param ms milliseconds to sleep
  */
 native void sleep(int ms);
+
+/**
+ * @param filepath The path to the file
+ */
+native Module import(string filepath);
 
 /**
  * Prints all the defined types in the VM
@@ -192,6 +197,3 @@ class Random    {
         return randomRange(0, MAX_INT);
     }
 }
-
-
-

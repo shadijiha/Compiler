@@ -118,6 +118,10 @@ namespace Cs_Compile_test.com {
 			ShadoMethod method_sleep = new ShadoMethod("sleep", 1, "void");
 			method_sleep.SetCode((ctx, obj) => { Thread.Sleep(int.Parse(obj[0].ToString())); return null; });
 			vm.PushVariable(method_sleep);
+
+			ShadoMethod method_input = new ShadoMethod("input", 0, "string");
+			method_input.SetCode((ctx, obj) => { return Console.ReadLine(); });
+			vm.PushVariable(method_input);
 		}
 
 		public static void SetupMathMethods(this VM vm) {

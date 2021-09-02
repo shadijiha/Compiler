@@ -43,6 +43,7 @@ namespace Cs_Compile_test.com {
 			constants.Add("__FILE__", compiler => compiler.filename);
 			constants.Add("__PATH__", compiler => !string.IsNullOrEmpty(compiler.filename) ?
 				Directory.GetParent(compiler.filename) : new DirectoryInfo(Environment.CurrentDirectory));
+			constants.Add("__PATH_TO_CORE__", compiler => @"D:\Code\Projects\Compiler\Cs Compile test");
 		}
 
 		public T Execute<T>(string[] args) {

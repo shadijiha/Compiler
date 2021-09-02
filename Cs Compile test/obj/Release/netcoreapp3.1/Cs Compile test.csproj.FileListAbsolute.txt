@@ -80,5 +80,5 @@ D:\Code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\ru\Microsoft
 D:\Code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\tr\Microsoft.CodeAnalysis.Scripting.resources.dll
 D:\Code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.Scripting.resources.dll
 D:\Code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.Scripting.resources.dll
-D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.csprojAssemblyReference.cache
 D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.csproj.CopyComplete
+D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.csprojAssemblyReference.cache
