@@ -1,7 +1,7 @@
 import fs from "fs";
 import { Compiler } from "./Compiler";
 
-type ClassInfo = { file: string; name: string };
+type ClassInfo = { file: string; name: string; type?: "native" | "abstract" };
 
 export default class CodeFormatter {
 	private static readonly KEYWORDS = [
@@ -24,6 +24,7 @@ export default class CodeFormatter {
 		"this",
 		"true",
 		"false",
+		"abstract",
 	];
 	private static readonly NATIVE_TYPES = [
 		"int",
@@ -81,12 +82,14 @@ export default class CodeFormatter {
 		return this.simpleRepalce(CodeFormatter.NATIVE_TYPES, colour);
 	}
 
-	public costumTypes(colour = "#4ec9b0") {
+	public costumTypes(colour = "#4ec9b0", colourAbstract = "#208dc8") {
 		if (this.classList.length > 0) {
 			for (const info of this.classList) {
 				this.formatted = this.formatted.replace(
 					new RegExp(`\\b${info.name}\\b`, "g"),
-					`<span class="link" style="color: ${colour};" data-file="${info.file}" data-clazz="__${info.name}__">$&</span>`
+					`<span class="link" style="color: ${
+						info.type == "abstract" ? colourAbstract : colour
+					};" data-file="${info.file}" data-clazz="__${info.name}__">$&</span>`
 				);
 			}
 		}
@@ -103,12 +106,14 @@ export default class CodeFormatter {
 		return this;
 	}
 
-	public functions(colour = "#dcdcaa") {
+	public functions(colour = "#dcdcaa", nativeColour = "#f28779") {
 		if (this.functionList.length > 0) {
 			for (const info of this.functionList) {
 				this.formatted = this.formatted.replace(
 					new RegExp(`\\b${info.name}(?=\\()`, "g"),
-					`<span class='link' style='color: ${colour};' data-file='${info.file}' data-clazz='__${info.name}__'>$&</span>`
+					`<span class='link' style='color: ${
+						info.type == "native" ? nativeColour : colour
+					};' data-file='${info.file}' data-clazz='__${info.name}__'>$&</span>`
 				);
 			}
 		}
@@ -198,7 +203,11 @@ export default class CodeFormatter {
 
 			const classMatch = line.match(/(?<=\bclass.*)\w+/g);
 			if (classMatch) {
-				this.classList.push({ file: filepath, name: classMatch[0] });
+				this.classList.push({
+					file: filepath,
+					name: classMatch[0],
+					type: line.includes("abstract") ? "abstract" : undefined,
+				});
 				this.formatted = this.formatted.replace(
 					`class ${classMatch[0]}`,
 					`<a name='__${classMatch[0]}__'>$&</a>`
@@ -222,7 +231,11 @@ export default class CodeFormatter {
 			const functionMatch = line.match(/\w+\s+\w+\(/g);
 			if (functionMatch) {
 				const funcName = line.match(/(?<=\w+\s+)\w+(?=\()/g);
-				this.functionList.push({ file: filepath, name: funcName![0] });
+				this.functionList.push({
+					file: filepath,
+					name: funcName![0],
+					type: line.includes("native") ? "native" : undefined,
+				});
 				this.formatted = this.formatted.replace(
 					`${functionMatch[0]}`,
 					`<a name='__${funcName![0]}__'>$&</a>`
