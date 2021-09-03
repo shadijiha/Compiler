@@ -2,6 +2,7 @@
 using Cs_Compile_test.com.nativeTypes;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace Cs_Compile_test.com {
@@ -49,7 +50,10 @@ namespace Cs_Compile_test.com {
 				Compiler c = new Compiler(args[0].ToString());
 				c.compile();
 
-				string moduleType = "Module";
+				// Parse file name
+				string filename = Path.GetFileName(args[0].ToString()).Split(".")[0];
+				string moduleType = $"Module<{filename}>";
+
 				ShadoClass clazz = new ShadoClass(moduleType);
 				VM.instance.AddType(clazz);
 				temp.classes.Add(clazz); // TODO change this
@@ -88,13 +92,13 @@ namespace Cs_Compile_test.com {
 			hasInitialized = false;
 		}
 
-		public void InvokeMain(int argc = 0, string[] argv = null) {
+		public string InvokeMain(int argc = 0, string[] argv = null) {
 			ShadoMethod main = Get("main") as ShadoMethod;
 			if (main == null)
 				throw new RuntimeError("Method main not found!");
 
 			main.optionalArgs = true;
-			main.Call(ShadoObject.Global, new object[] { argc, argv.Cast<object>().ToList() });
+			return main.Call(ShadoObject.Global, new object[] { argc, argv.Cast<object>().ToList() })?.ToString() ?? "0";
 		}
 
 		public bool IsValidType(ShadoClass clazz, Object value) {

@@ -149,7 +149,7 @@ namespace Cs_Compile_test.com {
 				this.expressionType = Type.POINTER_ASSIGNMENT;
 			}
 			// If it is a full declaration
-			else if (ExpressionSyntax.FULL_DECLARATION.Matches(raw)) {
+			else if (ExpressionSyntax.FULL_DECLARATION.Matches(raw) || new ExpressionSyntax("TYPE<ANY> IDENTIFIER = ANY").Matches(raw)) {
 				this.type = VM.instance.GetClass(tokens[0]);
 				this.name = tokens[1];
 				this.rhs = string.Join(' ', tokens.GetRange(3, tokens.Count - 3));

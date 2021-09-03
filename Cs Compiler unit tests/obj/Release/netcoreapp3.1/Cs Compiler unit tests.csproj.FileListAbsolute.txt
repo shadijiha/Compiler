@@ -93,10 +93,10 @@ C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compiler unit tests\obj\Release
 C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compiler unit tests\obj\Release\netcoreapp3.1\Cs Compiler unit tests.csproj.CopyComplete
 C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compiler unit tests\obj\Release\netcoreapp3.1\Cs Compiler unit tests.dll
 C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compiler unit tests\obj\Release\netcoreapp3.1\Cs Compiler unit tests.pdb
+D:\Code\Projects\Compiler\Cs Compiler unit tests\bin\Release\netcoreapp3.1\Cs Compile test.exe
 D:\Code\Projects\Compiler\Cs Compiler unit tests\bin\Release\netcoreapp3.1\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
 D:\Code\Projects\Compiler\Cs Compiler unit tests\bin\Release\netcoreapp3.1\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
 D:\Code\Projects\Compiler\Cs Compiler unit tests\bin\Release\netcoreapp3.1\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
-D:\Code\Projects\Compiler\Cs Compiler unit tests\bin\Release\netcoreapp3.1\Cs Compile test.exe
 D:\Code\Projects\Compiler\Cs Compiler unit tests\bin\Release\netcoreapp3.1\Cs Compiler unit tests.deps.json
 D:\Code\Projects\Compiler\Cs Compiler unit tests\bin\Release\netcoreapp3.1\Cs Compiler unit tests.runtimeconfig.json
 D:\Code\Projects\Compiler\Cs Compiler unit tests\bin\Release\netcoreapp3.1\Cs Compiler unit tests.runtimeconfig.dev.json

@@ -14,12 +14,6 @@ D:\Code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\Cs Compile t
 D:\Code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\Cs Compile test.runtimeconfig.dev.json
 D:\Code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\Cs Compile test.dll
 D:\Code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\Cs Compile test.pdb
-D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.AssemblyInfoInputs.cache
-D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.AssemblyInfo.cs
-D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.csproj.CoreCompileInputs.cache
-D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.dll
-D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.pdb
-D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.genruntimeconfig.cache
 D:\Code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\DynamicExpresso.Core.dll
 D:\Code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\Microsoft.CodeAnalysis.dll
 D:\Code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\Microsoft.CodeAnalysis.CSharp.dll
@@ -80,5 +74,11 @@ D:\Code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\ru\Microsoft
 D:\Code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\tr\Microsoft.CodeAnalysis.Scripting.resources.dll
 D:\Code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.Scripting.resources.dll
 D:\Code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.Scripting.resources.dll
+D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.AssemblyInfoInputs.cache
+D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.AssemblyInfo.cs
+D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.csproj.CoreCompileInputs.cache
 D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.csproj.CopyComplete
+D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.dll
+D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.pdb
+D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.genruntimeconfig.cache
 D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.csprojAssemblyReference.cache

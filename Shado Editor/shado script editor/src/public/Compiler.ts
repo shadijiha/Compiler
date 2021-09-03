@@ -25,12 +25,12 @@ export class Compiler {
 	 */
 	public static async runCode(code: string) {
 		// Write it to a temp file
-		const filename = "VM_temp_" + Date.now() + ".sscript";
+		const filename = "VM_temp_.sscript";
 		Resource.saveResource({ filename, content: code });
 
 		const data = await Compiler.runFile(
 			Resource.toFullPath("/" + filename),
-			true
+			false
 		);
 
 		return data;

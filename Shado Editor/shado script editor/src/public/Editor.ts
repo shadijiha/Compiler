@@ -58,6 +58,14 @@ export class Editor {
 					this.deleteBuffer = 0;
 					this.indentation--;
 				}
+			} else if (e.key == "<") {
+				e.preventDefault();
+				document.execCommand("insertHTML", false, "&lt;");
+				return false;
+			} else if (e.key == ">") {
+				e.preventDefault();
+				document.execCommand("insertHTML", false, "&gt;");
+				return false;
 			} else {
 				this.pushUndo();
 			}
@@ -76,7 +84,10 @@ export class Editor {
 	}
 
 	public format() {
-		const formatter = new CodeFormatter(this.filepath, this.editor.innerText);
+		const formatter = new CodeFormatter(
+			this.filepath,
+			this.editor.innerText.replace(/</g, "&lt;").replace(/>/g, "&gt;")
+		);
 
 		formatter
 			.numbers()

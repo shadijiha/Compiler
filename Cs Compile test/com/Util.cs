@@ -70,6 +70,9 @@ namespace Cs_Compile_test.com {
 
 	public static class VMSetup {
 
+		private static readonly DateTime Jan1st1970 = new DateTime
+			(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
 		public static void SetupBasicMethods(this VM vm) {
 			ShadoMethod method_print = new ShadoMethod("print", 1, "void", true, new string[] { "object" });
 			method_print.SetCode((context, obj) => {
@@ -122,6 +125,10 @@ namespace Cs_Compile_test.com {
 			ShadoMethod method_input = new ShadoMethod("input", 0, "string");
 			method_input.SetCode((ctx, obj) => { return Console.ReadLine(); });
 			vm.PushVariable(method_input);
+
+			ShadoMethod method_time = new ShadoMethod("time", 0, "int");
+			method_time.SetCode((ctx, obj) => VMSetup.CurrentTimeMillis());
+			vm.PushVariable(method_time);
 		}
 
 		public static void SetupMathMethods(this VM vm) {
@@ -202,6 +209,10 @@ namespace Cs_Compile_test.com {
 				return null;
 			});
 			vm.PushVariable(inspect_memory);
+		}
+
+		private static long CurrentTimeMillis() {
+			return (long)(DateTime.UtcNow - Jan1st1970).TotalMilliseconds;
 		}
 	}
 }

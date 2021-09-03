@@ -3,6 +3,7 @@
 
 #define MAX_INT 2147483647
 #define MIN_INT -2147483648
+#define String string
 
 /**
  * This function prints the arg to the console
@@ -42,6 +43,11 @@ native void sleep(int ms);
  * @param filepath The path to the file
  */
 native Module import(string filepath);
+
+/*
+ * Returns the current system milliseconds
+ */
+native double time();
 
 /**
  * Prints all the defined types in the VM
@@ -182,8 +188,11 @@ native class string {
 
 /**
  * This class represents a dynamicly loaded module
+ * @example:
+ *
+ * Module<core> coreModule = import("core.sscript");
  */
-native class Module {
+native class Module<T> {
     public native operator () (string funcName, dynamic... args);
 }
 
