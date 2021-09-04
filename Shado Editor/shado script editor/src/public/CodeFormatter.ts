@@ -34,6 +34,7 @@ export default class CodeFormatter {
 		"char",
 		"string",
 		"void",
+		"object",
 	];
 	private static readonly PREPROCESSOR = ["#include", "#define"];
 
