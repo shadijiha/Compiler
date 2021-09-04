@@ -105,7 +105,7 @@ export class Editor {
 		this.editor.innerHTML = data;
 
 		// Now process the links
-		const links = document.querySelectorAll(".link");
+		const links = document.querySelectorAll(".link, span[classname=link]");
 		links.forEach((link) => {
 			const file = link.getAttribute("data-file");
 			const clazz = link.getAttribute("data-clazz")?.replace(/\_/g, "");

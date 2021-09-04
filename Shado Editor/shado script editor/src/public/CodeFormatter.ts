@@ -199,7 +199,13 @@ export default class CodeFormatter {
 		for (const line of lines) {
 			// If it is an include line, then parse the info of that file too
 			if (line.trim().startsWith("#include")) {
-				this.include(line.replace("#include", "").replace('"', ""));
+				const filename = this.include(
+					line.replace("#include", "").replace('"', "")
+				);
+				this.formatted = this.formatted.replace(
+					line,
+					`<span className='link' data-file='${filename}'>${line}</span>`
+				);
 			}
 
 			const classMatch = line.match(/(?<=\bclass.*)\w+/g);
@@ -262,5 +268,7 @@ export default class CodeFormatter {
 			let content = fs.readFileSync(filepath, "utf-8");
 			this.parseInfo(content, filepath);
 		}
+
+		return filepath;
 	}
 }
