@@ -2,15 +2,16 @@ import fs from "fs";
 import path from "path";
 import { exec, spawn } from "child_process";
 import { Resource } from "./Resource";
+import Settings from "./Settings";
 
 export class Compiler {
-	public static compiler_path =
-		"D:\\Code\\Projects\\Compiler\\Cs Compile test\\bin\\Release\\netcoreapp3.1\\Cs Compile test.exe";
+	public static compiler_path = "";
 	public static core_lib_path = "";
 	private static currentProcess?: any;
 	private static whenProcessExists: (code: any) => void;
 
 	public static async init() {
+		this.compiler_path = Settings.get("compilerPath");
 		this.core_lib_path = await Compiler.runCode(
 			`
 		int main()	{

@@ -31,12 +31,11 @@ namespace Cs_Compile_test.com {
 					return "";
 				});
 			commands.Add(include);
-			
+
 			var define = new PreprocessorCommand("define", 2, args => {
 				try {
 					constants.Add(args[0], compiler => args.Length >= 2 ? args[1] : "");
-				}
-				catch (Exception e) {
+				} catch (Exception e) {
 #if DEBUG
 					Console.WriteLine($"[WARNNING]: {args[0]} Macro already exists!");
 #endif
@@ -50,7 +49,9 @@ namespace Cs_Compile_test.com {
 			constants.Add("__FILE__", compiler => compiler.filename);
 			constants.Add("__PATH__", compiler => !string.IsNullOrEmpty(compiler.filename) ?
 				Directory.GetParent(compiler.filename) : new DirectoryInfo(Environment.CurrentDirectory));
-			constants.Add("__PATH_TO_CORE__", compiler => @"D:\Code\Projects\Compiler\Cs Compile test");
+			constants.Add("__PATH_TO_CORE__", compiler =>
+				Directory.GetParent(System.Reflection.Assembly.GetEntryAssembly().Location).Parent.Parent.Parent.FullName
+				);
 		}
 
 		public T Execute<T>(string[] args) {

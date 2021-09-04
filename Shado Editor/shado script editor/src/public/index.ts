@@ -3,12 +3,15 @@ import { Editor } from "./Editor";
 import { Compiler } from "./Compiler";
 import { TabManager } from "./TabManager";
 import { Resource } from "./Resource";
+import Settings from "./Settings";
 const ipcRenderer = require("electron").ipcRenderer;
 const dialog = require("electron").remote.dialog;
 
 export let isCtrl = false;
 
 async function main() {
+	Settings.init();
+
 	// TODO: You cannot use __dirname because it causes bugs when building
 	// Save the app data to %App Data% instead
 	await Compiler.init();
@@ -47,33 +50,12 @@ async function main() {
 	};
 
 	// Load work space if it exists
-	if (Resource.exists({ filename: "shado.editor.workspace" })) {
-		const lines: string[] = Resource.loadResource({
-			filename: "shado.editor.workspace",
-		}).split("\n");
-
-		for (const line of lines) {
-			if (line == "") {
-				continue;
-			}
-
-			const tokens = line.split("\t");
-			try {
-				TabManager.open(tokens[0], Editor.fromFile(tokens[1].trim()));
-			} catch (e) {
-				e = e as Error;
-				dialog.showErrorBox("Failed to open file", e.message);
-			}
-		}
-	} else {
-		// Otherwise just add an empty editor
-		TabManager.open("untitled", new Editor("untitled"));
-	}
-	TabManager.render();
+	Settings.loadWorkSpace();
 }
 
 window.onbeforeunload = (e) => {
-	saveWorkspace();
+	Settings.saveWorkspace();
+	Settings.saveSettings();
 };
 
 main();
@@ -131,39 +113,6 @@ function setupConsole() {
 			cinInput!.value = "";
 		}
 	};
-}
-
-function saveWorkspace() {
-	// Save the current workspace
-	const filename = "shado.editor.workspace";
-	Resource.saveResource({ filename, content: "" });
-
-	for (const tab of TabManager.allTabs()) {
-		// If it is not untitled (meaning it is a physical file)
-		if (tab.name != "untitled") {
-			Resource.appendResource({
-				filename,
-				content: `${tab.name}\t${tab.editor.getFilepath()}\n`,
-			});
-		}
-		// Otherwise have to save file
-		else {
-			const date = Date.now();
-
-			// Save the content of the file
-			Resource.saveResource({
-				relativePath: "/temp",
-				filename: `/untitled_${date}.sscript`,
-				content: tab.editor.getContent(),
-			});
-			Resource.appendResource({
-				filename,
-				content: `${tab.name}_${date}\t${Resource.toFullPath(
-					`/temp/untitled_${date}.sscript`
-				)}\n`,
-			});
-		}
-	}
 }
 
 export function pathToFilename(filepath: string) {
