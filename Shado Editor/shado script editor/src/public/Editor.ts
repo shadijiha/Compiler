@@ -137,11 +137,13 @@ export class Editor {
 	}
 
 	public hide() {
-		this.editor.style.display = "none";
+		//this.editor.style.display = "none";
+		this.editor.remove();
 	}
 
 	public show() {
-		this.editor.style.display = "inline-block";
+		document.body.appendChild(this.editor);
+		//this.editor.style.display = "inline-block";
 	}
 
 	public dispose() {
