@@ -109,12 +109,24 @@ export class Editor {
 		links.forEach((link) => {
 			const file = link.getAttribute("data-file");
 			const clazz = link.getAttribute("data-clazz")?.replace(/\_/g, "");
-
-			(<HTMLSpanElement>link).onclick = () => {
+			const span = <HTMLSpanElement>link;
+			span.onclick = () => {
 				if (isCtrl) {
 					TabManager.load(file as string);
 					window.location.href = "#__" + clazz + "__";
 				}
+			};
+
+			// For styling :D
+			span.onmousemove = () => {
+				if (!isCtrl) return;
+				span.style.textDecoration = "underline";
+				span.style.cursor = "pointer";
+			};
+
+			span.onmouseout = () => {
+				span.style.textDecoration = "none";
+				span.style.cursor = "auto";
 			};
 		});
 	}
