@@ -2,7 +2,6 @@ import path from "path";
 import { Editor } from "./Editor";
 import { Compiler } from "./Compiler";
 import { TabManager } from "./TabManager";
-import { Resource } from "./Resource";
 import Settings from "./Settings";
 const ipcRenderer = require("electron").ipcRenderer;
 const dialog = require("electron").remote.dialog;
@@ -20,7 +19,11 @@ async function main() {
 
 	// Get events from the main process
 	ipcRenderer.on("cmd", function (evt, message) {
-		console.log(message); // Returns: {'SAVED': 'File Saved'}
+		switch (message) {
+			case "open":
+				openFiles();
+				break;
+		}
 	});
 
 	// Setup save event
@@ -35,16 +38,8 @@ async function main() {
 				return false;
 			}
 
-			if (e.keyCode == 79) {
-				const files = dialog.showOpenDialogSync({
-					properties: ["openFile", "multiSelections"],
-				});
-
-				for (const file of files || []) {
-					console.log(file);
-					TabManager.load(file);
-				}
-				return false;
+			if (e.key == "O") {
+				openFiles();
 			}
 		}
 	};
@@ -117,4 +112,16 @@ function setupConsole() {
 
 export function pathToFilename(filepath: string) {
 	return path.basename(filepath);
+}
+
+function openFiles() {
+	const files = dialog.showOpenDialogSync({
+		properties: ["openFile", "multiSelections"],
+	});
+
+	for (const file of files || []) {
+		console.log(file);
+		TabManager.load(file);
+	}
+	return false;
 }

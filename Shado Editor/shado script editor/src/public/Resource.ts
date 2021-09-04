@@ -102,7 +102,7 @@ export class Resource {
 		return fs.existsSync(resourceFile);
 	}
 
-	private static isMac() {
+	public static isMac() {
 		return process.platform === "darwin";
 	}
 }
