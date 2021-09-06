@@ -3,6 +3,7 @@ import { Editor } from "./Editor";
 import { Compiler } from "./Compiler";
 import { TabManager } from "./TabManager";
 import Settings from "./Settings";
+import { getScrollbarWidth, hasScrollbarX } from "./util";
 const ipcRenderer = require("electron").ipcRenderer;
 const dialog = require("electron").remote.dialog;
 
@@ -57,12 +58,28 @@ main();
 
 function setupConsole() {
 	const toggler = document.getElementById("console_toggle");
-	const container = document.getElementById("console_container");
+	const container = <HTMLDivElement>(
+		document.getElementById("console_container")
+	);
 	const cons = document.querySelector("#console pre");
 	const cinInput = <HTMLInputElement>document.getElementById("stdcin");
 
+	let toggled = false;
+	const animateConsoleToggler = () => {
+		let width = container?.clientWidth;
+		if (hasScrollbarX(container)) {
+			width += getScrollbarWidth();
+		}
+
+		if (!toggled) {
+			toggler!.style.right = width + "px";
+		} else toggler!.style.right = "0px";
+		toggled = !toggled;
+	};
+
 	toggler!.onclick = () => {
 		container?.classList.toggle("tranlate-out");
+		animateConsoleToggler();
 	};
 
 	const newTab = document.getElementById("new");
@@ -74,6 +91,8 @@ function setupConsole() {
 	const stop = document.getElementById("stop");
 	play!.onclick = async () => {
 		container?.classList.remove("tranlate-out");
+
+		if (!toggled) animateConsoleToggler();
 
 		const active = TabManager.getActive();
 

@@ -103,10 +103,13 @@
             writing-mode: vertical-rl;
             text-orientation: mixed;
             font-family: var(--font-family);
-            position: relative;
-            left: -39px;
+            position: fixed;
+            right: 0px;
             background-color: rgba(0, 0, 0, 0.5);
             cursor: pointer;
+            z-index: 99999999;
+            color: white;
+            transition: all 0.5s ease-in-out;
         }
         
         #console {
@@ -178,8 +181,8 @@
             <i class="fas fa-stop red btn" id="stop"></i>
         </div>
     </div>
+    <div id="console_toggle">console</div>
     <div id="console_container" class="tranlate-out">
-        <div id="console_toggle">console</div>
         <div id="console">
             <pre></pre>
             <input id="stdcin" value="" />
