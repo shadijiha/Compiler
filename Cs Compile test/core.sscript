@@ -24,7 +24,7 @@ native void println(object arg);
  * This function returns the type of object arg
  * @param arg The argument to get the type of
  * @returns string
- * @example: typeof(aString) --> string
+ * @example: typeof("Hello world!") --> string
  */
 native string typeof(object obj);
 
@@ -190,9 +190,9 @@ native class string {
  * This class represents a dynamicly loaded module
  * @example:
  *
- * Module<core> coreModule = import("core.sscript");
+ * Module coreModule = import("core.sscript");
  */
-native class Module<T> {
+native class Module {
     public native operator () (string funcName, dynamic... args);
 }
 
