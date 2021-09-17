@@ -87,7 +87,7 @@ namespace Cs_Compile_test.com {
 	public class Expression : AbstractExpression {
 		public enum Type {
 			DECLARATION, ASSIGNMENT, FUNC_CALL, OBJECT_FUNC_CALL, RETURN, POINTER_ASSIGNMENT, OBJECT_INSTATIATION, GET_VALUE, OBJECT_VAR_CALL,
-			THIS_VAR_CALL
+			THIS_VAR_CALL, OBJECT_INSTATIATION_INLINE
 		}
 
 		private string raw;
@@ -124,6 +124,8 @@ namespace Cs_Compile_test.com {
 					return executeGetValueOf();
 				case Type.OBJECT_VAR_CALL:
 					return executeVarCallOnObj();
+				case Type.OBJECT_INSTATIATION_INLINE:
+					return executeInlineIntialisation();
 				default: return rhs;
 			}
 		}
@@ -141,6 +143,13 @@ namespace Cs_Compile_test.com {
 				this.name = tokens[1];
 				this.rhs = string.Join(' ', tokens.GetRange(3, tokens.Count - 3));
 				this.expressionType = Type.OBJECT_INSTATIATION;
+			}
+			
+			else if (new ExpressionSyntax("new TYPE(ANY)").Matches(raw)) {
+				this.type = null;
+				this.name = null;
+				this.rhs = string.Join(' ', tokens);
+				this.expressionType = Type.OBJECT_INSTATIATION_INLINE;
 			}
 			// If it is a pointer modification
 			else if (new ExpressionSyntax("*IDENTIFIER = ANY").Matches(raw)) {
@@ -467,6 +476,17 @@ namespace Cs_Compile_test.com {
 
 			// Otherwise throw an exception
 			throw new RuntimeError("Invalid expression\n\t--> {0}", rhs);
+		}
+
+		private ShadoObject executeInlineIntialisation() {
+			string clazz = rhs.ReplaceFirstOccurrence("new", "").Trim().Split("(")[0];
+			string[] args = rhs.ReplaceFirstOccurrence("new", "")
+				.ReplaceFirstOccurrence(clazz, "")
+				.ReplaceFirstOccurrence("(", "")
+				.ReplaceLastOccurrence(")", "").Split(",").RemoveBlanks();
+
+			ShadoObject obj = (ShadoObject)type.GetConstructor().Call(scope, args);
+			return obj;
 		}
 
 		private bool isMathExpression(string expression, ref object output) {

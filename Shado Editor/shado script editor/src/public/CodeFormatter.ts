@@ -4,29 +4,33 @@ import { Compiler } from "./Compiler";
 type ClassInfo = { file: string; name: string; type?: "native" | "abstract" };
 
 export default class CodeFormatter {
-	private static readonly KEYWORDS = [
-		"class",
-		"native",
-		"dynamic",
+	public static readonly KEYWORDS = [
 		"return",
 		"if",
 		"else",
 		"while",
 		"for",
 		"operator",
-		"public",
-		"private",
 		"C#",
 		"implements",
-		"interface",
 		"new",
-		"static",
 		"this",
 		"true",
 		"false",
 		"abstract",
 	];
-	private static readonly NATIVE_TYPES = [
+
+	public static readonly MODIFIERS = [
+		"readonly",
+		"static",
+		"interface",
+		"public",
+		"private",
+		"class",
+		"native",
+	];
+
+	public static readonly NATIVE_TYPES = [
 		"int",
 		"double",
 		"float",
@@ -35,10 +39,11 @@ export default class CodeFormatter {
 		"string",
 		"void",
 		"object",
+		"dynamic",
 	];
-	private static readonly PREPROCESSOR = ["#include", "#define"];
+	public static readonly PREPROCESSOR = ["#include", "#define"];
 
-	private static readonly CONSTANTS = [
+	public static readonly CONSTANTS = [
 		"__LINE__",
 		"__FILE__",
 		"__PATH__",
@@ -76,6 +81,7 @@ export default class CodeFormatter {
 			/\bC#/g,
 			`<span style="color: ${colour};">$&</span>`
 		);
+		this.simpleRepalce(CodeFormatter.MODIFIERS, "#569cd6");
 		return this.simpleRepalce(CodeFormatter.KEYWORDS, colour);
 	}
 
@@ -175,7 +181,7 @@ export default class CodeFormatter {
 		return new RegExp(buffer + ")" + suffix, "g");
 	}
 
-	private simpleRepalce(array: string[], colour: string): CodeFormatter {
+	public simpleRepalce(array: string[], colour: string): CodeFormatter {
 		const regex = this.toeRegex(array, "\\b", "\\b");
 		this.formatted = this.formatted.replace(
 			regex,

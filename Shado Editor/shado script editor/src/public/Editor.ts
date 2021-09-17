@@ -84,55 +84,23 @@ export class Editor {
 	}
 
 	public format() {
-		const formatter = new CodeFormatter(
-			this.filepath,
-			this.editor.innerText.replace(/</g, "&lt;").replace(/>/g, "&gt;")
-		);
-
-		formatter
-			.numbers()
-			.strings()
-			.keywords()
-			.functions()
-			.preprocessor()
-			.compilerConstants()
-			.nativeTypes()
-			.costumTypes()
-			.comments()
-			.jdocs();
-
-		const data = `<pre>${formatter.render()}</pre>`;
-		this.editor.innerHTML = data;
-
-		// Now process the links
-		const links = document.querySelectorAll(".link, span[classname=link]");
-		links.forEach((link) => {
-			const file = link.getAttribute("data-file");
-			const clazz = link.getAttribute("data-clazz")?.replace(/\_/g, "");
-			const span = <HTMLSpanElement>link;
-			span.onclick = () => {
-				if (isCtrl) {
-					TabManager.load(file as string);
-					window.location.href = "#__" + clazz + "__";
-				}
-			};
-
-			// For styling :D
-			span.onmousemove = () => {
-				if (!isCtrl) return;
-				span.style.textDecoration = "underline";
-				span.style.cursor = "pointer";
-			};
-
-			span.onmouseout = () => {
-				span.style.textDecoration = "none";
-				span.style.cursor = "auto";
-			};
-		});
+		console.log(this.getExtension());
+		switch (this.getExtension()) {
+			case ".sscript":
+				this.formatSScript();
+				break;
+			case ".json":
+				this.formatJSON();
+				break;
+			case ".types": // For editor types definitions
+				this.formatTypesFile();
+				break;
+		}
 	}
 
 	public static fromFile(filepath: string): Editor {
-		const content = fs.readFileSync(filepath, "utf-8");
+		let content = fs.readFileSync(filepath, "utf-8");
+		content = content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 		return new Editor(filepath).setContent(content);
 	}
 
@@ -207,5 +175,99 @@ export class Editor {
 			this.setContent(content);
 			this.format();
 		}
+	}
+
+	private getExtension() {
+		var i = this.filepath.lastIndexOf(".");
+		return i < 0 ? "" : this.filepath.substr(i);
+	}
+
+	/*************************** */
+	private formatSScript() {
+		const formatter = new CodeFormatter(
+			this.filepath,
+			this.editor.innerText.replace(/</g, "&lt;").replace(/>/g, "&gt;")
+		);
+
+		formatter
+			.numbers()
+			.strings()
+			.keywords()
+			.functions()
+			.preprocessor()
+			.compilerConstants()
+			.nativeTypes()
+			.costumTypes()
+			.comments()
+			.jdocs();
+
+		const data = `<pre>${formatter.render()}</pre>`;
+		this.editor.innerHTML = data;
+
+		// Now process the links
+		const links = document.querySelectorAll(".link, span[classname=link]");
+		links.forEach((link) => {
+			const file = link.getAttribute("data-file");
+			const clazz = link.getAttribute("data-clazz")?.replace(/\_/g, "");
+			const span = <HTMLSpanElement>link;
+			span.onclick = () => {
+				if (isCtrl) {
+					TabManager.load(file as string);
+					window.location.href = "#__" + clazz + "__";
+				}
+			};
+
+			// For styling :D
+			span.onmousemove = () => {
+				if (!isCtrl) return;
+				span.style.textDecoration = "underline";
+				span.style.cursor = "pointer";
+			};
+
+			span.onmouseout = () => {
+				span.style.textDecoration = "none";
+				span.style.cursor = "auto";
+			};
+		});
+	}
+
+	private formatJSON() {
+		const formatter = new CodeFormatter(
+			this.filepath,
+			this.editor.innerText.replace(/</g, "&lt;").replace(/>/g, "&gt;")
+		);
+
+		formatter
+			.numbers()
+			.strings()
+			.comments()
+			.jdocs()
+			.simpleRepalce(["true", "false", "null", "undefined"], "#c586c0");
+
+		const data = `<pre>${formatter.render()}</pre>`;
+		this.editor.innerHTML = data;
+	}
+
+	private formatTypesFile() {
+		const formatter = new CodeFormatter(
+			this.filepath,
+			this.editor.innerText.replace(/</g, "&lt;").replace(/>/g, "&gt;")
+		);
+
+		formatter
+			.numbers()
+			.strings()
+			.simpleRepalce(
+				["keyword", "modifier", "constant", "native_type"],
+				"#569cd6"
+			)
+			.functions()
+			.preprocessor()
+			.compilerConstants()
+			.comments()
+			.jdocs();
+
+		const data = `<pre>${formatter.render()}</pre>`;
+		this.editor.innerHTML = data;
 	}
 }

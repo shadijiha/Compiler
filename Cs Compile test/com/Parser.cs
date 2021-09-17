@@ -141,14 +141,14 @@ namespace Cs_Compile_test.com {
 				ShadoObject constructorReturn = new ShadoObject(clazz, null);
 
 				// Extract all instance variables
-				/*foreach (var l in lines) {
+				foreach (var l in lines) {
 					if (IsInstanceVariable(l)) {
 						ExecutionStatus dummy = new ExecutionStatus();
 						new Expression(l, constructorReturn).Execute(ref dummy);
 					}
 				}
 
-				constructorReturn.AddVariable("string", "class", className);*/
+				constructorReturn.AddVariable("string", "class", className);
 
 				// Add constructor and the class() method
 				clazz.AddMethod(new ShadoMethod(className, 0, className).SetCode((ctx, args) => {
@@ -213,7 +213,8 @@ namespace Cs_Compile_test.com {
 		}
 
 		private static bool IsInstanceVariable(string line) {
-			return new ExpressionSyntax("ANYTYPE IDENTIFIER = ANY").Matches(line);
+			return new ExpressionSyntax("ANYTYPE IDENTIFIER = ANY").Matches(line) ||
+			       new ExpressionSyntax("ANYTYPE IDENTIFIER;").Matches(line);
 		}
 
 		private static MethodInfo ExtractMethodInfo(string signature) {

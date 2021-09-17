@@ -72,7 +72,7 @@ native void inspect_memory();
 /** 
  * All objects extend this class
  */
-class object {
+class Object {
 
     public native object();
 
@@ -145,13 +145,13 @@ native class Array {
 /**
  * This is the shado string class
  */
-native class string {
+native class String {
 
-    public native string(char[] array);
+    public native String(char[] array);
 
-    public native string(string s);
+    public native String(string s);
 
-    public native string(string* ptr);
+    public native String(string* ptr);
 
     public native int length();
 
@@ -159,7 +159,7 @@ native class string {
 
     public native char[] toCharArray();
 
-    public native string concat(string other);
+    public native String concat(string other);
 
     public native bool contains(string other);
 
@@ -183,7 +183,7 @@ native class string {
 
     public native string replace(string old, string newVal);
 
-    public native string[] split(string splitter);
+    public native String[] split(string splitter);
 }
 
 /**
@@ -192,7 +192,7 @@ native class string {
  *
  * Module coreModule = import("core.sscript");
  */
-native class Module {
+native class Module<T> {
     public native operator () (string funcName, dynamic... args);
 }
 

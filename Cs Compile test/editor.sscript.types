@@ -1,0 +1,62 @@
+/**
+ * This file contains the editor Keywords, Modifiers, etc for Sscript syntax highlighting
+ * @author Shadi Jiha
+ * @date 17 Septembre 2021
+ */
+#include "__PATH_TO_CORE__/core.sscript"
+
+keyword return
+keyword if
+keyword else
+keyword while
+keyword for
+keyword operator
+keyword C#
+keyword implements
+keyword new
+keyword this
+keyword true
+keyword false
+keyword abstract
+
+modifier readonly
+modifier static
+modifier interface
+modifier public
+modifier private
+modifier class
+modifier native
+
+native_type int
+native_type double
+native_type float
+native_type bool
+native_type char
+native_type string
+native_type void
+native_type object
+native_type dynamic
+
+constant __LINE__
+constant __FILE__
+constant __PATH__
+constant __PATH_TO_CORE__
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

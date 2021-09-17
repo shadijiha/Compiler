@@ -2,6 +2,10 @@ const dialog = require("electron").remote.dialog;
 import { Editor } from "./Editor";
 import { Resource } from "./Resource";
 import { TabManager } from "./TabManager";
+import fs from "fs";
+import path from "path";
+import { Compiler } from "./Compiler";
+import CodeFormatter from "./CodeFormatter";
 
 /**
  *
@@ -114,6 +118,54 @@ export default class Settings {
 		return this.singleton.settings[key];
 	}
 
+	public static loadTypesFile() {
+		const filename = "editor.sscript.types";
+		let filecontent: string | null = null;
+
+		// This file should be location in the %AppData%
+		if (Resource.exists({ filename })) {
+			filecontent = Resource.loadResource({ filename });
+		}
+
+		// If not then search in the compile Core.sscript path
+		if (fs.existsSync(path.join(Compiler.getCoreLibPath(), filename))) {
+			filecontent = fs.readFileSync(
+				path.join(Compiler.getCoreLibPath(), filename),
+				"utf-8"
+			);
+		}
+
+		// Otherwise just default to the already defined keywords and constants
+		if (!filecontent) return;
+
+		// If the file exists then parse it
+		// and clear the default CodeFormatter keywords
+		clearArray(CodeFormatter.KEYWORDS);
+		clearArray(CodeFormatter.MODIFIERS);
+		clearArray(CodeFormatter.NATIVE_TYPES);
+		clearArray(CodeFormatter.CONSTANTS);
+
+		const lines = filecontent.split("\n");
+		for (const line of lines) {
+			const tokens = line.trim().split(/\s+/);
+			console.log(tokens);
+			switch (tokens[0]) {
+				case "keyword":
+					CodeFormatter.KEYWORDS.push(tokens[1]);
+					break;
+				case "modifier":
+					CodeFormatter.MODIFIERS.push(tokens[1]);
+					break;
+				case "constant":
+					CodeFormatter.CONSTANTS.push(tokens[1]);
+					break;
+				case "native_type":
+					CodeFormatter.NATIVE_TYPES.push(tokens[1]);
+					break;
+			}
+		}
+	}
+
 	private static showSelectCompilerDialog() {
 		const file = dialog.showOpenDialogSync({});
 		if (file) {
@@ -122,5 +174,11 @@ export default class Settings {
 			dialog.showErrorBox("Error", "The file is undefined");
 			this.init();
 		}
+	}
+}
+
+function clearArray(array: any[]) {
+	while (array.length) {
+		array.pop();
 	}
 }

@@ -58,10 +58,24 @@ function createMenuBar(window: BrowserWindow) {
 			label: "File",
 			submenu: [
 				{
+					label: "new",
+					accelerator: "CommandOrControl+N",
+					click() {
+						send("new");
+					},
+				},
+				{
 					label: "open",
 					accelerator: "CommandOrControl+O",
 					click() {
 						send("open");
+					},
+				},
+				{
+					label: "save",
+					accelerator: "CommandOrControl+S",
+					click() {
+						send("save");
 					},
 				},
 				{ type: "separator" },

@@ -71,6 +71,12 @@ export class TabManager {
 		this.render();
 	}
 
+	public static formatAll() {
+		for (const tab of this.tabs) {
+			tab.editor.format();
+		}
+	}
+
 	public static saveCurrent() {
 		// Write the current editor content to the file path
 		const filepath = this.active.editor.getFilepath();

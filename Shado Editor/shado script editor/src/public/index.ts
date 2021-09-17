@@ -4,16 +4,16 @@ import { Compiler } from "./Compiler";
 import { TabManager } from "./TabManager";
 import Settings from "./Settings";
 import { getScrollbarWidth, hasScrollbarX } from "./util";
+import { Resource } from "./Resource";
 const ipcRenderer = require("electron").ipcRenderer;
 const dialog = require("electron").remote.dialog;
+import fs from "fs";
 
 export let isCtrl = false;
 
 async function main() {
 	Settings.init();
 
-	// TODO: You cannot use __dirname because it causes bugs when building
-	// Save the app data to %App Data% instead
 	await Compiler.init();
 
 	setupConsole();
@@ -24,6 +24,12 @@ async function main() {
 			case "open":
 				openFiles();
 				break;
+			case "save":
+				saveFile();
+				break;
+			case "new":
+				TabManager.open("untitled", new Editor("untitled"));
+				break;
 		}
 	});
 
@@ -33,17 +39,17 @@ async function main() {
 	};
 	document.onkeydown = function (e) {
 		if (e.keyCode == 17) isCtrl = true;
-		if (isCtrl == true) {
-			if (e.keyCode == 83) {
-				TabManager.saveCurrent();
-				return false;
-			}
-
-			if (e.key == "O") {
-				openFiles();
-			}
-		}
 	};
+
+	// Attempt to load the keywords definitions file
+	Settings.loadTypesFile();
+
+	// Watch if the types file has been modified after
+	// The initial load
+	fs.watchFile(Resource.toFullPath("editor.sscript.types"), (curr, prev) => {
+		Settings.loadTypesFile();
+		TabManager.formatAll();
+	});
 
 	// Load work space if it exists
 	Settings.loadWorkSpace();
@@ -143,4 +149,8 @@ function openFiles() {
 		TabManager.load(file);
 	}
 	return false;
+}
+
+function saveFile() {
+	TabManager.saveCurrent();
 }
