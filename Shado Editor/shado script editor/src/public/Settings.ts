@@ -128,7 +128,10 @@ export default class Settings {
 		}
 
 		// If not then search in the compile Core.sscript path
-		if (fs.existsSync(path.join(Compiler.getCoreLibPath(), filename))) {
+		if (
+			fs.existsSync(path.join(Compiler.getCoreLibPath(), filename)) &&
+			!filecontent
+		) {
 			filecontent = fs.readFileSync(
 				path.join(Compiler.getCoreLibPath(), filename),
 				"utf-8"
