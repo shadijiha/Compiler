@@ -151,7 +151,6 @@ export default class Settings {
 		const lines = filecontent.split("\n");
 		for (const line of lines) {
 			const tokens = line.trim().split(/\s+/);
-			console.log(tokens);
 			switch (tokens[0]) {
 				case "keyword":
 					CodeFormatter.KEYWORDS.push(tokens[1]);

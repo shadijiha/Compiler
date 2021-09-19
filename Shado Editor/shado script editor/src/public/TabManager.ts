@@ -1,8 +1,9 @@
 import path from "path";
 import { Editor } from "./Editor";
 import fs from "fs";
-import { dialog } from "electron";
+import { dialog, shell } from "electron";
 import { pathToFilename } from ".";
+import { openContextMenu } from "./util";
 
 type Tab = { name: string; editor: Editor };
 
@@ -115,6 +116,18 @@ export class TabManager {
 				this.load(tab.name);
 			};
 
+			divTab.oncontextmenu = (e: any) => {
+				openContextMenu(e, [
+					{
+						lable: "Open in explorer",
+						onClick: () => {
+							const p = path.join(tab.name);
+							this.openExplorer(p);
+						},
+					},
+				]);
+			};
+
 			const closeIcon = document.createElement("i");
 			closeIcon.classList.add("fas");
 			closeIcon.classList.add("close");
@@ -154,5 +167,9 @@ export class TabManager {
 
 	private static compareNames(name1: string, name2: string) {
 		return name1.replace(/[\/\\]/g, "") == name2.replace(/[\/\\]/g, "");
+	}
+
+	private static openExplorer(path: string) {
+		shell.showItemInFolder(path);
 	}
 }

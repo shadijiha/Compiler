@@ -84,7 +84,6 @@ export class Editor {
 	}
 
 	public format() {
-		console.log(this.getExtension());
 		switch (this.getExtension()) {
 			case ".sscript":
 				this.formatSScript();

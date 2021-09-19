@@ -167,6 +167,30 @@
         #new:hover {
             opacity: 0.8;
         }
+        
+        #context_menu {
+            position: absolute;
+            z-index: 9999;
+            display: none;
+            min-width: 200px;
+            color: white;
+            max-width: 350px;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+        
+        #context_menu div {
+            padding: 10px;
+            cursor: default;
+            font-family: var(--font-family);
+            font-size: 14px;
+            transition: all 0.5s;
+        }
+        
+        #context_menu div:hover {
+            padding-left: 15px;
+        }
     </style>
 </head>
 
@@ -191,6 +215,7 @@
     <script>
         require("./debug/public/index.js");
     </script>
+    <div id="context_menu"></div>
 </body>
 
 </html>
