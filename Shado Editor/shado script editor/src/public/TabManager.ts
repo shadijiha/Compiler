@@ -147,7 +147,9 @@ export class TabManager {
 		return this.active;
 	}
 
-	public static setActive(tab: Tab) {
+	public static setActive(tab: Tab | null) {
+		if (!tab) return;
+
 		this.active = tab;
 		const divTab = document.getElementById("__tab_" + pathToFilename(tab.name));
 		for (const tab of this.tabs) {
@@ -163,6 +165,13 @@ export class TabManager {
 
 	public static allTabs() {
 		return [...this.tabs];
+	}
+
+	public static getTabByName(name: string) {
+		for (const tab of this.tabs) {
+			if (tab.name == name) return tab;
+		}
+		return null;
 	}
 
 	private static compareNames(name1: string, name2: string) {

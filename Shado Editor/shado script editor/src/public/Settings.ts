@@ -49,6 +49,7 @@ export default class Settings {
 	}
 
 	public static loadWorkSpace() {
+		let active = "";
 		if (Resource.exists({ filename: "shado.editor.workspace" })) {
 			const lines: string[] = Resource.loadResource({
 				filename: "shado.editor.workspace",
@@ -56,6 +57,9 @@ export default class Settings {
 
 			for (const line of lines) {
 				if (line == "") {
+					continue;
+				} else if (line.startsWith("ACTIVE")) {
+					active = line.split("\t")[1].trim();
 					continue;
 				}
 
@@ -72,6 +76,8 @@ export default class Settings {
 			TabManager.open("untitled", new Editor("untitled"));
 		}
 		TabManager.render();
+
+		if (active) TabManager.setActive(TabManager.getTabByName(active));
 	}
 
 	public static saveWorkspace() {
@@ -105,6 +111,12 @@ export default class Settings {
 				});
 			}
 		}
+
+		// Save the active tab
+		Resource.appendResource({
+			filename,
+			content: `ACTIVE\t${TabManager.getActive().name}\n`,
+		});
 	}
 
 	public static saveSettings() {
