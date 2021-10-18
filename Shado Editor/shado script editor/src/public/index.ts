@@ -30,6 +30,9 @@ async function main() {
 			case "new":
 				TabManager.open("untitled", new Editor("untitled"));
 				break;
+			case "settings":
+				Settings.openSettingsWindow();
+				break;
 		}
 	});
 
@@ -145,7 +148,6 @@ function openFiles() {
 	});
 
 	for (const file of files || []) {
-		console.log(file);
 		TabManager.load(file);
 	}
 	return false;

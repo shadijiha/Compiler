@@ -1,5 +1,6 @@
 import fs from "fs";
 import { Compiler } from "./Compiler";
+import path from "path";
 
 type ClassInfo = { file: string; name: string; type?: "native" | "abstract" };
 
@@ -266,8 +267,8 @@ export default class CodeFormatter {
 		} else {
 			filepath = filename.substring(0, lastIndex).trim().replace(/"/g, "");
 		}
-
 		filepath = filepath.replace(/__PATH_TO_CORE__/g, this.core_lib_path);
+		filepath = filepath.replace(/__PATH__/g, path.dirname(this.filename));
 		filepath = filepath.replace("\n", "").replace("\r", "");
 
 		if (filepath != "") {

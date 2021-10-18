@@ -16,8 +16,12 @@ interface ISettings {
 
 export default class Settings {
 	private static readonly singleton = new Settings();
+	private static readonly workspaceFilename = "shado.editor.workspace";
+	private static readonly typesFilename = "editor.sscript.types";
 
-	private settings: ISettings = { compilerPath: "" };
+	private settings: ISettings = {
+		compilerPath: "",
+	};
 
 	private constructor() {}
 
@@ -50,7 +54,7 @@ export default class Settings {
 
 	public static loadWorkSpace() {
 		let active = "";
-		if (Resource.exists({ filename: "shado.editor.workspace" })) {
+		if (Resource.exists({ filename: this.workspaceFilename })) {
 			const lines: string[] = Resource.loadResource({
 				filename: "shado.editor.workspace",
 			}).split("\n");
@@ -82,7 +86,7 @@ export default class Settings {
 
 	public static saveWorkspace() {
 		// Save the current workspace
-		const filename = "shado.editor.workspace";
+		const filename = this.workspaceFilename;
 		Resource.saveResource({ filename, content: "" });
 
 		for (const tab of TabManager.allTabs()) {
@@ -126,12 +130,32 @@ export default class Settings {
 		});
 	}
 
+	public static openSettingsWindow() {
+		const remote = require("electron").remote;
+		const BrowserWindow = remote.BrowserWindow;
+		const win = new BrowserWindow({
+			height: 600,
+			width: 800,
+			parent: BrowserWindow.getAllWindows()[0],
+		});
+		win.removeMenu();
+		win.loadURL(
+			view("settings", {
+				workspace: Resource.toFullPath(this.workspaceFilename),
+				types: Resource.toFullPath(this.typesFilename),
+				compiler: Compiler.compiler_path,
+				core_lib: Compiler.getCoreLibPath(),
+			})
+		);
+		win.focusOnWebView();
+	}
+
 	public static get(key: keyof ISettings) {
 		return this.singleton.settings[key];
 	}
 
 	public static loadTypesFile() {
-		const filename = "editor.sscript.types";
+		const filename = this.typesFilename;
 		let filecontent: string | null = null;
 
 		// This file should be location in the %AppData%
@@ -195,4 +219,24 @@ function clearArray(array: any[]) {
 	while (array.length) {
 		array.pop();
 	}
+}
+
+/**
+ *
+ * @param name view name without the .template.html extension
+ */
+function view(name: string, variables: Record<string, string> = {}) {
+	let html = fs.readFileSync(
+		path.join(__dirname, "../../" + name + ".template.html"),
+		"utf8"
+	);
+
+	for (const variable in variables) {
+		html = html.replaceAll(
+			new RegExp(`%\\{${variable}}`, "g"),
+			variables[variable]
+		);
+	}
+
+	return "data:text/html;charset=UTF-8," + encodeURIComponent(html);
 }

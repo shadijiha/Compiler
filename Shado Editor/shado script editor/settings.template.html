@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settings</title>
+
+    <style>
+         :root {
+            --font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: rgb(30, 30, 30);
+            font-size: 16px;
+            color: white;
+            font-family: var(--font-family);
+            padding: 20px;
+        }
+        
+        fieldset {
+            border-radius: 7px;
+        }
+        
+        input[type="text"] {
+            padding: 7px;
+            border-radius: 5px;
+            width: 265px;
+            font-size: 15px;
+            color: black;
+        }
+        
+        input:disabled {
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <fieldset>
+        <legend>
+            <h1>Editor's meta files</h1>
+        </legend>
+
+        <table>
+            <tbody>
+                <tr>
+                    <td>Workspace file</td>
+                    <td>
+                        <input type="text" value="%{workspace}" title="%{workspace}" disabled />
+                    </td>
+                </tr>
+                <tr>
+                    <td>SScript types</td>
+                    <td>
+                        <input type="text" value="%{types}" title="%{types}" disabled />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>SScript compiler path</td>
+                    <td>
+                        <input type="text" id="compiler_path" disabled value="%{compiler}" title="%{compiler}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>SScript core library path</td>
+                    <td>
+                        <input type="text" disabled value="%{core_lib}" title="%{core_lib}" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </fieldset>
+</body>
+
+</html>

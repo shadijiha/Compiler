@@ -8,7 +8,7 @@ function createWindow() {
 			nodeIntegration: true,
 			contextIsolation: false,
 			enableRemoteModule: true,
-			devTools: is.development,
+			devTools: true, //is.development,
 		},
 	});
 
@@ -76,6 +76,14 @@ function createMenuBar(window: BrowserWindow) {
 					accelerator: "CommandOrControl+S",
 					click() {
 						send("save");
+					},
+				},
+				{ type: "separator" },
+				{
+					label: "settings",
+					accelerator: "CommandOrControl+Shift+S",
+					click() {
+						send("settings");
 					},
 				},
 				{ type: "separator" },
