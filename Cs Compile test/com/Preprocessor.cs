@@ -25,7 +25,8 @@ namespace Cs_Compile_test.com {
 			var include = new PreprocessorCommand("include", 1,
 				filename => {
 					// Compile
-					new Compiler(filename[0].Trim().Replace("\"", "").Replace("<", "").Replace(">", "")
+					new Compiler(
+						Util.getFullIncludePath(filename[0].Trim().Replace("\"", "").Replace("<", "").Replace(">", ""))
 					).compile();
 
 					return "";

@@ -10,16 +10,8 @@ namespace Cs_Compile_test {
 		public static int Main(string[] args) {
 			try {
 
-				// Handle a call using args if not in debug
-				// Example of args: --filepath FILE_PATH_HERE
-				if (args.Length > 0 && args[0].ToLower() == "--filepath") {
-					FULL_FILE_PATH = args[1]
-						.Replace("\"", "")
-						.Trim();
-				}
-
 				Compiler compiler =
-					new Compiler(FULL_FILE_PATH);
+					new Compiler(Util.getCurrentCompilationFileFromArgs(FULL_FILE_PATH));
 				compiler.compile();
 
 				string result = VM.instance.InvokeMain(args.Length, args);

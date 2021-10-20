@@ -192,6 +192,7 @@ namespace Cs_Compile_test.com {
 			ShadoObject obj = Get(varName);
 			if (obj != null)
 				return obj;
+
 			throw new CompilationError("an error has occurred");
 		}
 

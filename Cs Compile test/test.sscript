@@ -1,4 +1,4 @@
-#include "__PATH__/core.sscript"    // All standard lib definitions are here
+#include "core.sscript"    // All standard lib definitions are here
 
 /* Classses support */
 class TestClass {

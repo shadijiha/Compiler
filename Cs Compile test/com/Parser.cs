@@ -141,12 +141,12 @@ namespace Cs_Compile_test.com {
 				ShadoObject constructorReturn = new ShadoObject(clazz, null);
 
 				// Extract all instance variables
-				foreach (var l in lines) {
+				/*foreach (var l in lines) {
 					if (IsInstanceVariable(l)) {
 						ExecutionStatus dummy = new ExecutionStatus();
 						new Expression(l, constructorReturn).Execute(ref dummy);
 					}
-				}
+				}*/
 
 				constructorReturn.AddVariable("string", "class", className);
 

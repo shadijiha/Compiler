@@ -1,5 +1,5 @@
 // This is the core library of shado script
-#include "__PATH_TO_CORE__/math.sscript"
+#include "math.sscript"
 
 #define MAX_INT 2147483647
 #define MIN_INT -2147483648
@@ -72,7 +72,7 @@ native void inspect_memory();
 /** 
  * All objects extend this class
  */
-class Object {
+class object {
 
     public native object();
 

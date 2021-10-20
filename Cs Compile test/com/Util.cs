@@ -52,6 +52,36 @@ namespace Cs_Compile_test.com {
 		public static string[] Clean(this AbstractExpression expr, string[] lines) {
 			return lines.Where(e => !string.IsNullOrEmpty(e) && e.Trim() != "{" && e.Trim() != "}").ToArray();
 		}
+
+		public static string getFullIncludePath(string includeStr) {
+			string file = getCurrentCompilationFileFromArgs();
+			string coreLib = Directory.GetParent(System.Reflection.Assembly.GetEntryAssembly().Location).Parent.Parent.Parent.FullName;
+
+			// Check if the file is in the same dir as the compling file
+			string compiledFilePath = file == null ? Path.GetDirectoryName(includeStr) : Directory.GetParent(file).Name;
+			if (File.Exists(compiledFilePath + "/" + includeStr)) {
+				return compiledFilePath + "/" + includeStr;
+			}
+			if (File.Exists(coreLib + "/" + includeStr)) {
+				return coreLib + "/" + includeStr;
+			}
+
+			return includeStr;
+		}
+
+		public static string getCurrentCompilationFileFromArgs(string defaultval = null) {
+			// Handle a call using args if not in debug
+			// Example of args: --filepath FILE_PATH_HERE
+			var args = Environment.GetCommandLineArgs();
+			
+			string val = defaultval;
+			if (args.Length > 0 && args[1].ToLower() == "--filepath") {
+				val = args[2]
+					.Replace("\"", "")
+					.Trim();
+			}
+			return val;
+		}
 	}
 
 	public struct ExecutionStatus {

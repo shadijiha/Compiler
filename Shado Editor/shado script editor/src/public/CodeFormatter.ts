@@ -272,10 +272,24 @@ export default class CodeFormatter {
 		filepath = filepath.replace("\n", "").replace("\r", "");
 
 		if (filepath != "") {
-			let content = fs.readFileSync(filepath, "utf-8");
+			let content = fs.readFileSync(
+				this.searchRelativePathes(filepath),
+				"utf-8"
+			);
 			this.parseInfo(content, filepath);
 		}
 
 		return filepath;
+	}
+
+	private searchRelativePathes(filename: string): string {
+		const currentpath = path.dirname(this.filename);
+		if (fs.existsSync(path.join(currentpath, filename))) {
+			return path.join(currentpath, filename);
+		} else if (fs.existsSync(path.join(Compiler.getCoreLibPath(), filename))) {
+			return path.join(Compiler.getCoreLibPath(), filename);
+		} else {
+			return filename;
+		}
 	}
 }

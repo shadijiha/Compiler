@@ -81,7 +81,6 @@ D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile t
 D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.dll
 D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.pdb
 D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.genruntimeconfig.cache
-D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.csprojAssemblyReference.cache
 C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\DynamicExpresso.Core.dll
 C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\Microsoft.CodeAnalysis.dll
 C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\Microsoft.CodeAnalysis.CSharp.dll

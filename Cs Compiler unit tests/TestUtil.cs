@@ -9,7 +9,8 @@ namespace Cs_Compiler_unit_tests {
 
 	public static class TestUtil {
 
-		private static readonly string CORE_LIB_LOCATION = Directory.GetParent(Program.PATH).FullName + "\\Cs Compile test\\core.sscript";
+		//private static readonly string CORE_LIB_LOCATION = Directory.GetParent(Program.PATH).FullName + "\\Cs Compile test\\core.sscript";
+		private static readonly string CORE_LIB_LOCATION = "core.sscript";
 
 		public static string MainTemplate(params string[] lines) {
 			StringBuilder builder = new StringBuilder("int main()	{");
