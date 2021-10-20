@@ -282,7 +282,7 @@ export default class CodeFormatter {
 		return filepath;
 	}
 
-	private searchRelativePathes(filename: string): string {
+	public searchRelativePathes(filename: string): string {
 		const currentpath = path.dirname(this.filename);
 		if (fs.existsSync(path.join(currentpath, filename))) {
 			return path.join(currentpath, filename);

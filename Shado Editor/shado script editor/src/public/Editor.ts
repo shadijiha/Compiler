@@ -206,7 +206,9 @@ export class Editor {
 		// Now process the links
 		const links = document.querySelectorAll(".link, span[classname=link]");
 		links.forEach((link) => {
-			const file = link.getAttribute("data-file");
+			const file = formatter.searchRelativePathes(
+				link.getAttribute("data-file") ?? ""
+			);
 			const clazz = link.getAttribute("data-clazz")?.replace(/\_/g, "");
 			const span = <HTMLSpanElement>link;
 			span.onclick = () => {
