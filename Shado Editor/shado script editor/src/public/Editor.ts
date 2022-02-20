@@ -85,14 +85,14 @@ export class Editor {
 
 	public format() {
 		switch (this.getExtension()) {
-			case ".sscript":
+			case "sscript":
 				this.formatSScript();
 				break;
-			case ".json":
-				this.formatJSON();
-				break;
-			case ".types": // For editor types definitions
+			case "types": // For editor types definitions
 				this.formatTypesFile();
+				break;
+			default:
+				this.formatFile();
 				break;
 		}
 	}
@@ -176,16 +176,17 @@ export class Editor {
 		}
 	}
 
-	private getExtension() {
+	public getExtension() {
 		var i = this.filepath.lastIndexOf(".");
-		return i < 0 ? "" : this.filepath.substr(i);
+		return i < 0 ? "" : this.filepath.substr(i).replaceAll(".", "");
 	}
 
 	/*************************** */
 	private formatSScript() {
-		const formatter = new CodeFormatter(
+		const formatter = CodeFormatter.loadWithTypesFile(
 			this.filepath,
-			this.editor.innerText.replace(/</g, "&lt;").replace(/>/g, "&gt;")
+			this.editor.innerText.replace(/</g, "&lt;").replace(/>/g, "&gt;"),
+			"sscript"
 		);
 
 		formatter
@@ -232,27 +233,11 @@ export class Editor {
 		});
 	}
 
-	private formatJSON() {
-		const formatter = new CodeFormatter(
-			this.filepath,
-			this.editor.innerText.replace(/</g, "&lt;").replace(/>/g, "&gt;")
-		);
-
-		formatter
-			.numbers()
-			.strings()
-			.comments()
-			.jdocs()
-			.simpleRepalce(["true", "false", "null", "undefined"], "#c586c0");
-
-		const data = `<pre>${formatter.render()}</pre>`;
-		this.editor.innerHTML = data;
-	}
-
 	private formatTypesFile() {
-		const formatter = new CodeFormatter(
+		const formatter = CodeFormatter.loadWithTypesFile(
 			this.filepath,
-			this.editor.innerText.replace(/</g, "&lt;").replace(/>/g, "&gt;")
+			this.editor.innerText.replace(/</g, "&lt;").replace(/>/g, "&gt;"),
+			""
 		);
 
 		formatter
@@ -265,6 +250,29 @@ export class Editor {
 			.functions()
 			.preprocessor()
 			.compilerConstants()
+			.comments()
+			.jdocs();
+
+		const data = `<pre>${formatter.render()}</pre>`;
+		this.editor.innerHTML = data;
+	}
+
+	private formatFile() {
+		const formatter = CodeFormatter.loadWithTypesFile(
+			this.filepath,
+			this.editor.innerText.replace(/</g, "&lt;").replace(/>/g, "&gt;"),
+			this.getExtension()
+		);
+
+		formatter
+			.numbers()
+			.strings()
+			.keywords()
+			.functions()
+			.preprocessor()
+			.compilerConstants()
+			.nativeTypes()
+			.costumTypes()
 			.comments()
 			.jdocs();
 

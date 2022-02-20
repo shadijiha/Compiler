@@ -1,11 +1,12 @@
 import fs from "fs";
 import { Compiler } from "./Compiler";
 import path from "path";
+import { Resource } from "./Resource";
 
 type ClassInfo = { file: string; name: string; type?: "native" | "abstract" };
 
 export default class CodeFormatter {
-	public static readonly KEYWORDS = [
+	private KEYWORDS = [
 		"return",
 		"if",
 		"else",
@@ -21,7 +22,7 @@ export default class CodeFormatter {
 		"abstract",
 	];
 
-	public static readonly MODIFIERS = [
+	private MODIFIERS = [
 		"readonly",
 		"static",
 		"interface",
@@ -31,7 +32,7 @@ export default class CodeFormatter {
 		"native",
 	];
 
-	public static readonly NATIVE_TYPES = [
+	private NATIVE_TYPES = [
 		"int",
 		"double",
 		"float",
@@ -42,14 +43,9 @@ export default class CodeFormatter {
 		"object",
 		"dynamic",
 	];
-	public static readonly PREPROCESSOR = ["#include", "#define"];
+	private PREPROCESSOR = ["#include", "#define"];
 
-	public static readonly CONSTANTS = [
-		"__LINE__",
-		"__FILE__",
-		"__PATH__",
-		"__PATH_TO_CORE__",
-	];
+	private CONSTANTS = ["__LINE__", "__FILE__", "__PATH__", "__PATH_TO_CORE__"];
 
 	private code: string;
 	private classList: ClassInfo[];
@@ -58,7 +54,7 @@ export default class CodeFormatter {
 	private macroList: string[] = [];
 	private core_lib_path = "";
 
-	public constructor(
+	private constructor(
 		private readonly filename: string,
 		private formatted: string
 	) {
@@ -69,7 +65,64 @@ export default class CodeFormatter {
 		this.filename = filename;
 
 		this.core_lib_path = Compiler.getCoreLibPath();
-		this.parseInfo(this.code, filename);
+
+		if (filename.endsWith(".sscript")) this.parseInfo(this.code, filename);
+	}
+
+	public static loadWithTypesFile(
+		_filename: string,
+		content: string,
+		extension: string
+	) {
+		const formatter = new CodeFormatter(_filename, content);
+		const filename = "editor." + extension + ".types";
+		let filecontent: string | null = null;
+
+		// This file should be location in the %AppData%
+		if (Resource.exists({ filename })) {
+			filecontent = Resource.loadResource({ filename });
+		}
+
+		// If not then search in the compile Core.sscript path
+		if (
+			fs.existsSync(path.join(Compiler.getCoreLibPath(), filename)) &&
+			!filecontent
+		) {
+			filecontent = fs.readFileSync(
+				path.join(Compiler.getCoreLibPath(), filename),
+				"utf-8"
+			);
+		}
+
+		// Otherwise just default to the already defined keywords and constants
+		if (!filecontent) return formatter;
+
+		// If the file exists then parse it
+		// and clear the default CodeFormatter keywords
+		clearArray(formatter.KEYWORDS);
+		clearArray(formatter.MODIFIERS);
+		clearArray(formatter.NATIVE_TYPES);
+		clearArray(formatter.CONSTANTS);
+
+		const lines = filecontent.split("\n");
+		for (const line of lines) {
+			const tokens = line.trim().split(/\s+/);
+			switch (tokens[0]) {
+				case "keyword":
+					formatter.KEYWORDS.push(tokens[1]);
+					break;
+				case "modifier":
+					formatter.MODIFIERS.push(tokens[1]);
+					break;
+				case "constant":
+					formatter.CONSTANTS.push(tokens[1]);
+					break;
+				case "native_type":
+					formatter.NATIVE_TYPES.push(tokens[1]);
+					break;
+			}
+		}
+		return formatter;
 	}
 
 	public comments(colour = "#6a9955") {
@@ -82,12 +135,12 @@ export default class CodeFormatter {
 			/\bC#/g,
 			`<span style="color: ${colour};">$&</span>`
 		);
-		this.simpleRepalce(CodeFormatter.MODIFIERS, "#569cd6");
-		return this.simpleRepalce(CodeFormatter.KEYWORDS, colour);
+		this.simpleRepalce(this.MODIFIERS, "#569cd6");
+		return this.simpleRepalce(this.KEYWORDS, colour);
 	}
 
 	public nativeTypes(colour = "#569cd6") {
-		return this.simpleRepalce(CodeFormatter.NATIVE_TYPES, colour);
+		return this.simpleRepalce(this.NATIVE_TYPES, colour);
 	}
 
 	public costumTypes(colour = "#4ec9b0", colourAbstract = "#208dc8") {
@@ -130,11 +183,12 @@ export default class CodeFormatter {
 	}
 
 	public preprocessor(colour = "#ff9a41") {
-		const regex = this.toeRegex(CodeFormatter.PREPROCESSOR);
-		this.formatted = this.formatted.replace(
-			regex,
-			`<span style="color: ${colour};">$&</span>`
-		);
+		const regex = this.toeRegex(this.PREPROCESSOR);
+		if (regex)
+			this.formatted = this.formatted.replace(
+				regex,
+				`<span style="color: ${colour};">$&</span>`
+			);
 
 		if (this.macroList.length > 0) this.simpleRepalce(this.macroList, "purple");
 
@@ -157,12 +211,12 @@ export default class CodeFormatter {
 	}
 
 	public compilerConstants(colour = "#6a8ccc") {
-		return this.simpleRepalce(CodeFormatter.CONSTANTS, colour);
+		return this.simpleRepalce(this.CONSTANTS, colour);
 	}
 
 	public removeBr() {
 		const regex = this.toeRegex(["\\n\\n"]);
-		this.formatted = this.formatted.replace(regex, `\n`);
+		if (regex) this.formatted = this.formatted.replace(regex, `\n`);
 		return this;
 	}
 
@@ -171,6 +225,7 @@ export default class CodeFormatter {
 	}
 
 	private toeRegex(arr: string[], prefix = "", suffix = "") {
+		if (arr.length == 0) return null;
 		let buffer = prefix + "(";
 		for (const [i, temp] of arr.entries()) {
 			buffer += temp;
@@ -184,10 +239,11 @@ export default class CodeFormatter {
 
 	public simpleRepalce(array: string[], colour: string): CodeFormatter {
 		const regex = this.toeRegex(array, "\\b", "\\b");
-		this.formatted = this.formatted.replace(
-			regex,
-			`<span style="color: ${colour};">$&</span>`
-		);
+		if (regex)
+			this.formatted = this.formatted.replace(
+				regex,
+				`<span style="color: ${colour};">$&</span>`
+			);
 		return this;
 	}
 
@@ -291,5 +347,11 @@ export default class CodeFormatter {
 		} else {
 			return filename;
 		}
+	}
+}
+
+function clearArray(array: any[]) {
+	while (array.length) {
+		array.pop();
 	}
 }

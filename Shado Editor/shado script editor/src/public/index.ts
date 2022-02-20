@@ -8,6 +8,7 @@ import { Resource } from "./Resource";
 const ipcRenderer = require("electron").ipcRenderer;
 const dialog = require("electron").remote.dialog;
 import fs from "fs";
+import { Runtime } from "./Runtime";
 
 export let isCtrl = false;
 
@@ -45,14 +46,14 @@ async function main() {
 	};
 
 	// Attempt to load the keywords definitions file
-	Settings.loadTypesFile();
+	//Settings.loadTypesFile();
 
 	// Watch if the types file has been modified after
 	// The initial load
-	fs.watchFile(Resource.toFullPath("editor.sscript.types"), (curr, prev) => {
+	/*fs.watchFile(Resource.toFullPath("editor.sscript.types"), (curr, prev) => {
 		Settings.loadTypesFile();
 		TabManager.formatAll();
-	});
+	});*/
 
 	// Load work space if it exists
 	Settings.loadWorkSpace();
@@ -111,14 +112,12 @@ function setupConsole() {
 
 		cinInput?.focus();
 
-		Compiler.onProcessExit((code) => {
-			stop!.style.display = "none";
-			play!.style.display = "block";
-			cinInput?.blur();
-		});
-
-		Compiler.runDynamicCode(active.editor.getContent(), (data) => {
-			cons!.innerHTML += data.toString();
+		Runtime.run({
+			editor: active.editor,
+			cinInput,
+			consoleDOM: cons!,
+			playBtn: play,
+			stopBtn: stop,
 		});
 
 		stop!.style.display = "block";
@@ -126,16 +125,6 @@ function setupConsole() {
 	};
 
 	stop!.style.display = "none";
-	stop!.onclick = () => {
-		Compiler.killProcess();
-	};
-
-	cinInput!.onkeypress = (e) => {
-		if (e.keyCode == 13) {
-			Compiler.cin(cinInput?.value + "\n");
-			cinInput!.value = "";
-		}
-	};
 }
 
 export function pathToFilename(filepath: string) {

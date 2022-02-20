@@ -32,7 +32,7 @@ int main(int argc, string[] argv)	{
     array.add(pi());
     println(array)
     println("---------------------------------");
-
+    
     /* Strings (Check all string operations in core.sscript) */
     string myString = "Hello world!";
     string upper = myString.toUpperCase();
