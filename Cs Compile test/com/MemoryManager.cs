@@ -6,15 +6,18 @@ using System.Text;
 namespace Cs_Compile_test.com {
 	public static class MemoryManager {
 
-		private static readonly Dictionary<int, ShadoObject> objects = new Dictionary<int, ShadoObject>();
+		private static readonly Dictionary<int, WeakReference> objects = new Dictionary<int, WeakReference>();
 
 		public static void AddVariable(ShadoObject obj) {
-			objects.Add(obj.GetHashCode(), obj);
+			if (objects.ContainsKey(obj.GetHashCode()))
+				return;
+			objects.Add(obj.GetHashCode(), new WeakReference(obj));
 		}
 
 		public static ShadoObject GetByAddress(int address) {
 			try {
-				return objects[address];
+				var obj =  objects[address];
+				return obj.IsAlive ? (ShadoObject)obj.Target : null;
 			} catch (Exception e) {
 				throw new RuntimeError("Cannot find the variable with address {0}", address);
 			}
@@ -24,11 +27,12 @@ namespace Cs_Compile_test.com {
 
 			StringBuilder builder = new StringBuilder();
 
-			foreach (KeyValuePair<int, ShadoObject> obj in objects) {
+			foreach (KeyValuePair<int, WeakReference> obj in objects) {
+				var val = (obj.Value?.Target as ShadoObject);
 				builder.Append(obj.Key).Append("\t")
-					.Append(obj.Value?.name).Append(": ").Append(obj.Value?.type?.name)
+					.Append(val?.name).Append(": ").Append(val?.type?.name)
 					.Append("\t=>\t")
-					.Append(obj.Value.value).Append("\n");
+					.Append(val?.value).Append("\n");
 			}
 
 			return builder.ToString();

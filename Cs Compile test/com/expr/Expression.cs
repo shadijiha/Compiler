@@ -87,7 +87,7 @@ namespace Cs_Compile_test.com {
 	public class Expression : AbstractExpression {
 		public enum Type {
 			DECLARATION, ASSIGNMENT, FUNC_CALL, OBJECT_FUNC_CALL, RETURN, POINTER_ASSIGNMENT, OBJECT_INSTATIATION, GET_VALUE, OBJECT_VAR_CALL,
-			THIS_VAR_CALL, OBJECT_INSTATIATION_INLINE
+			THIS_VAR_CALL, OBJECT_INSTATIATION_INLINE, STATIC_VAR_INIT
 		}
 
 		private string raw;
@@ -126,6 +126,8 @@ namespace Cs_Compile_test.com {
 					return executeVarCallOnObj();
 				case Type.OBJECT_INSTATIATION_INLINE:
 					return executeInlineIntialisation();
+				case Type.STATIC_VAR_INIT:
+					return executeStaticVariableInit(ref status);
 				default: return rhs;
 			}
 		}
@@ -137,6 +139,14 @@ namespace Cs_Compile_test.com {
 				this.rhs = raw.Replace("return", "").Trim();
 				this.expressionType = Type.RETURN;
 			}
+
+			else if (new ExpressionSyntax("static ANY").Matches(raw))
+			{
+				this.name = "";
+				this.rhs = raw.Replace("static", "").Trim();
+				this.expressionType = Type.STATIC_VAR_INIT;
+			}
+
 			// It is a object initialization
 			else if (new ExpressionSyntax("TYPE IDENTIFIER = new TYPE(ANY)").Matches(raw)) {
 				this.type = VM.instance.GetClass(tokens[0]);
@@ -446,8 +456,15 @@ namespace Cs_Compile_test.com {
 					return variable;
 			}
 
-			// See if it is a variable in the global scope
+			// See if it is a variable in the VM scope
 			foreach (ShadoObject variable in VM.instance.AllVariables()) {
+				if (variable.name == rhs)
+					return variable;
+			}
+
+			// See if it is a variable in the global scope
+			foreach (ShadoObject variable in ShadoObject.Global.GetAllVariables())
+			{
 				if (variable.name == rhs)
 					return variable;
 			}
@@ -486,6 +503,24 @@ namespace Cs_Compile_test.com {
 				.ReplaceLastOccurrence(")", "").Split(",").RemoveBlanks();
 
 			ShadoObject obj = (ShadoObject)type.GetConstructor().Call(scope, args);
+			return obj;
+		}
+		
+		private object executeStaticVariableInit(ref ExecutionStatus status)
+		{
+			// Add result to VM as static variable if it is not there
+			Expression expr = new Expression(this.rhs, ShadoObject.Global);
+
+			var vmVariable = VM.instance.Get(expr.name);
+			if (vmVariable != null)
+				return vmVariable;
+
+			object result = expr.Execute(ref status);
+			ShadoObject obj = new ShadoObject(expr.type, expr.name, result);
+
+
+			VM.instance.PushVariable(obj);
+
 			return obj;
 		}
 

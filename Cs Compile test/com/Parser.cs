@@ -179,6 +179,16 @@ namespace Cs_Compile_test.com {
 
 			string[] lines = code.Split("\n");
 			foreach (string line in lines) {
+
+				// If it is a global declerations
+				if (line.Trim().StartsWith("global") && line.Trim().Length > 5) { 
+					string trimmed = line.Trim().Substring(6);
+					ExecutionStatus status = new ExecutionStatus { 			
+						status = ExecutionStatus.Type.OK
+					};
+					new Expression(trimmed, ShadoObject.Global).Execute(ref status);
+				}
+
 				if (line.Contains("{")) {
 					stack.Push("{");
 				}

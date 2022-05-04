@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using Cs_Compile_test.com.interfaces;
+using System.Collections.Generic;
 
 namespace Cs_Compile_test.com {
 	public static class Util {
@@ -140,8 +141,7 @@ namespace Cs_Compile_test.com {
 			vm.PushVariable(method_println);
 
 			ShadoMethod method_typeof = new ShadoMethod("typeof", 1, "string", new string[] { "object" });
-			method_typeof.SetCode((ctx, obj) =>
-				ctx.GetVariable(obj[0].ToString())?.type.name ?? vm.Get(obj[0].ToString())?.type.name ?? vm.GetTypeOf(obj[0])?.name ?? "object");
+			method_typeof.SetCode((ctx, obj) => (obj[0] as ShadoObject)?.type.name ?? "object");
 			vm.PushVariable(method_typeof);
 
 			ShadoMethod method_clear = new ShadoMethod("clear", 0, "void");
@@ -209,29 +209,20 @@ namespace Cs_Compile_test.com {
 
 			ShadoMethod inspect_vm = new ShadoMethod("inspect_vm", 0, "void");
 			inspect_vm.SetCode((ctx, obj) => {
-				StringBuilder builder = new StringBuilder("VM content:\n");
-
-				foreach (var variable in vm.AllVariables()) {
-					// See if it is a method, then get all its inner variable
-					builder.Append("\t");
-					if (variable is ShadoMethod method) {
-						builder.Append(method.name).Append(": ").Append(method.GetFullType());
-						foreach (var methodVar in method.GetAllVariables()) {
-							builder.Append("\t")
-								.Append(methodVar.name).Append("\t=>\t").Append(variable.value ?? "null").Append("\n");
-						}
-					} else {
-						// Otherwise
-						builder.Append(variable.name).Append("\t=>\t").Append(variable.value ?? "null");
-					}
-
-					builder.Append("\n");
-				}
-
-				Console.WriteLine(builder);
+				string output = "VM content: \n" + variablesToString(vm.AllVariables());
+				Console.WriteLine(output);
 				return null;
 			});
 			vm.PushVariable(inspect_vm);
+
+			ShadoMethod inspect_global_scope = new ShadoMethod("inspect_global_scope", 0, "void");
+			inspect_global_scope.SetCode((ctx, obj) => {
+				string output = "Global scope content: \n" + variablesToString(ShadoObject.Global.GetAllVariables());
+				Console.WriteLine(output);
+				return null;
+			});
+			vm.PushVariable(inspect_global_scope);
+
 
 			ShadoMethod inspect_memory = new ShadoMethod("inspect_memory", 0, "void");
 			inspect_memory.SetCode((ctx, obj) => {
@@ -243,6 +234,35 @@ namespace Cs_Compile_test.com {
 
 		private static long CurrentTimeMillis() {
 			return (long)(DateTime.UtcNow - Jan1st1970).TotalMilliseconds;
+		}
+
+		private static string variablesToString(IList<ShadoObject> variables) {
+
+			StringBuilder builder = new StringBuilder();
+
+			foreach (var variable in variables)
+			{
+				// See if it is a method, then get all its inner variable
+				builder.Append("\t");
+				if (variable is ShadoMethod method)
+				{
+					builder.Append(method.name).Append(": ").Append(method.GetFullType());
+					foreach (var methodVar in method.GetAllVariables())
+					{
+						builder.Append("\t")
+							.Append(methodVar.name).Append("\t=>\t").Append(variable.value ?? "null").Append("\n");
+					}
+				}
+				else
+				{
+					// Otherwise
+					builder.Append(variable.name).Append("\t=>\t").Append(variable.value ?? "null");
+				}
+
+				builder.Append("\n");
+			}
+
+			return builder.ToString();
 		}
 	}
 }

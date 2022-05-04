@@ -69,6 +69,11 @@ native void inspect_vm();
  */
 native void inspect_memory();
 
+/**
+ * Prints all the variable contained in the Global scope
+ */
+native void inspect_global_scope();
+
 /** 
  * All objects extend this class
  */
