@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace Cs_Compile_test.com {
+	[System.Serializable]
 	public class ShadoObject {
 		public static readonly ShadoObject Global = new ShadoObject("object", "GLOBAL", "GLOBAL");
 

@@ -184,7 +184,7 @@ namespace Cs_Compile_test.com {
 		}
 
 		public ShadoObject Get(string varName) {
-			return variables.Where(e => e.name == varName).FirstOrDefault();
+			return variables.Where(e => e.name == varName).FirstOrDefault() ?? ShadoObject.Global.GetVariable(varName);
 		}
 
 		public ShadoObject GetOrThrow(string varName) {
@@ -217,7 +217,9 @@ namespace Cs_Compile_test.com {
 		}
 
 		public List<ShadoObject> AllVariables() {
-			return new List<ShadoObject>(variables);
+			var temp = new List<ShadoObject>(variables);
+			temp.AddRange(ShadoObject.Global.GetAllVariables());
+			return temp;
 		}
 
 		public IList<ShadoClass> GetAllTypes() {

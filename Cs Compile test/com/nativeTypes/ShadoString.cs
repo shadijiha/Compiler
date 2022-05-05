@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 
 namespace Cs_Compile_test.com.nativeTypes {
+	[System.Serializable]
 	public class ShadoString : ShadoClass {
 		public ShadoString()
 			: base("string", new TypeValidator("string", o => true))

@@ -5,11 +5,12 @@ using System.Text;
 using Cs_Compile_test.com.exceptions;
 
 namespace Cs_Compile_test.com {
+	[Serializable]
 	public class ShadoClass
 	{
 		protected IList<ShadoClass> parents;
 		protected TypeValidator validator;
-		protected IList<ShadoMethod> methods;
+		[NonSerialized] protected IList<ShadoMethod> methods;
 		public string name { get; }
 
 		public ShadoClass(string name, TypeValidator validator) {

@@ -14,7 +14,7 @@ namespace Cs_Compile_test.com {
 		protected int argCount;
 		protected string returnType;
 		protected string[] argTypes;
-		protected MethodCall code;
+		[NonSerialized]  protected MethodCall code;
 		public bool optionalArgs;
 		protected string fullType;
 		protected Attributes attributes;

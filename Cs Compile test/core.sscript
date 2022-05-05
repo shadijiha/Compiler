@@ -130,7 +130,7 @@ native class FileWriter implements IAutoClosable {
 /**
  * All arrays have this class as super class
  *
- * PLEASE NOTE: Objects are pushed into the array by value!
+ * PLEASE NOTE: Objects are pushed into the array by reference!
  */ 
 native class Array {
 

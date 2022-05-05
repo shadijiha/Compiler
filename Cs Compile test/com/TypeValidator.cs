@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Cs_Compile_test.com {
+	[System.Serializable]
 	public sealed class TypeValidator {
 		public readonly string type;
 		public readonly Predicate<object> validator;

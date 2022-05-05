@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using Cs_Compile_test.com.interfaces;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Cs_Compile_test.com {
 	public static class Util {
@@ -82,6 +83,18 @@ namespace Cs_Compile_test.com {
 					.Trim();
 			}
 			return val;
+		}
+
+		public static T DeepClone<T>(this T obj)
+		{
+			using (MemoryStream stream = new MemoryStream())
+			{
+				BinaryFormatter formatter = new BinaryFormatter();
+				formatter.Serialize(stream, obj);
+				stream.Position = 0;
+
+				return (T)formatter.Deserialize(stream);
+			}
 		}
 	}
 
@@ -250,13 +263,13 @@ namespace Cs_Compile_test.com {
 					foreach (var methodVar in method.GetAllVariables())
 					{
 						builder.Append("\t")
-							.Append(methodVar.name).Append("\t=>\t").Append(variable.value ?? "null").Append("\n");
+							.Append(methodVar.name).Append("\t=>\t").Append(variable.ToString()).Append("\n");
 					}
 				}
 				else
 				{
 					// Otherwise
-					builder.Append(variable.name).Append("\t=>\t").Append(variable.value ?? "null");
+					builder.Append(variable.name).Append("\t=>\t").Append(variable.ToString());
 				}
 
 				builder.Append("\n");

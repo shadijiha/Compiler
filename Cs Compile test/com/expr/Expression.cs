@@ -462,13 +462,6 @@ namespace Cs_Compile_test.com {
 					return variable;
 			}
 
-			// See if it is a variable in the global scope
-			foreach (ShadoObject variable in ShadoObject.Global.GetAllVariables())
-			{
-				if (variable.name == rhs)
-					return variable;
-			}
-
 			// Otherwise see if it is a math expression
 			object val = null;
 			if (isMathExpression(rhs, ref val))

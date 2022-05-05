@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Cs_Compile_test.com.nativeTypes {
+	[System.Serializable]
 	public class ShadoFloat : ShadoClass {
 		public ShadoFloat()
 			: base("float", new TypeValidator("float", o => {

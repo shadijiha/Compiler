@@ -4,6 +4,7 @@ namespace Cs_Compile_test.com.nativeTypes {
 
 	public interface ICloseBeforeExit { }
 
+	[System.Serializable]
 	public class ShadoFileReader : ShadoClass, ICloseBeforeExit {
 
 		public ShadoFileReader() : base("FileReader", new TypeValidator("FileReader", o => true)) { }

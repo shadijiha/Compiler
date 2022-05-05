@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Cs_Compile_test.com.nativeTypes {
+	[System.Serializable]
 	public class ShadoDouble : ShadoClass {
 		public ShadoDouble()
 			: base("double", new TypeValidator("double", o => {
