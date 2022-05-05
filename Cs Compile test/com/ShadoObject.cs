@@ -1,4 +1,5 @@
 ﻿using Cs_Compile_test.com.exceptions;
+using Cs_Compile_test.com.interfaces;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -82,7 +83,7 @@ namespace Cs_Compile_test.com {
 			return it.First();
 		}
 
-		public IList<ShadoObject> GetAllVariables() {
+		public List<ShadoObject> GetAllVariables() {
 			return instanceVariables.Where(e => !string.IsNullOrEmpty(e.name)).ToList();
 		}
 
@@ -111,7 +112,7 @@ namespace Cs_Compile_test.com {
 		}
 
 		public override string ToString() {
-			return type?.GetMethod("toString")?.Call(this, null)?.ToString() ?? value?.ToString() ?? "undefined@" + id;
+			return type?.GetMethod("toString")?.Call((Context)this, null)?.ToString() ?? value?.ToString() ?? "undefined@" + id;
 		}
 	}
 }

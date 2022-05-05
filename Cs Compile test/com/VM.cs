@@ -1,4 +1,5 @@
 ﻿using Cs_Compile_test.com.exceptions;
+using Cs_Compile_test.com.interfaces;
 using Cs_Compile_test.com.nativeTypes;
 using System;
 using System.Collections.Generic;
@@ -98,7 +99,7 @@ namespace Cs_Compile_test.com {
 				throw new RuntimeError("Method main not found!");
 
 			main.optionalArgs = true;
-			return main.Call(ShadoObject.Global, new object[] { argc, argv.Cast<object>().ToList() })?.ToString() ?? "0";
+			return main.Call((Context)ShadoObject.Global, new object[] { argc, argv.Cast<object>().ToList() })?.ToString() ?? "0";
 		}
 
 		public bool IsValidType(ShadoClass clazz, Object value) {

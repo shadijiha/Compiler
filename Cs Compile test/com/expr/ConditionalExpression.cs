@@ -6,16 +6,20 @@ namespace Cs_Compile_test.com.expr {
 
 	public class ConditionalExpression : AbstractExpression {
 		private string block;
-		private ShadoObject scope;
 		private string condition;
 
-		public ConditionalExpression(string block, string condition, ShadoObject scope) {
+		public ConditionalExpression(string block, string condition, Context scope) {
 			this.block = block;
 			this.scope = scope;
 			this.condition = condition;
 		}
 
-		public object Execute(ref ExecutionStatus status) {
+		public ConditionalExpression(string block, string condition, ShadoObject scope)
+			: this(block, condition, (Context)scope)
+		{
+		}
+
+		public override object Execute(ref ExecutionStatus status) {
 
 			if (Evaluate(ref status)) {
 				var lines = block.Split("\n");
@@ -41,5 +45,5 @@ namespace Cs_Compile_test.com.expr {
 		}
 
 		public static bool IsIfStatement(string line) => line.Trim().StartsWith("if");
-	}
+    }
 }

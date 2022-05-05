@@ -95,9 +95,8 @@ namespace Cs_Compile_test.com {
 		private string name;
 		private string rhs;
 		private Type expressionType;
-		private ShadoObject scope;
 
-		public Expression(string raw, ShadoObject scope) {
+		public Expression(string raw, Context scope) {
 			this.scope = scope;
 			this.raw = raw.Trim();
 			var parts = SplitByExceptQuotes(raw, " ");
@@ -105,7 +104,12 @@ namespace Cs_Compile_test.com {
 			parseExpression(parts);
 		}
 
-		public object Execute(ref ExecutionStatus status) {
+		public Expression(string raw, ShadoObject scope)
+			: this(raw, (Context)scope)
+		{
+		}
+
+		public override object Execute(ref ExecutionStatus status) {
 			switch (expressionType) {
 				case Type.ASSIGNMENT:
 				case Type.DECLARATION:
@@ -335,7 +339,7 @@ namespace Cs_Compile_test.com {
 			if (method == null || !method.IsMethod())
 				throw new RuntimeError("{0} is not a function", functionName);
 
-			return (method as ShadoMethod).Call(scope, args);
+			return (method as ShadoMethod).Call((Context)scope, args);
 		}
 
 		private object executeFuncCallOnObject(ref ExecutionStatus status) {
@@ -364,7 +368,7 @@ namespace Cs_Compile_test.com {
 				if (!func.Is(ShadoMethod.Attributes.STATIC))
 					throw new CompilationError("Cannot invoke a none static method in a static way");
 
-				return func.Call(ShadoObject.Global, args);
+				return func.Call((Context)ShadoObject.Global, args);
 			}
 
 			// Get the function
@@ -377,7 +381,7 @@ namespace Cs_Compile_test.com {
 				 && scope.ToString() != ctx.ToString())
 				throw new CompilationError("Cannot call a non public method outside of its class");
 
-			return method.Call(ctx, args);
+			return method.Call((Context)ctx, args);
 		}
 
 		private object executeReturn(ref ExecutionStatus status) {
@@ -422,7 +426,7 @@ namespace Cs_Compile_test.com {
 				throw new CompilationError("Cannot assign {0} to a variable of type {1}", constructor, type.name);
 
 
-			ShadoObject obj = (ShadoObject)type.GetConstructor(args.Length).Call(scope, args);
+			ShadoObject obj = (ShadoObject)type.GetConstructor(args.Length).Call((Context)scope, args);
 			obj.name = this.name;
 			scope.AddVariable(obj);
 			return obj;
@@ -434,12 +438,12 @@ namespace Cs_Compile_test.com {
 			string objectName = tokens[0].Trim();
 			string varName = tokens[1].Trim();
 
-			ShadoObject ctx;
+			Context ctx = scope;
 			if (objectName == "this") {
-				ctx = scope;
+				//ctx = scope;
 			}
 			else {
-				ctx = scope.GetVariable(objectName) ?? VM.instance.GetOrThrow(objectName);
+				ctx.Attach(scope.GetVariable(objectName) ?? VM.instance.GetOrThrow(objectName));
 			}
 
 			// Get the variable
@@ -495,7 +499,7 @@ namespace Cs_Compile_test.com {
 				.ReplaceFirstOccurrence("(", "")
 				.ReplaceLastOccurrence(")", "").Split(",").RemoveBlanks();
 
-			ShadoObject obj = (ShadoObject)type.GetConstructor().Call(scope, args);
+			ShadoObject obj = (ShadoObject)type.GetConstructor().Call((Context)scope, args);
 			return obj;
 		}
 		
@@ -575,5 +579,5 @@ namespace Cs_Compile_test.com {
 		public override string ToString() {
 			return $"type: {type}, name: {name}, rhs: {rhs}";
 		}
-	}
+    }
 }

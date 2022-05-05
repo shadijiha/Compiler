@@ -9,11 +9,9 @@ using Cs_Compile_test.com.interfaces;
 namespace Cs_Compile_test.com.expr {
 
 	public class LoopExpression : AbstractExpression {
-
 		public static bool IsLoopStatement(string line) => line.Trim().StartsWith("for") || line.Trim().StartsWith("while");
 
 		private string block;
-		private ShadoObject scope;
 		private string rawCondition;
 
 
@@ -22,7 +20,7 @@ namespace Cs_Compile_test.com.expr {
 		private string loopCondition;
 		private string loopIncrement = null;
 
-		public LoopExpression(string block, string condition, ShadoObject scope) {
+		public LoopExpression(string block, string condition, Context scope) {
 			this.block = block;
 			this.scope = scope;
 			this.rawCondition = condition.Trim();
@@ -30,7 +28,12 @@ namespace Cs_Compile_test.com.expr {
 			ParseLoopCond();
 		}
 
-		public object Execute(ref ExecutionStatus status) {
+		public LoopExpression(string block, string condition, ShadoObject scope)
+			: this(block, condition, (Context)scope)
+		{
+		}
+
+		public override object Execute(ref ExecutionStatus status) {
 
 			// Execute the assignment expression
 			if (type == Type.FOR)
@@ -104,7 +107,7 @@ namespace Cs_Compile_test.com.expr {
 			return result;
 		}
 
-		private enum Type
+        private enum Type
 		{
 			FOR, WHILE, FOR_EACH
 		}

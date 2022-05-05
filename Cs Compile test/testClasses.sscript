@@ -1,0 +1,31 @@
+#include "core.sscript"
+
+class uint32_t    {
+    int x = 10;
+    
+    public uint32_t()    {
+        println("Default ctor");    
+    }
+
+    public uint32_t(int temp)    {
+        println("Called temp: ", temp); 
+        int x = temp;             
+    }
+
+    public void printVal(float f)    {
+         println(x);
+         println(f);       
+    }
+}
+
+
+int main(int argc, string[] argv)    {
+    uint32_t i = new uint32_t(2);
+    FileWriter writer = new FileWriter("__PATH_TO_CORE__/test.txt");
+    writer.open():
+    writer.writeln("Hehexd");
+   
+
+
+    i.printVal(1.0);
+}

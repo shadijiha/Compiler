@@ -32,9 +32,9 @@ namespace Cs_Compile_test.com.nativeTypes {
 
 				builder.Append("[");
 
-				var list = ctx.value as List<object>;
+				var list = ctx.Get(0).value as List<object>;
 				if (list == null)
-					throw new RuntimeError("Cannot call {0}.toString() on a variable of type {1}", this.name, ctx.type.name);
+					throw new RuntimeError("Cannot call {0}.toString() on a variable of type {1}", this.name, ctx.Get(0).type.name);
 
 				int i = 0;
 				foreach (var o in list) {
@@ -51,15 +51,15 @@ namespace Cs_Compile_test.com.nativeTypes {
 			AddMethod(toString);
 
 			// Add length method
-			AddMethod(new ShadoMethod("length", 0, "int").SetCode((ctx, args) => (ctx.value as List<object>).Count));
+			AddMethod(new ShadoMethod("length", 0, "int").SetCode((ctx, args) => (ctx.Get(0).value as List<object>).Count));
 			AddMethod(new ShadoMethod("at", 1, GetUnitType().name)
-				.SetCode((ctx, args) => (ctx.value as List<object>)[int.Parse(args[0].ToString())]));
+				.SetCode((ctx, args) => (ctx.Get(0).value as List<object>)[int.Parse(args[0].ToString())]));
 
 			AddMethod(new ShadoMethod("add", 1, "void")
 				.SetCode((ctx, args) => {
 
 					// If the arg is a ShadoObject then add its value
-					var list = ctx.value as List<object>;
+					var list = ctx.Get(0).value as List<object>;
 					if (list == null)
 						throw new RuntimeError(name + " is not a list");
 
@@ -73,13 +73,13 @@ namespace Cs_Compile_test.com.nativeTypes {
 
 			AddMethod(new ShadoMethod("addAt", 2, "void")
 				.SetCode((ctx, args) => {
-					(ctx.value as List<object>).Insert(int.Parse(args[0].ToString()), args[1]);
+					(ctx.Get(0).value as List<object>).Insert(int.Parse(args[0].ToString()), args[1]);
 					return true;
 				}));
 
 			AddMethod(new ShadoMethod("pop", 0, GetUnitType().name)
 				.SetCode((ctx, args) => {
-					var list = (ctx.value as List<object>);
+					var list = (ctx.Get(0).value as List<object>);
 					var obj = list.Last();
 					list.RemoveAt(list.Count - 1);
 					return obj;
@@ -87,7 +87,7 @@ namespace Cs_Compile_test.com.nativeTypes {
 
 			AddMethod(new ShadoMethod("contains", 1, "bool")
 				.SetCode((ctx, args) => {
-					var list = ctx.value as List<object>;
+					var list = ctx.Get(0).value as List<object>;
 					foreach (object o in list) {
 						if (o.Equals(args[0]) || o.ToString().Equals(args[0].ToString()))
 							return true;

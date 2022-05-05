@@ -91,7 +91,7 @@ namespace Cs_Compile_test.com {
 		protected virtual void initializeMethods() {
 			var toString = new ShadoMethod("toString", 0, "string");
 			toString.SetCode((ctx, objects) => {
-				return ctx.value;
+				return ctx.Get(0).value;
 			});
 			AddMethod(toString);
 

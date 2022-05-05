@@ -68,7 +68,6 @@ C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compile test\bin\Release\netcor
 C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\tr\Microsoft.CodeAnalysis.Scripting.resources.dll
 C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.Scripting.resources.dll
 C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.Scripting.resources.dll
-C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.csprojAssemblyReference.cache
 C:\Users\shadi\Desktop\code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.csproj.CopyComplete
 D:\Code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\Cs Compile test.exe
 D:\Code\Projects\Compiler\Cs Compile test\bin\Release\netcoreapp3.1\Cs Compile test.deps.json
@@ -145,3 +144,7 @@ D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile t
 D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.dll
 D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.pdb
 D:\Code\Projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.genruntimeconfig.cache
+C:\Users\shadi\Desktop\code\projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.csproj.AssemblyReference.cache
+C:\Users\shadi\Desktop\code\projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\shadi\Desktop\code\projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.csproj.CoreCompileInputs.cache
+C:\Users\shadi\Desktop\code\projects\Compiler\Cs Compile test\obj\Release\netcoreapp3.1\Cs Compile test.genruntimeconfig.cache

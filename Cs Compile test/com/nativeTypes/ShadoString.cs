@@ -18,15 +18,15 @@ namespace Cs_Compile_test.com.nativeTypes {
 		protected override void initializeMethods() {
 			base.initializeMethods();
 
-			methods.Add(new ShadoMethod("length", 0, "int").SetCode((ctx, objects) => ctx.value.ToString().Length));
-			methods.Add(new ShadoMethod("charAt", 1, "char").SetCode((ctx, args) => ctx.value.ToString()[int.Parse(args[0].ToString())]));
+			methods.Add(new ShadoMethod("length", 0, "int").SetCode((ctx, objects) => ctx.Get(0).value.ToString().Length));
+			methods.Add(new ShadoMethod("charAt", 1, "char").SetCode((ctx, args) => ctx.Get(0).value.ToString()[int.Parse(args[0].ToString())]));
 			methods.Add(new ShadoMethod("toCharArray", 0, "char[]")
-				.SetCode((ctx, args) => ctx.value.ToString().ToCharArray().Cast<object>().ToList()));
+				.SetCode((ctx, args) => ctx.Get(0).value.ToString().ToCharArray().Cast<object>().ToList()));
 
 			methods.Add(new ShadoMethod("concat", 1, "string")
-				.SetCode((ctx, args) => ctx.value.ToString() + args[0].ToString()));
+				.SetCode((ctx, args) => ctx.Get(0).value.ToString() + args[0].ToString()));
 			methods.Add(new ShadoMethod("contains", 1, "bool")
-				.SetCode((ctx, args) => ctx.value.ToString().Contains(args[0].ToString())));
+				.SetCode((ctx, args) => ctx.Get(0).value.ToString().Contains(args[0].ToString())));
 
 			methods.Add(new ShadoMethod("startsWith", 1, "bool")
 				.SetCode((ctx, args) => ctx.ToString().StartsWith(args[0].ToString())));

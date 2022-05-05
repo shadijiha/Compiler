@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 
 namespace Cs_Compile_test.com {
@@ -16,7 +17,7 @@ namespace Cs_Compile_test.com {
 		/// </summary>
 		/// <param name="code">The code to parse</param>
 		/// <param name="clazz">The class to add the method to, if it is null, the methods are added to the global scope</param>
-		public static void ExtractMethods(string code, ShadoClass clazz = null) {
+		public static void ExtractMethods(string code, ShadoClass clazz = null, ShadoObject ctorReturn = null) {
 
 			var blocks = ExtractBlocks(code);
 
@@ -55,11 +56,15 @@ namespace Cs_Compile_test.com {
 
 				// Parse method lines
 				for (int i = 1; i < lines.Length - 1; i++) {
+					Context context = new Context(method);
+					if (ctorReturn != null)
+						context.Attach(ctorReturn);
+
 					// Check if the statement is an if statement
 					if (ConditionalExpression.IsIfStatement(lines[i])) {
 						Range range = new Range(i, lines.Length);
 						var ifBlock = ExtractBlocks(string.Join('\n', lines[range]));
-						methodCodeLines.Add(new ConditionalExpression(ifBlock.First(), lines[i], method));
+						methodCodeLines.Add(new ConditionalExpression(ifBlock.First(), lines[i], context));
 
 						// Do not add the if statement content for parsing
 						i += ifBlock.First().Split("\n").Length - 1;
@@ -68,7 +73,7 @@ namespace Cs_Compile_test.com {
 					else if (LoopExpression.IsLoopStatement(lines[i])) {
 						Range range = new Range(i, lines.Length);
 						var loopBlock = ExtractBlocks(string.Join('\n', lines[i..lines.Length]));
-						methodCodeLines.Add(new LoopExpression(loopBlock.First(), lines[i], method));
+						methodCodeLines.Add(new LoopExpression(loopBlock.First(), lines[i], context));
 
 						// Do not add the if statement content for parsing
 						i += loopBlock.First().Split("\n").Length - 1;
@@ -76,21 +81,20 @@ namespace Cs_Compile_test.com {
 					// Else check if it is a C# block
 					else if (CSharpExpression.IsCSharpStatement(lines[i])) {
 						var CSBlock = ExtractBlocks(string.Join('\n', lines[i..lines.Length]));
-						methodCodeLines.Add(new CSharpExpression(CSBlock.First(), method));
+						methodCodeLines.Add(new CSharpExpression(CSBlock.First(), context));
 
 						// Do not add the if statement content for parsing
 						i += CSBlock.First().Split("\n").Length - 1;
 					}
 					else {
 						// Otherwise just push an Expression
-						methodCodeLines.Add(new Expression(lines[i], method));
+						methodCodeLines.Add(new Expression(lines[i], context));
 					}
 				}
 
 			AfterLoop:
 				ShadoMethod.MethodCall lambda = (ctx, args) =>
 				{
-
 					var status = new ExecutionStatus();
 
 					int i = 0;
@@ -98,13 +102,11 @@ namespace Cs_Compile_test.com {
 					{
 						try
 						{
-							methodCodeLines[i++].Execute(ref status);
+							AbstractExpression expr = methodCodeLines[i++];
+							expr.Execute(ref status);
 						}
 						catch (Exception e)
 						{
-#if DEBUG
-							Console.WriteLine(e);
-#endif
 							throw new Exception(e.Message + $"\n\t @ line: {i + 1}\n" + $"--->\t{lines[i]}");
 						}
 					}
@@ -116,9 +118,8 @@ namespace Cs_Compile_test.com {
 				// If it is a constructor the method needs to return an object
 				if (IsConstructor(lines[0], clazz)) {
 					method.SetCode((ctx, args) => {
-						ShadoObject constructorReturn = new ShadoObject(clazz, null);
-						lambda(constructorReturn, args);						
-						return constructorReturn;
+						lambda(  ctx, args);						
+						return ctorReturn;
 					});
 				}
 
@@ -159,12 +160,12 @@ namespace Cs_Compile_test.com {
 				ShadoObject constructorReturn = new ShadoObject(clazz, null);
 
 				// Extract all instance variables
-				/*foreach (var l in lines) {
+				foreach (var l in lines) {
 					if (IsInstanceVariable(l)) {
 						ExecutionStatus dummy = new ExecutionStatus();
 						new Expression(l, constructorReturn).Execute(ref dummy);
 					}
-				}*/
+				}
 
 				constructorReturn.AddVariable("string", "class", className);
 
@@ -185,7 +186,7 @@ namespace Cs_Compile_test.com {
 
 				// Extract methods
 				Range r = new Range(1, lines.Length - 1);
-				ExtractMethods(string.Join('\n', lines[r]), clazz);
+				ExtractMethods(string.Join('\n', lines[r]), clazz, constructorReturn);
 			}
 		}
 

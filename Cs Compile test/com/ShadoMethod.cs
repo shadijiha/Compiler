@@ -1,4 +1,5 @@
 ﻿using Cs_Compile_test.com.exceptions;
+using Cs_Compile_test.com.interfaces;
 using System;
 
 namespace Cs_Compile_test.com {
@@ -9,7 +10,7 @@ namespace Cs_Compile_test.com {
 			PUBLIC, PRIVATE, PROTECTED, STATIC, NATIVE, C_SHARP
 		}
 
-		public delegate object MethodCall(ShadoObject context, object[] args);
+		public delegate object MethodCall(Context context, object[] args);
 
 		protected int argCount;
 		protected string returnType;
@@ -61,7 +62,7 @@ namespace Cs_Compile_test.com {
 		/// <param name="context">The object or the method to which the method belogs to</param>
 		/// <param name="args">The method arguments</param>
 		/// <returns></returns>
-		public object Call(ShadoObject context, Object[] args) {
+		public object Call(Context context, Object[] args) {
 			if (context == null)
 				throw new RuntimeError("Null pointer exception: Cannot call a method on null");
 

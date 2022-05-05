@@ -48,7 +48,7 @@ namespace Cs_Compile_test.com {
 		}
 
 		public static void Close(this ICloseBeforeExit stream, ShadoObject context) {
-			context.type.GetMethod("close").Call(context, null);
+			context.type.GetMethod("close").Call((Context)context, null);
 		}
 
 		public static string[] Clean(this AbstractExpression expr, string[] lines) {
@@ -77,7 +77,7 @@ namespace Cs_Compile_test.com {
 			var args = Environment.GetCommandLineArgs();
 			
 			string val = defaultval;
-			if (args.Length > 0 && args[1].ToLower() == "--filepath") {
+			if (args.Length > 1 && args[1].ToLower() == "--filepath") {
 				val = args[2]
 					.Replace("\"", "")
 					.Trim();

@@ -11,14 +11,18 @@ namespace Cs_Compile_test.com.expr {
 	public class CSharpExpression : AbstractExpression {
 
 		private string block;
-		private ShadoObject scope;
 
-		public CSharpExpression(string block, ShadoObject scope) {
+		public CSharpExpression(string block, Context scope) {
 			this.block = block;
 			this.scope = scope;
 		}
 
-		public object Execute(ref ExecutionStatus status) {
+		public CSharpExpression(string block, ShadoObject scope)
+			: this(block, (Context)scope)
+		{
+		}
+
+		public override object Execute(ref ExecutionStatus status) {
 			string[] lines = block.Split("\n");
 			Range range = new Range(1, lines.Length - 1);
 			string[] blocks = lines[range];
@@ -31,5 +35,10 @@ namespace Cs_Compile_test.com.expr {
 		public static bool IsCSharpStatement(string line) {
 			return line.Trim().StartsWith("C#");
 		}
-	}
+
+        public AbstractExpression SetScope(Context context)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

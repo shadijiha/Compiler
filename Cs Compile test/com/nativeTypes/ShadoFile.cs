@@ -26,21 +26,21 @@ namespace Cs_Compile_test.com.nativeTypes {
 
 			ShadoMethod close = new ShadoMethod("close", 0, "void");
 			close.SetCode((ctx, args) => {
-				this.GetReadStream(ctx).Close();
+				this.GetReadStream( (ShadoObject)ctx).Close();
 				return null;
 			});
 			AddMethod(close);
 
 			ShadoMethod readline = new ShadoMethod("readLine", 0, "string");
-			readline.SetCode((ctx, args) => this.GetReadStream(ctx).ReadLine());
+			readline.SetCode((ctx, args) => this.GetReadStream((ShadoObject)ctx).ReadLine());
 			AddMethod(readline);
 
 			ShadoMethod hasnext = new ShadoMethod("hasNext", 0, "bool");
-			hasnext.SetCode((ctx, args) => !this.GetReadStream(ctx).EndOfStream);
+			hasnext.SetCode((ctx, args) => !this.GetReadStream((ShadoObject)ctx).EndOfStream);
 			AddMethod(hasnext);
 
 			ShadoMethod readToEnd = new ShadoMethod("readToEnd", 0, "string");
-			readToEnd.SetCode((ctx, args) => this.GetReadStream(ctx).ReadToEnd());
+			readToEnd.SetCode((ctx, args) => this.GetReadStream((ShadoObject)ctx).ReadToEnd());
 			AddMethod(readToEnd);
 		}
 	}
@@ -77,14 +77,14 @@ namespace Cs_Compile_test.com.nativeTypes {
 
 			ShadoMethod close = new ShadoMethod("close", 0, "void");
 			close.SetCode((ctx, args) => {
-				this.GetWriteStream(ctx).Close();
+				this.GetWriteStream((ShadoObject)ctx).Close();
 				return null;
 			});
 			AddMethod(close);
 
 			ShadoMethod write = new ShadoMethod("write", 1, "void");
 			write.SetCode((ctx, args) => {
-				this.GetWriteStream(ctx).Write(args[0].ToString());
+				this.GetWriteStream((ShadoObject)ctx).Write(args[0].ToString());
 				return null;
 			});
 			AddMethod(write);
@@ -92,14 +92,14 @@ namespace Cs_Compile_test.com.nativeTypes {
 			ShadoMethod writeln = new ShadoMethod("writeln", 1, "void");
 			writeln.SetCode((ctx, args) => {
 				args[0] = args[0] + "\n";
-				ctx.type.GetMethod("write").Call(ctx, args);
+				ctx.Get(0).type.GetMethod("write").Call(ctx, args);
 				return null;
 			});
 			AddMethod(writeln);
 
 			ShadoMethod flush = new ShadoMethod("flush", 0, "void");
 			flush.SetCode((ctx, args) => {
-				this.GetWriteStream(ctx).Flush();
+				this.GetWriteStream((ShadoObject)ctx).Flush();
 				return null;
 			});
 			AddMethod(flush);
