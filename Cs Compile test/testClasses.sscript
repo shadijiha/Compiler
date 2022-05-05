@@ -8,8 +8,7 @@ class uint32_t    {
     }
 
     public uint32_t(int temp)    {
-        println("Called temp: ", temp); 
-        int x = temp;             
+        println("Called temp: ", temp);          
     }
 
     public void printVal(float f)    {
@@ -18,14 +17,6 @@ class uint32_t    {
     }
 }
 
-
 int main(int argc, string[] argv)    {
-    string s = "hehexd";
-    bool res = s.equals("hehexd");       
-    println(res);
-    FileWriter writer = new FileWriter("__PATH__/test.txt");
-    writer.open();
-
-
-    writer.close();
+    uint32_t i = new uint32_t(6);
 }

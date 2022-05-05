@@ -410,6 +410,8 @@ namespace Cs_Compile_test.com {
 		}
 
 		private object executeObjectInstantiation() {
+			if (type == null)
+				throw new Exception("Invalid type --> " + raw);
 
 			string[] expr = Regex.Split(rhs.Trim(), "\\s+");
 			expr[0] = "";

@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 
 namespace Cs_Compile_test.com {
 	public static class Parser {
+		private static List<string> linesStartingGlobal = new List<string>();
 
 		/// <summary>
 		/// Parses the code and adds all the extacted methods to the class
@@ -199,13 +200,8 @@ namespace Cs_Compile_test.com {
 			foreach (string line in lines) {
 
 				// If it is a global declerations
-				if (line.Trim().StartsWith("global") && line.Trim().Length > 5) { 
-					string trimmed = line.Trim().Substring(6);
-					ExecutionStatus status = new ExecutionStatus { 			
-						status = ExecutionStatus.Type.OK
-					};
-					new Expression(trimmed, ShadoObject.Global).Execute(ref status);
-				}
+				if (line.Trim().StartsWith("global") && line.Trim().Length > 5)
+					linesStartingGlobal.Add(line);
 
 				if (line.Contains("{")) {
 					stack.Push("{");
@@ -227,6 +223,18 @@ namespace Cs_Compile_test.com {
 			return blocks;
 		}
 
+		public static void ProcessGlobalAllocations() {
+            foreach (var line in linesStartingGlobal)
+            {
+				string trimmed = line.Trim().Substring(6);
+				ExecutionStatus status = new ExecutionStatus
+				{
+					status = ExecutionStatus.Type.OK
+				};
+				new Expression(trimmed, ShadoObject.Global).Execute(ref status);
+			}
+		}
+		
 		private static string Clean(string input, string regex = @"\(|\)") {
 			return Regex.Replace(input, regex, "");
 		}

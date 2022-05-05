@@ -48,6 +48,7 @@ namespace Cs_Compile_test {
 			// Run the method definer
 			Parser.ExtractMethods(filecontent);
 
+			Parser.ProcessGlobalAllocations();
 		}
 
 		public void preprocessor() {
