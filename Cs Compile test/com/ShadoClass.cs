@@ -59,8 +59,14 @@ namespace Cs_Compile_test.com {
 			return methods.ToArray();
 		}
 
-		public ShadoMethod GetConstructor() {
-			return GetMethod(name);
+		public ShadoMethod GetConstructor(int argCount = 0) {
+
+			foreach(var method in methods)	{
+				if (method.name == name && method.GetArgCount() == argCount)
+					return method;
+			}
+
+			throw new RuntimeError($"Could not get constructor {name} with {argCount} args!");
 		}
 
 		public ShadoClass[] GetParentClasses() {

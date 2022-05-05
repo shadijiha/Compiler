@@ -422,7 +422,7 @@ namespace Cs_Compile_test.com {
 				throw new CompilationError("Cannot assign {0} to a variable of type {1}", constructor, type.name);
 
 
-			ShadoObject obj = (ShadoObject)type.GetConstructor().Call(scope, args);
+			ShadoObject obj = (ShadoObject)type.GetConstructor(args.Length).Call(scope, args);
 			obj.name = this.name;
 			scope.AddVariable(obj);
 			return obj;

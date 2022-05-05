@@ -24,11 +24,14 @@ namespace Cs_Compile_test.com {
 				string[] lines = block.Split("\n");
 
 				// If this is not a method definition
-				if (!IsMethodDefinition(lines[0]))
+				if (!IsMethodDefinition(lines[0]) && !IsConstructor(lines[0], clazz))
 					continue;
 
 				// Extract method data
 				MethodInfo info = ExtractMethodInfo(lines[0]);
+				if (IsConstructor(lines[0], clazz))
+					info.name = clazz.name;
+			
 
 				// Add it to the global scope
 				ShadoMethod method = new ShadoMethod(info.name, info.args.Length, info.returnType);
@@ -84,16 +87,21 @@ namespace Cs_Compile_test.com {
 					}
 				}
 
-				AfterLoop:
-				method.SetCode((ctx, args) => {
+			AfterLoop:
+				ShadoMethod.MethodCall lambda = (ctx, args) =>
+				{
 
 					var status = new ExecutionStatus();
 
 					int i = 0;
-					while (i < methodCodeLines.Count && status.status == ExecutionStatus.Type.OK) {
-						try {
+					while (i < methodCodeLines.Count && status.status == ExecutionStatus.Type.OK)
+					{
+						try
+						{
 							methodCodeLines[i++].Execute(ref status);
-						} catch (Exception e) {
+						}
+						catch (Exception e)
+						{
 #if DEBUG
 							Console.WriteLine(e);
 #endif
@@ -102,7 +110,17 @@ namespace Cs_Compile_test.com {
 					}
 
 					return status.value;
-				});
+				};
+				method.SetCode(lambda);
+
+				// If it is a constructor the method needs to return an object
+				if (IsConstructor(lines[0], clazz)) {
+					method.SetCode((ctx, args) => {
+						ShadoObject constructorReturn = new ShadoObject(clazz, null);
+						lambda(constructorReturn, args);						
+						return constructorReturn;
+					});
+				}
 
 				if (clazz == null)
 					VM.instance.PushVariable(method);
@@ -227,6 +245,11 @@ namespace Cs_Compile_test.com {
 			       new ExpressionSyntax("ANYTYPE IDENTIFIER;").Matches(line);
 		}
 
+		private static bool IsConstructor(string line, ShadoClass clazz) {
+			if (clazz == null)
+				return false;
+			return new ExpressionSyntax($"ANY{clazz.name}(ANY)ANY{{").Matches(line);
+		}
 		private static MethodInfo ExtractMethodInfo(string signature) {
 
 			string[] tokens = Regex.Split(signature, "\\s+");

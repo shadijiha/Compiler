@@ -141,6 +141,10 @@ namespace Cs_Compile_test.com {
 			return argTypes;
 		}
 
+		public int GetArgCount() {
+			return argCount;
+		}
+
 		/// <summary>
 		/// Compares 2 functions by name and arg count
 		/// </summary>
