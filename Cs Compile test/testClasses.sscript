@@ -20,12 +20,12 @@ class uint32_t    {
 
 
 int main(int argc, string[] argv)    {
-    uint32_t i = new uint32_t(2);
-    FileWriter writer = new FileWriter("__PATH_TO_CORE__/test.txt");
-    writer.open():
-    writer.writeln("Hehexd");
-   
+    string s = "hehexd";
+    bool res = s.equals("hehexd");       
+    println(res);
+    FileWriter writer = new FileWriter("__PATH__/test.txt");
+    writer.open();
 
 
-    i.printVal(1.0);
+    writer.close();
 }

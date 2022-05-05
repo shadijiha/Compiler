@@ -8,9 +8,9 @@ namespace Cs_Compile_test.com {
 	[Serializable]
 	public class ShadoClass
 	{
-		protected IList<ShadoClass> parents;
+		protected List<ShadoClass> parents;
 		protected TypeValidator validator;
-		[NonSerialized] protected IList<ShadoMethod> methods;
+		[NonSerialized] protected List<ShadoMethod> methods;
 		public string name { get; }
 
 		public ShadoClass(string name, TypeValidator validator) {
@@ -60,9 +60,9 @@ namespace Cs_Compile_test.com {
 		}
 
 		public ShadoMethod GetConstructor(int argCount = 0) {
-
-			foreach(var method in methods)	{
-				if (method.name == name && method.GetArgCount() == argCount)
+			var SortedList = methods.OrderBy(o => o.optionalArgs).ToList();
+			foreach (var method in SortedList)	{
+				if (method.name == name && method.ArgCountEquals(argCount))
 					return method;
 			}
 

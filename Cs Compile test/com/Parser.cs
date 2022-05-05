@@ -102,8 +102,7 @@ namespace Cs_Compile_test.com {
 					{
 						try
 						{
-							AbstractExpression expr = methodCodeLines[i++];
-							expr.Execute(ref status);
+							methodCodeLines[i++].Execute(ref status);
 						}
 						catch (Exception e)
 						{

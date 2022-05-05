@@ -146,6 +146,10 @@ namespace Cs_Compile_test.com {
 			return argCount;
 		}
 
+		public bool ArgCountEquals(int count) { 
+			return optionalArgs ? true : argCount == count;
+		}
+
 		/// <summary>
 		/// Compares 2 functions by name and arg count
 		/// </summary>

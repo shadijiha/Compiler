@@ -1,5 +1,5 @@
 // This is the core library of shado script
-#include "math.sscript"
+#include "__PATH_TO_CORE__/math.sscript"
 
 #define MAX_INT 2147483647
 #define MIN_INT -2147483648

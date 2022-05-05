@@ -70,6 +70,15 @@ namespace Cs_Compile_test.com.interfaces
             return false;
         }
 
+        public bool IsEmpty() { 
+            return contexts.Count == 0;
+        }
+
+        public override string ToString()
+        {
+            return !IsEmpty() ? Get(0).ToString() : "null";
+        }
+
         public static explicit operator Context(ShadoObject obj)
         {
             return new Context(obj);
