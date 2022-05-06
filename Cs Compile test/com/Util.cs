@@ -56,7 +56,7 @@ namespace Cs_Compile_test.com {
 		}
 
 		public static string getFullIncludePath(string includeStr) {
-			string file = getCurrentCompilationFileFromArgs();
+			string file = getCurrentCompilationFileFromArgs().filepath;
 			string coreLib = Directory.GetParent(System.Reflection.Assembly.GetEntryAssembly().Location).Parent.Parent.Parent.FullName;
 
 			// Check if the file is in the same dir as the compling file
@@ -71,7 +71,7 @@ namespace Cs_Compile_test.com {
 			return includeStr;
 		}
 
-		public static string getCurrentCompilationFileFromArgs(string defaultval = null) {
+		public static (string filepath, bool output) getCurrentCompilationFileFromArgs(string defaultval = null) {
 			// Handle a call using args if not in debug
 			// Example of args: --filepath FILE_PATH_HERE
 			var args = Environment.GetCommandLineArgs();
@@ -82,7 +82,15 @@ namespace Cs_Compile_test.com {
 					.Replace("\"", "")
 					.Trim();
 			}
-			return val;
+
+			bool output = false;
+			foreach (var arg in args)
+			{
+				if (arg == "--output")
+					output = true;
+			}
+
+			return (val, output);
 		}
 
 		public static T DeepClone<T>(this T obj)

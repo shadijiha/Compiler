@@ -9,9 +9,11 @@ namespace Cs_Compile_test {
 
 		public static int Main(string[] args) {
 			try {
+				var options = Util.getCurrentCompilationFileFromArgs(FULL_FILE_PATH);
+				options.output = true;
 
 				Compiler compiler =
-					new Compiler(Util.getCurrentCompilationFileFromArgs(FULL_FILE_PATH));
+					new Compiler(options.filepath, options.output);
 				compiler.compile();
 
 				string result = VM.instance.InvokeMain(args.Length, args);

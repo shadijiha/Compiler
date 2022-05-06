@@ -14,7 +14,8 @@ namespace Cs_Compile_test {
 		public string filename { get; private set; }
 		public uint lineNumber { get; set; }
 
-		public Compiler(string filename) {
+		private bool output;
+		public Compiler(string filename, bool output = false) {
 			if (filename != null) {
 				this.filename = filename;
 				StringBuilder builder = new StringBuilder();
@@ -30,6 +31,8 @@ namespace Cs_Compile_test {
 				filecontent = "";
 				lineNumber = 0;
 			}
+
+			this.output = output;
 		}
 
 		public void compile() {
@@ -37,6 +40,9 @@ namespace Cs_Compile_test {
 
 			// Run the preprocessor
 			preprocessor();
+
+			if (output)
+				DumpToFile(filename + ".preprocessor", filecontent);
 
 			// Remove multiline comments
 			while (Regex.IsMatch(filecontent, @"\/\*[^*]*\*+([^/][^*]*\*+)*\/"))
@@ -89,6 +95,14 @@ namespace Cs_Compile_test {
 			Compiler compiler = new Compiler(null);
 			compiler.filecontent = code;
 			compiler.compile();
+		}
+
+		private void DumpToFile(string filename, string content) {
+			using (StreamWriter sw = new StreamWriter(filename))
+			{
+				sw.WriteLine(content);
+				sw.Close();
+			}
 		}
 	}
 }

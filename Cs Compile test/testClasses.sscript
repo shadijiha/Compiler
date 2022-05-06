@@ -1,6 +1,6 @@
 #include "core.sscript"
-
-class uint32_t {
+#define CLASS class uint32_t
+CLASS {
   double x = randomRange(0, 100);
 
     public uint32_t()    {
