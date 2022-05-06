@@ -21,7 +21,7 @@ CLASS {
 }
 
 int main(int argc, string[] argv)    {
-  uint32_t i = new uint32_t(9841);    
+  uint32_t i = new uint32_t(MAX_INT);    
   string s = "Hello";
   string* ptr = &s;
   *ptr = i;

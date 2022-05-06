@@ -1,6 +1,6 @@
-#define class class uint32_t
 
-class {
+
+class uint32_t {
 double x = randomRange(0, 100);
 
 public uint32_t()    {
@@ -21,7 +21,7 @@ return "LULW";
 }
 
 int main(int argc, string[] argv)    {
-uint32_t i = new uint32_t(9841);
+uint32_t i = new uint32_t(2147483647);
 string s = "Hello";
 string* ptr = &s;
 *ptr = i;

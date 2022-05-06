@@ -75,6 +75,7 @@ namespace Cs_Compile_test {
 					PreprocessorCommand command = PreprocessorCommand.Get(tokens[0]);
 
 					lines[i] = command.Execute<string>(tokens.Skip(1).ToArray());
+					line = lines[i];
 
 					// Go back to preprocess the file that just got included
 					lines = string.Join('\n', lines).Split('\n');

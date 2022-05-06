@@ -35,7 +35,7 @@ namespace Cs_Compile_test.com {
 
 			var define = new PreprocessorCommand("define", 2, args => {
 				try {
-					constants.Add(args[0], compiler => args.Length >= 2 ? args[1] : "");
+					constants.Add(args[0], compiler => string.Join(' ', args.Skip(1)));
 				} catch (Exception e) {
 #if DEBUG
 					Console.WriteLine($"[WARNNING]: {args[0]} Macro already exists!");
