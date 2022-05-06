@@ -20,6 +20,12 @@ native void print(object arg);
 native void println(object arg);
 
 /**
+ * This function gets input from the std input
+ * @returns what the user inputed
+ */
+native string input();
+
+/**
  * This function returns the type of object arg
  * @param arg The argument to get the type of
  * @returns string
