@@ -22,6 +22,8 @@ export abstract class Runtime {
 				this.runJS(props);
 				break;
 			default:
+				this.runSscript(props);
+				break;
 		}
 	}
 
