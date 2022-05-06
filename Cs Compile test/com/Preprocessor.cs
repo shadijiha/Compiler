@@ -25,9 +25,9 @@ namespace Cs_Compile_test.com {
 			var include = new PreprocessorCommand("include", 1,
 				(compiler, filename) => {
 					string includeFilename = filename[0].Trim().Replace("\"", "").Replace("<", "").Replace(">", "");
-					string dumpLocation = Path.IsPathFullyQualified(includeFilename) ?
+					string dumpLocation = compiler.output ?  Path.IsPathFullyQualified(includeFilename) ?
 						$"{Directory.GetParent(compiler.dumpLocation ??  compiler.filename)}/{Path.GetFileName(includeFilename)}.preprocessor" : 
-						$"{Directory.GetParent(compiler.dumpLocation ?? compiler.filename)}/{includeFilename}.preprocessor";
+						$"{Directory.GetParent(compiler.dumpLocation ?? compiler.filename)}/{includeFilename}.preprocessor" : null;
 
 
 					// Compile
