@@ -3,6 +3,7 @@ using Cs_Compile_test.com.interfaces;
 using System;
 
 namespace Cs_Compile_test.com {
+	[Serializable]
 	public class ShadoMethod : ShadoObject {
 
 		[Flags]
@@ -15,7 +16,7 @@ namespace Cs_Compile_test.com {
 		protected int argCount;
 		protected string returnType;
 		protected string[] argTypes;
-		[NonSerialized]  protected MethodCall code;
+		[field: NonSerialized]  protected MethodCall code;
 		public bool optionalArgs;
 		protected string fullType;
 		protected Attributes attributes;

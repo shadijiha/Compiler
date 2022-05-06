@@ -45,6 +45,7 @@ namespace Cs_Compile_test.com.nativeTypes {
 		}
 	}
 
+	[System.Serializable]
 	public class ShadoFileWriter : ShadoClass, ICloseBeforeExit {
 		public ShadoFileWriter() : base("FileWriter", new TypeValidator("FileWriter", o => true)) { }
 

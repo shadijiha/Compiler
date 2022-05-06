@@ -5,6 +5,7 @@ using System.Text;
 using Cs_Compile_test.com.exceptions;
 
 namespace Cs_Compile_test.com.nativeTypes {
+	[Serializable]
 	public class ShadoArray : ShadoClass {
 
 		public ShadoArray(string name): base(name, null) {

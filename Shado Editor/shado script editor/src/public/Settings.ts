@@ -6,6 +6,7 @@ import fs from "fs";
 import path from "path";
 import { Compiler } from "./Compiler";
 import CodeFormatter from "./CodeFormatter";
+const ipcRenderer = require("electron").ipcRenderer;
 
 /**
  *
@@ -137,6 +138,12 @@ export default class Settings {
 			height: 600,
 			width: 800,
 			parent: BrowserWindow.getAllWindows()[0],
+			webPreferences: {
+				nodeIntegration: true,
+				contextIsolation: false,
+				enableRemoteModule: true,
+				devTools: true, //is.development,
+			},
 		});
 		win.removeMenu();
 		win.loadURL(
@@ -145,9 +152,21 @@ export default class Settings {
 				types: Resource.toFullPath(this.typesFilename),
 				compiler: Compiler.compiler_path,
 				core_lib: Compiler.getCoreLibPath(),
+				dump_output: Compiler.dump_output + "",
 			})
 		);
 		win.focusOnWebView();
+
+		const lambda = (event: any, data: any) => {
+			console.log(data.data);
+			Compiler.dump_output = data.data;
+		};
+
+		ipcRenderer.on("send_data_to_parent_window", lambda);
+
+		win.on("close", (e) => {
+			ipcRenderer.off("send_data_to_parent_window", lambda);
+		});
 	}
 
 	public static get(key: keyof ISettings) {

@@ -9,6 +9,7 @@ export class Compiler {
 	public static core_lib_path = "";
 	private static currentProcess?: any;
 	private static whenProcessExists: (code: any) => void;
+	public static dump_output = false;
 
 	public static async init() {
 		this.compiler_path = Settings.get("compilerPath");
@@ -41,7 +42,9 @@ export class Compiler {
 	 * @deprecated
 	 */
 	public static runFile(filepath: string, deleteFileWhenDone = false) {
-		const cmd = `"${this.compiler_path}" --filepath "${filepath}"`;
+		let cmd = `"${this.compiler_path}" --filepath "${filepath}"`;
+		cmd += this.dump_output ? " -o" : "";
+
 		return new Promise<string>((resolve, reject) => {
 			exec(cmd, (error, stdout, stderr) => {
 				if (error) {
@@ -85,6 +88,7 @@ export class Compiler {
 		const childProcess = spawn(`${this.compiler_path}`, [
 			"--filepath",
 			filepath,
+			this.dump_output ? "--output" : "",
 		]);
 		this.currentProcess = childProcess;
 

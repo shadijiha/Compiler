@@ -1,5 +1,6 @@
 import { app, BrowserWindow, ipcMain, Menu } from "electron";
 import { is } from "electron-util";
+
 function createWindow() {
 	const win = new BrowserWindow({
 		width: 1280,
@@ -15,6 +16,13 @@ function createWindow() {
 	win.loadFile("index.html");
 	const menu = Menu.buildFromTemplate(createMenuBar(win) as any);
 	Menu.setApplicationMenu(menu);
+
+	ipcMain.on("send_data_to_main_process", (e, data) => {
+		console.log(data);
+
+		win.webContents.send("send_data_to_parent_window", data);
+	});
+
 	return win;
 }
 

@@ -1,7 +1,4 @@
-﻿/**
- *
- */
-
+﻿using System.Runtime.Serialization.Formatters.Binary;
 using Cs_Compile_test.com;
 using System.IO;
 using System.Linq;
@@ -55,6 +52,8 @@ namespace Cs_Compile_test {
 			Parser.ExtractMethods(filecontent);
 
 			Parser.ProcessGlobalAllocations();
+
+			//DumpToBin();
 		}
 
 		public void preprocessor() {
@@ -104,6 +103,21 @@ namespace Cs_Compile_test {
 				sw.WriteLine(content);
 				sw.Close();
 			}
+		}
+
+		private void DumpToBin() {
+			using (var stream = File.Open(filename + ".compiled", FileMode.Create))
+			{
+				BinaryFormatter formatter = new BinaryFormatter();
+				formatter.Serialize(stream, VM.instance);
+				formatter.Serialize(stream, "GLOBAL");
+				formatter.Serialize(stream, ShadoObject.Global);
+
+				stream.Flush();
+				stream.Close();
+				stream.Dispose();
+			}
+
 		}
 	}
 }

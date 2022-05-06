@@ -7,10 +7,12 @@ using System.IO;
 using System.Linq;
 
 namespace Cs_Compile_test.com {
+
+	[Serializable]
 	public sealed class VM {
 		public static VM instance = new VM();
 
-		public readonly Random random;
+		[NonSerialized] public readonly Random random;
 		private IList<ShadoClass> classes;
 		private IList<ShadoObject> variables;
 		private bool hasInitialized = false;

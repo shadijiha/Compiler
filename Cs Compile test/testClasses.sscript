@@ -1,6 +1,9 @@
 #include "core.sscript"
-#define CLASS class uint32_t
-CLASS {
+#define CLASS class uint32_t {
+#define END }
+#define MAIN int main(int argc, string[] argv)    {
+
+CLASS 
   double x = randomRange(0, 100);
 
     public uint32_t()    {
@@ -18,15 +21,9 @@ CLASS {
    public string toString()    {
         return "LULW";
     }
-}
+END
 
-int main(int argc, string[] argv)    {
-  uint32_t i = new uint32_t(MAX_INT);    
-  string s = "Hello";
-  string* ptr = &s;
-  *ptr = i;
-  println(s);
-  println(typeof(ptr));
-
-}
+MAIN
+  println(argv);
+END
 

@@ -10,7 +10,6 @@ namespace Cs_Compile_test {
 		public static int Main(string[] args) {
 			try {
 				var options = Util.getCurrentCompilationFileFromArgs(FULL_FILE_PATH);
-				options.output = true;
 
 				Compiler compiler =
 					new Compiler(options.filepath, options.output);

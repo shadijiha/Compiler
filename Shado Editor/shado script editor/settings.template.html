@@ -74,6 +74,42 @@
             </tbody>
         </table>
     </fieldset>
+
+    <fieldset>
+        <legend>
+            <h1>Sscript Compiler settings</h1>
+        </legend>
+
+        <table>
+            <tbody>
+                <tr>
+                    <td>Dump output files</td>
+                    <td>
+                        <input type="checkbox" id="change_dump_output" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </fieldset>
+
+    <script>
+        let outputButtonState = "%{dump_output}" == "true";
+        console.log("%{dump_output}");
+        console.log("?XDDDDDDDDD");
+        const electron = require("electron");
+        const ipc = electron.ipcRenderer;
+
+        const outputButton = document.getElementById("change_dump_output");
+        outputButton.checked = outputButtonState;
+
+        outputButton.addEventListener("click", function() {
+            outputButtonState = !outputButtonState;
+            outputButton.checked = outputButtonState;
+            ipc.send("send_data_to_main_process", {
+                data: outputButtonState,
+            });
+        });
+    </script>
 </body>
 
 </html>
