@@ -5,7 +5,6 @@ import { TabManager } from "./TabManager";
 import fs from "fs";
 import path from "path";
 import { Compiler } from "./Compiler";
-import CodeFormatter from "./CodeFormatter";
 const ipcRenderer = require("electron").ipcRenderer;
 
 /**
@@ -13,6 +12,7 @@ const ipcRenderer = require("electron").ipcRenderer;
  */
 interface ISettings {
 	compilerPath: string;
+	compilerDumpContent: boolean;
 }
 
 export default class Settings {
@@ -22,6 +22,7 @@ export default class Settings {
 
 	private settings: ISettings = {
 		compilerPath: "",
+		compilerDumpContent: false,
 	};
 
 	private constructor() {}
@@ -160,6 +161,7 @@ export default class Settings {
 		const lambda = (event: any, data: any) => {
 			console.log(data.data);
 			Compiler.dump_output = data.data;
+			this.singleton.settings.compilerDumpContent = data.data;
 		};
 
 		ipcRenderer.on("send_data_to_parent_window", lambda);

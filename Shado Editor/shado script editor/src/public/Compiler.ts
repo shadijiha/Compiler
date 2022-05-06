@@ -12,7 +12,8 @@ export class Compiler {
 	public static dump_output = false;
 
 	public static async init() {
-		this.compiler_path = Settings.get("compilerPath");
+		this.compiler_path = <string>Settings.get("compilerPath");
+		this.dump_output = <boolean>Settings.get("compilerDumpContent");
 		this.core_lib_path = await Compiler.runCode(
 			`
 		int main()	{
