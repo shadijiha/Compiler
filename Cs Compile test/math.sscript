@@ -1,4 +1,6 @@
 // This is the core Math library of shado script
+#define MATH_API native
+global double PI = pi();
 
 /**
  * This function compares 2 numbers and return the smaller one
@@ -83,19 +85,19 @@ double randomRange(int min, int max) {
 /**
  * This function returns a randomly generated double
  */
-native double random();
+MATH_API ​double random();
 
 /**
- * @returns The square root of a number
- */
-native double sqrt(double number);
+​* @returns The square root of a number
+​*/
+MATH_API ​double sqrt(double number);
 
 /**
- * @returns a to the power of b
- */
-native double pow(double a, double b);
+​* @returns a to the power of b
+​*/
+MATH_API ​double pow(double a, double b);
 
 /**
- * @returns the integer part of x
- */
-native int floor(double x);
+​* @returns the integer part of x
+​*/
+MATH_API ​int floor(double x);

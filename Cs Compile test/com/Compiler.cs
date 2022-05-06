@@ -4,15 +4,16 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-
+using System;
 namespace Cs_Compile_test {
 	public class Compiler {
 		private string filecontent;
 		public string filename { get; private set; }
 		public uint lineNumber { get; set; }
 
-		private bool output;
-		public Compiler(string filename, bool output = false) {
+		public bool output { get; private set; }
+		public string dumpLocation { get; set; }
+		public Compiler(string filename, bool output = false, string dumpLocation = null) {
 			if (filename != null) {
 				this.filename = filename;
 				StringBuilder builder = new StringBuilder();
@@ -30,20 +31,21 @@ namespace Cs_Compile_test {
 			}
 
 			this.output = output;
+			this.dumpLocation = dumpLocation;
 		}
 
 		public void compile() {
 			VM.instance.Initialize();
 
+			// Remove multiline comments
+			while (Regex.IsMatch(filecontent, @"\/\*[^*]*\*+([^/][^*]*\*+)*\/"))
+				filecontent = Regex.Replace(filecontent, @"\/\*[^*]*\*+([^/][^*]*\*+)*\/", "");
+
 			// Run the preprocessor
 			preprocessor();
 
 			if (output)
-				DumpToFile(filename + ".preprocessor", filecontent);
-
-			// Remove multiline comments
-			while (Regex.IsMatch(filecontent, @"\/\*[^*]*\*+([^/][^*]*\*+)*\/"))
-				filecontent = Regex.Replace(filecontent, @"\/\*[^*]*\*+([^/][^*]*\*+)*\/", "");
+				DumpToFile(dumpLocation ?? filename + ".preprocessor", filecontent);
 
 			// Run the class definer
 			Parser.ExtractClasses(filecontent);
@@ -73,7 +75,7 @@ namespace Cs_Compile_test {
 					string[] tokens = Expression.SplitByExceptQuotes(line.Substring(1), " |	").ToArray();
 					PreprocessorCommand command = PreprocessorCommand.Get(tokens[0]);
 
-					lines[i] = command.Execute<string>(tokens.Skip(1).ToArray());
+					lines[i] = command.Execute<string>(this, tokens.Skip(1).ToArray());
 					line = lines[i];
 
 					// Go back to preprocess the file that just got included
@@ -101,7 +103,6 @@ namespace Cs_Compile_test {
 			using (StreamWriter sw = new StreamWriter(filename))
 			{
 				sw.WriteLine(content);
-				sw.Close();
 			}
 		}
 

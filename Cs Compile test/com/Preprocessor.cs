@@ -12,7 +12,7 @@ namespace Cs_Compile_test.com {
 		public uint argCount { get; }
 		private Run code;
 
-		public delegate object Run(string[] args);
+		public delegate object Run(Compiler compiler, string[] args);
 
 		public PreprocessorCommand(string name, uint argCount, Run code) {
 			this.name = name;
@@ -23,17 +23,25 @@ namespace Cs_Compile_test.com {
 		static PreprocessorCommand() {
 
 			var include = new PreprocessorCommand("include", 1,
-				filename => {
+				(compiler, filename) => {
+					string includeFilename = filename[0].Trim().Replace("\"", "").Replace("<", "").Replace(">", "");
+					string dumpLocation = Path.IsPathFullyQualified(includeFilename) ?
+						$"{Directory.GetParent(compiler.dumpLocation ??  compiler.filename)}/{Path.GetFileName(includeFilename)}.preprocessor" : 
+						$"{Directory.GetParent(compiler.dumpLocation ?? compiler.filename)}/{includeFilename}.preprocessor";
+
+
 					// Compile
 					new Compiler(
-						Util.getFullIncludePath(filename[0].Trim().Replace("\"", "").Replace("<", "").Replace(">", ""))
+						Util.getFullIncludePath(includeFilename),
+						compiler.output,
+						 dumpLocation
 					).compile();
 
 					return "";
 				});
 			commands.Add(include);
 
-			var define = new PreprocessorCommand("define", 2, args => {
+			var define = new PreprocessorCommand("define", 2, (compiler, args) => {
 				try {
 					constants.Add(args[0], compiler => string.Join(' ', args.Skip(1)));
 				} catch (Exception e) {
@@ -55,8 +63,8 @@ namespace Cs_Compile_test.com {
 				);
 		}
 
-		public T Execute<T>(string[] args) {
-			return (T)code(args);
+		public T Execute<T>(Compiler compiler, string[] args) {
+			return (T)code(compiler, args);
 		}
 
 		public static PreprocessorCommand Get(string name) {
