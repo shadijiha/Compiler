@@ -142,17 +142,19 @@ namespace Cs_Compile_test.com {
 
 				// Otherwise
 				string rvalue = o.ToString().Trim();
-				if (!rvalue.StartsWith("&"))
-					return false;
+				if (rvalue.StartsWith("&"))
+				{
+					// Get type of variable without &
+					rvalue = rvalue.Substring(1);
+					var = VM.instance.Get(rvalue);
+					if (var == null)
+						throw new RuntimeError("Cannot get the pointer of a null variable");
 
-				// Get type of variable without &
-				rvalue = rvalue.Substring(1);
-				var = VM.instance.Get(rvalue);
-				if (var == null)
-					throw new RuntimeError("Cannot get the pointer of a null variable");
-
+					return clazz.name == var.type.name;
+				}
+				
 				// Otherwise it is ok
-				return clazz.name == var.type.name;
+				return true;
 			})));
 
 
@@ -194,7 +196,7 @@ namespace Cs_Compile_test.com {
 			if (obj != null)
 				return obj;
 
-			throw new CompilationError("an error has occurred");
+			throw new CompilationError($"Variable {varName} does not exist");
 		}
 
 		public ShadoClass GetClass(string name) {

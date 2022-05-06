@@ -1,22 +1,32 @@
 #include "core.sscript"
 
-class uint32_t    {
-    int x = 10;
-    
+class uint32_t {
+  double x = randomRange(0, 100);
+
     public uint32_t()    {
-        println("Default ctor");    
+      println("Default ctor");    
     }
 
     public uint32_t(int temp)    {
         println("Called temp: ", temp);          
     }
 
-    public void printVal(float f)    {
-         println(x);
-         println(f);       
+   public void printVal()    {
+        println(x);    
+   }
+    
+   public string toString()    {
+        return "LULW";
     }
 }
 
 int main(int argc, string[] argv)    {
-    uint32_t i = new uint32_t(6);
+  uint32_t i = new uint32_t(9841);    
+  string s = "Hello";
+  string* ptr = &s;
+  *ptr = i;
+  println(s);
+  println(typeof(ptr));
+
 }
+
