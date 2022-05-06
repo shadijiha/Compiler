@@ -12,7 +12,7 @@ export class Editor {
 	private indentation: number = 0;
 	private deleteBuffer: number = 0;
 
-	public constructor(private readonly filepath: string) {
+	public constructor(private filepath: string) {
 		this.editor = document.createElement("div");
 		this.editor.contentEditable = "true";
 		this.editor.spellcheck = false;
@@ -179,6 +179,10 @@ export class Editor {
 	public getExtension() {
 		var i = this.filepath.lastIndexOf(".");
 		return i < 0 ? "" : this.filepath.substr(i).replaceAll(".", "");
+	}
+
+	public setFilepath(path: string) {
+		this.filepath = path;
 	}
 
 	/*************************** */

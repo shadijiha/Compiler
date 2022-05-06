@@ -1,9 +1,12 @@
 import path from "path";
 import { Editor } from "./Editor";
 import fs from "fs";
-import { dialog, shell } from "electron";
+import { shell } from "electron";
 import { pathToFilename } from ".";
 import { openContextMenu } from "./util";
+const remote = require("electron").remote;
+const dialog = remote.dialog;
+const BrowserWindow = remote.BrowserWindow;
 
 type Tab = { name: string; editor: Editor };
 
@@ -78,7 +81,7 @@ export class TabManager {
 		}
 	}
 
-	public static saveCurrent() {
+	public static async saveCurrent() {
 		// Write the current editor content to the file path
 		const filepath = this.active.editor.getFilepath();
 		const content = this.active.editor.getContent();
@@ -92,6 +95,23 @@ export class TabManager {
 			}
 		} else {
 			// Show save as dialog
+			const data = await dialog.showSaveDialog(
+				BrowserWindow.getAllWindows()[0],
+				{
+					title: "Save file as",
+				}
+			);
+
+			try {
+				if (!data.filePath) return;
+				fs.writeFileSync(data.filePath, content);
+				this.active.editor.setFilepath(data.filePath);
+				this.active.name = data.filePath;
+				this.render();
+			} catch (e) {
+				const err = e as Error;
+				dialog.showErrorBox("Error saving file", err.message);
+			}
 		}
 	}
 
