@@ -49,9 +49,15 @@ export abstract class Runtime {
 			cinInput?.blur();
 		});
 
-		Compiler.runDynamicCode(editor.getContent(), (data) => {
-			consoleDOM!.innerHTML += data.toString();
-		});
+		if (editor.getFilepath() != "untitled") {
+			Compiler.runDynamicFile(editor.getFilepath(), (data) => {
+				consoleDOM!.innerHTML += data.toString();
+			});
+		} else {
+			Compiler.runDynamicCode(editor.getContent(), (data) => {
+				consoleDOM!.innerHTML += data.toString();
+			});
+		}
 	}
 
 	private static async runJS({
