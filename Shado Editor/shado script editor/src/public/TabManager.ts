@@ -177,6 +177,8 @@ export class TabManager {
 		const tab = this.active;
 
 		// Check if the langauge of the
+		if (!tab || !tab.editor) return;
+
 		const extension = tab.editor.getExtension();
 		if (
 			tab.extensionCheck &&

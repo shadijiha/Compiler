@@ -1,5 +1,6 @@
 import { app, BrowserWindow, ipcMain, Menu } from "electron";
 import { is } from "electron-util";
+import fs from "fs";
 
 function createWindow() {
 	const win = new BrowserWindow({
@@ -32,10 +33,23 @@ app.whenReady().then(() => {
 	app.on("activate", function () {
 		if (BrowserWindow.getAllWindows().length === 0) createWindow();
 	});
+
+	if (process.platform == "win32" && process.argv.length >= 2) {
+		const openFilePath = process.argv[1];
+
+		window.webContents.once("dom-ready", () => {
+			window.webContents.send("open_file", { path: openFilePath });
+		});
+	}
 });
 
 app.on("window-all-closed", function () {
 	if (process.platform !== "darwin") app.quit();
+});
+
+app.on("open-file", (event, path) => {
+	event.preventDefault();
+	BrowserWindow.getAllWindows()[0].webContents.send("open_file", { path });
 });
 
 function createMenuBar(window: BrowserWindow) {

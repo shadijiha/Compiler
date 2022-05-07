@@ -69,12 +69,20 @@ async function main() {
 			TabManager.load(f.path);
 		}
 	});
+
+	console.log(process.argv);
 }
 
 window.onbeforeunload = (e) => {
 	Settings.saveWorkspace();
 	Settings.saveSettings();
 };
+
+ipcRenderer.on("open_file", (event, data) => {
+	const path = data.path;
+	console.log(path);
+	TabManager.load(path);
+});
 
 main();
 
