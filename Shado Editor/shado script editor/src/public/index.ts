@@ -60,6 +60,15 @@ async function main() {
 
 	// Load work space if it exists
 	Settings.loadWorkSpace();
+
+	// Open files dropped
+	document.body.addEventListener("drop", (e) => {
+		e.preventDefault();
+		e.stopPropagation();
+		for (const f of e.dataTransfer?.files ?? []) {
+			TabManager.load(f.path);
+		}
+	});
 }
 
 window.onbeforeunload = (e) => {
