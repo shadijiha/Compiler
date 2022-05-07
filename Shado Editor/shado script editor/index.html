@@ -191,6 +191,24 @@
         #context_menu div:hover {
             padding-left: 15px;
         }
+        
+        #message_box {
+            position: absolute;
+            width: 95%;
+            height: 40px;
+            background-color: rgba(39, 38, 38, 0.465);
+            color: white;
+            padding: 10px;
+            font-family: var(--font-family);
+            display: none;
+        }
+        
+        #message_box i {
+            text-decoration: underline;
+            cursor: pointer;
+            font-style: normal;
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -205,6 +223,7 @@
             <i class="fas fa-stop red btn" id="stop"></i>
         </div>
     </div>
+    <div id="message_box">This is a message</div>
     <div id="console_toggle">console</div>
     <div id="console_container" class="tranlate-out">
         <div id="console">

@@ -3,12 +3,18 @@ import { Editor } from "./Editor";
 import fs from "fs";
 import { shell } from "electron";
 import { pathToFilename } from ".";
-import { openContextMenu } from "./util";
+import {
+	displayMessageBox,
+	getParentWindow,
+	hideMessageBox,
+	openContextMenu,
+} from "./util";
+import { Extensions } from "./Extensions";
 const remote = require("electron").remote;
 const dialog = remote.dialog;
 const BrowserWindow = remote.BrowserWindow;
 
-type Tab = { name: string; editor: Editor };
+type Tab = { name: string; editor: Editor; extensionCheck: boolean };
 
 export class TabManager {
 	private static tabs: Tab[] = [];
@@ -40,7 +46,7 @@ export class TabManager {
 	}
 
 	public static open(name: string, editor: Editor) {
-		const temp = { name, editor };
+		const temp = { name, editor, extensionCheck: true };
 		this.tabs.push(temp);
 		this.setActive(temp);
 		this.load(name);
@@ -167,7 +173,43 @@ export class TabManager {
 		return this.active;
 	}
 
-	public static setActive(tab: Tab | null) {
+	public static async verifyTabExtension() {
+		const tab = this.active;
+
+		// Check if the langauge of the
+		const extension = tab.editor.getExtension();
+		if (
+			tab.extensionCheck &&
+			!(await Extensions.isInstalled(extension)) &&
+			(await Extensions.isOnClouud(extension))
+		) {
+			displayMessageBox(
+				`You do not have extension for ${extension}. Would you like to install it? <i id="install_extension">Install</i>`,
+				() => (tab.extensionCheck = false)
+			);
+
+			document.getElementById("install_extension")!.onclick = () => {
+				try {
+					Extensions.install(extension);
+					displayMessageBox(
+						"Successfully installed extensions for " +
+							extension +
+							"! Please reload the editor."
+					);
+
+					setTimeout(() => hideMessageBox(), 1000);
+				} catch (err) {
+					const e = (<Error>err).message;
+					tab.extensionCheck = false;
+					displayMessageBox(e);
+				}
+			};
+		}
+	}
+
+	public static async setActive(tab: Tab | null) {
+		hideMessageBox();
+
 		if (!tab) return;
 
 		this.active = tab;
@@ -181,6 +223,8 @@ export class TabManager {
 
 		divTab?.classList.add("selected");
 		tab.editor.show();
+
+		await this.verifyTabExtension();
 	}
 
 	public static allTabs() {

@@ -1,6 +1,24 @@
-/**
- *
- */
+const remote = require("electron").remote;
+const BrowserWindow = remote.BrowserWindow;
+
+export function getParentWindow() {
+	return BrowserWindow.getAllWindows()[0];
+}
+
+export function hideMessageBox() {
+	document.getElementById("message_box")!.style.display = "none";
+}
+
+export function displayMessageBox(message: string, onDismiss?: () => void) {
+	const dom = document.getElementById("message_box");
+	dom!.style.display = "block";
+	dom!.innerHTML = `${message} <i id="__message_box_close_btn">Close<i>`;
+
+	document.getElementById("__message_box_close_btn")!.onclick = () => {
+		hideMessageBox();
+		onDismiss && onDismiss();
+	};
+}
 
 export function getScrollbarWidth() {
 	// Creating invisible container

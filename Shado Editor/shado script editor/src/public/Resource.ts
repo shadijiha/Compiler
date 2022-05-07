@@ -10,7 +10,7 @@ export class Resource {
 	}) {
 		const appData = this.isMac() ? process.env.HOME : process.env.APPDATA;
 		if (!appData) {
-			dialog.showErrorBox("Error", "Erro locationg App data directory");
+			dialog.showErrorBox("Error", "Error locationg App data directory");
 			return;
 		}
 		const resourcePath = path.join(
@@ -100,6 +100,19 @@ export class Resource {
 			options.filename
 		);
 		return fs.existsSync(resourceFile);
+	}
+
+	public static async listFiles(filepath: string = "") {
+		const fullpath = this.toFullPath(filepath);
+		const result: string[] = [];
+		for (const file of fs.readdirSync(fullpath)) {
+			result.push(file);
+		}
+		return result;
+	}
+
+	public static getExtensionOf(filepath: string) {
+		return path.extname(filepath);
 	}
 
 	public static isMac() {

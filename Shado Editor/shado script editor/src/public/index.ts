@@ -9,6 +9,7 @@ const ipcRenderer = require("electron").ipcRenderer;
 const dialog = require("electron").remote.dialog;
 import fs from "fs";
 import { Runtime } from "./Runtime";
+import { Extensions } from "./Extensions";
 
 export let isCtrl = false;
 
@@ -16,6 +17,8 @@ async function main() {
 	Settings.init();
 
 	await Compiler.init();
+
+	Extensions.syncWithCloud().then(() => TabManager.verifyTabExtension());
 
 	setupConsole();
 
