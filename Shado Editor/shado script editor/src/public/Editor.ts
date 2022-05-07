@@ -114,7 +114,9 @@ export class Editor {
 	}
 
 	public dispose() {
-		document.body.removeChild(this.editor);
+		try {
+			document.body.removeChild(this.editor);
+		} catch (e) {}
 	}
 
 	public getContent() {

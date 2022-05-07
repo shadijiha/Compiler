@@ -328,11 +328,13 @@ export default class CodeFormatter {
 		filepath = filepath.replace("\n", "").replace("\r", "");
 
 		if (filepath != "") {
-			let content = fs.readFileSync(
-				this.searchRelativePathes(filepath),
-				"utf-8"
-			);
-			this.parseInfo(content, filepath);
+			try {
+				let content = fs.readFileSync(
+					this.searchRelativePathes(filepath),
+					"utf-8"
+				);
+				this.parseInfo(content, filepath);
+			} catch (e) {}
 		}
 
 		return filepath;
