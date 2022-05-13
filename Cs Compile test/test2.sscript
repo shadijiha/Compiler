@@ -2,14 +2,16 @@
 
 /* Classses support */
 class TestClass {
-
+    field int x = 14242;
+    
     public void sayHello()  {
         string name = TestClass.class();
         println("Hello from -->", name);
+
     }
 
     public static void staticFunction(int param)    {
-        println("Hello from static --> ", param);
+        println("Hello from STATIC --> ", param);
     }
 }
 

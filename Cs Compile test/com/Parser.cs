@@ -249,8 +249,8 @@ namespace Cs_Compile_test.com {
 		}
 
 		private static bool IsInstanceVariable(string line) {
-			return new ExpressionSyntax("ANYTYPE IDENTIFIER = ANY").Matches(line) ||
-			       new ExpressionSyntax("ANYTYPE IDENTIFIER;").Matches(line);
+			return new ExpressionSyntax("ANYfield TYPE IDENTIFIER = ANY").Matches(line) ||
+			       new ExpressionSyntax("ANYfield TYPE IDENTIFIER;").Matches(line);
 		}
 
 		private static bool IsConstructor(string line, ShadoClass clazz) {
