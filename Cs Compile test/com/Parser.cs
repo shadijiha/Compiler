@@ -12,6 +12,7 @@ using System.Text.RegularExpressions;
 namespace Cs_Compile_test.com {
 	public static class Parser {
 		private static List<string> linesStartingGlobal = new List<string>();
+		private static List<AbstractExpression> classesFields = new List<AbstractExpression>();
 
 		/// <summary>
 		/// Parses the code and adds all the extacted methods to the class
@@ -162,8 +163,7 @@ namespace Cs_Compile_test.com {
 				// Extract all instance variables
 				foreach (var l in lines) {
 					if (IsInstanceVariable(l)) {
-						ExecutionStatus dummy = new ExecutionStatus();
-						new Expression(l, constructorReturn).Execute(ref dummy);
+						classesFields.Add(new Expression(l.ReplaceFirstOccurrence("field", "").Trim(), constructorReturn));
 					}
 				}
 
@@ -232,6 +232,11 @@ namespace Cs_Compile_test.com {
 					status = ExecutionStatus.Type.OK
 				};
 				new Expression(trimmed, ShadoObject.Global).Execute(ref status);
+			}
+
+			foreach (var expr in classesFields) { 
+				ExecutionStatus dummy = new ExecutionStatus { status = ExecutionStatus.Type.OK };
+				expr.Execute(ref dummy);
 			}
 		}
 		
