@@ -61,6 +61,12 @@ namespace Cs_Compile_test.com {
 			constants.Add("__PATH_TO_CORE__", compiler =>
 				Directory.GetParent(System.Reflection.Assembly.GetEntryAssembly().Location).Parent.Parent.Parent.FullName
 				);
+
+			constants.Add("__FUNC__", compiler =>
+            {
+				var info = Parser.ExtractMethodInfo(compiler.lastEncounteredFuncSign.Replace("{", "").Trim());
+				return $"{info.name}\\{info.args.Length} => {info.returnType}";
+			});
 		}
 
 		public T Execute<T>(Compiler compiler, string[] args) {

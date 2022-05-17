@@ -234,17 +234,18 @@ namespace Cs_Compile_test.com {
 				new Expression(trimmed, ShadoObject.Global).Execute(ref status);
 			}
 
-			foreach (var expr in classesFields) { 
-				ExecutionStatus dummy = new ExecutionStatus { status = ExecutionStatus.Type.OK };
-				expr.Execute(ref dummy);
-			}
-		}
+            foreach (var expr in classesFields)
+            {
+                ExecutionStatus dummy = new ExecutionStatus { status = ExecutionStatus.Type.OK };
+                expr.Execute(ref dummy);
+            }
+        }
 		
 		private static string Clean(string input, string regex = @"\(|\)") {
 			return Regex.Replace(input, regex, "");
 		}
 
-		private static bool IsMethodDefinition(string line) {
+		public static bool IsMethodDefinition(string line) {
 			return new ExpressionSyntax("TYPE IDENTIFIER(ANY)ANY{").Matches(line);
 		}
 
@@ -263,7 +264,7 @@ namespace Cs_Compile_test.com {
 				return false;
 			return new ExpressionSyntax($"ANY{clazz.name}(ANY)ANY{{").Matches(line);
 		}
-		private static MethodInfo ExtractMethodInfo(string signature) {
+		public static MethodInfo ExtractMethodInfo(string signature) {
 
 			string[] tokens = Regex.Split(signature, "\\s+");
 			MethodInfo info = new MethodInfo();
@@ -304,7 +305,7 @@ namespace Cs_Compile_test.com {
 			return info;
 		}
 
-		private struct MethodInfo {
+		public struct MethodInfo {
 			public string name { get; set; }
 			public string returnType { get; set; }
 			public ShadoMethod.Attributes attributes { get; set; }

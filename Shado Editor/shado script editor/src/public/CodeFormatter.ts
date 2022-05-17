@@ -120,6 +120,8 @@ export default class CodeFormatter {
 				case "native_type":
 					formatter.NATIVE_TYPES.push(tokens[1]);
 					break;
+				case "preprocessor":
+					formatter.PREPROCESSOR.push("#" + tokens[1]);
 			}
 		}
 		return formatter;

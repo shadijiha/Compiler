@@ -250,7 +250,7 @@ export class Editor {
 			.numbers()
 			.strings()
 			.simpleRepalce(
-				["keyword", "modifier", "constant", "native_type"],
+				["keyword", "modifier", "constant", "native_type", "preprocessor"],
 				"#569cd6"
 			)
 			.functions()

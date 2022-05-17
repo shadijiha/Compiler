@@ -13,6 +13,9 @@ namespace Cs_Compile_test {
 
 		public bool output { get; private set; }
 		public string dumpLocation { get; set; }
+
+		public string lastEncounteredFuncSign { get; private set; } = "";
+
 		public Compiler(string filename, bool output = false, string dumpLocation = null) {
 			if (filename != null) {
 				this.filename = filename;
@@ -60,9 +63,14 @@ namespace Cs_Compile_test {
 
 		public void preprocessor() {
 			string[] lines = filecontent.Split("\n");
+			string lastSeenFunction = "";
+
 			for (uint i = 0; i < lines.Length; i++) {
 				lineNumber = i + 1;
 				string line = lines[i].Trim();
+
+				if (Parser.IsMethodDefinition(line))
+					lastEncounteredFuncSign = line;
 
 				// Replace prepressor constant
 				foreach (var constant in PreprocessorCommand.constants) {
