@@ -168,7 +168,7 @@ namespace Cs_Compile_test.com {
 				}
 
 				constructorReturn.AddVariable("string", "class", className);
-
+				
 				// Add constructor and the class() method
 				clazz.AddMethod(new ShadoMethod(className, 0, className).SetCode((ctx, args) => {
 
@@ -181,6 +181,22 @@ namespace Cs_Compile_test.com {
 				clazz.AddMethod(new ShadoMethod("class", 0, "string")
 					.SetCode((ctx, args) => className)
 					.AddAttribute(ShadoMethod.Attributes.STATIC));
+
+				// Add the "super" function
+				var super = new ShadoMethod("super", 0, "void");
+				super.optionalArgs = true;
+				super.SetCode((ctx, args) =>
+				{
+                    foreach (var parent in clazz.GetParentClasses())
+                    {
+						if (ctx.Get(0).name == clazz.name)
+							parent.GetConstructor(args.Length).Call(ctx, args);
+						else
+							parent.GetMethodOrThrow(ctx.Get(0).name).Call(ctx, args);
+                    }
+					return null;
+				});
+				clazz.AddMethod(super);
 
 				VM.instance.AddType(clazz);
 

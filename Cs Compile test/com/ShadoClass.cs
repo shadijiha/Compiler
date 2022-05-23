@@ -23,7 +23,7 @@ namespace Cs_Compile_test.com {
 
 		public ShadoClass(string name)
 			: this(name, new TypeValidator(name, o => true)) {
-			
+
 		}
 
 		public bool IsValid(object value) {
@@ -39,19 +39,27 @@ namespace Cs_Compile_test.com {
 			return VM.instance.GetClass(t);
 		}
 
-		public ShadoMethod GetMethod(string name) {
-
-			ShadoMethod method = methods.FirstOrDefault(e => e.name == name);
-			if (method == null) {
-				// Check parents
-				foreach (ShadoClass parent in parents) {
-					method = parent.GetMethod(name);
-				}
-			}
+		public ShadoMethod GetMethodOrThrow(string name) {
+			var method = GetMethod(name);
 
 			// If it is still null then throw exception
 			if (method == null)
 				throw new CompilationError("Method {0} does not exist on type {1}", name, this.name);
+
+			return method;
+		}
+
+		public ShadoMethod GetMethod(string name) {
+			ShadoMethod method = methods.FirstOrDefault(e => e.name == name);
+			if (method == null)
+			{
+				// Check parents
+				foreach (ShadoClass parent in parents)
+				{
+					method = parent.GetMethod(name);
+				}
+			}
+
 			return method;
 		}
 

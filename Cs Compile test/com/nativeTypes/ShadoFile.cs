@@ -93,7 +93,7 @@ namespace Cs_Compile_test.com.nativeTypes {
 			ShadoMethod writeln = new ShadoMethod("writeln", 1, "void");
 			writeln.SetCode((ctx, args) => {
 				args[0] = args[0] + "\n";
-				ctx.Get(0).type.GetMethod("write").Call(ctx, args);
+				ctx.Get(0).type.GetMethodOrThrow("write").Call(ctx, args);
 				return null;
 			});
 			AddMethod(writeln);

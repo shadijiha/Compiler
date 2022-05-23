@@ -19,6 +19,8 @@ namespace Cs_Compile_test.com.interfaces
         }
 
         public ShadoObject Get(int i) {
+            if (i < 0 || i >= contexts.Count)
+                return null;
             return contexts[i];
         }
 

@@ -335,7 +335,7 @@ namespace Cs_Compile_test.com {
 			}
 
 			// Get the function
-			ShadoObject method = VM.instance.Get(functionName);
+			ShadoObject method = scope.Get(1)?.type?.GetMethod(functionName) ?? VM.instance.Get(functionName);
 			if (method == null || !method.IsMethod())
 				throw new RuntimeError("{0} is not a function", functionName);
 
@@ -362,7 +362,7 @@ namespace Cs_Compile_test.com {
 			if (VM.instance.HasType(objectName)) {
 				// See if the method is static
 				ShadoClass clazz = VM.instance.GetClass(objectName);
-				ShadoMethod func = clazz.GetMethod(functionName);
+				ShadoMethod func = clazz.GetMethodOrThrow(functionName);
 
 				// Check if method is static
 				if (!func.Is(ShadoMethod.Attributes.STATIC))
@@ -373,7 +373,7 @@ namespace Cs_Compile_test.com {
 
 			// Get the function
 			ShadoObject ctx = scope.GetVariable(objectName) ?? VM.instance.GetOrThrow(objectName);
-			ShadoMethod method = ctx.type.GetMethod(functionName);
+			ShadoMethod method = ctx.type.GetMethodOrThrow(functionName);
 
 			// See if the method is not public while calling ouside the class
 			if ((method.Is(ShadoMethod.Attributes.PRIVATE)

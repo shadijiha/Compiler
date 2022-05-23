@@ -48,7 +48,7 @@ namespace Cs_Compile_test.com {
 		}
 
 		public static void Close(this ICloseBeforeExit stream, ShadoObject context) {
-			context.type.GetMethod("close").Call((Context)context, null);
+			context.type.GetMethodOrThrow("close").Call((Context)context, null);
 		}
 
 		public static string[] Clean(this AbstractExpression expr, string[] lines) {

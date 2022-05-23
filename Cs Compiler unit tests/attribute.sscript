@@ -1,0 +1,27 @@
+/**
+ * This file contains definitions for attributes
+ */
+
+class Attribute    {
+    public Attribute()    {        
+    }
+}
+
+/**
+ * Used to indicate that a class is overriding another class
+ * E.g.: You can override the object class (not recommended)
+ */      
+class Override extends Attribute    {
+    public Override()    {
+        
+    }
+}
+
+
+
+
+
+
+
+
+
