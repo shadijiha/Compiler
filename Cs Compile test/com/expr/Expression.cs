@@ -10,7 +10,7 @@ using DynamicExpresso;
 
 namespace Cs_Compile_test.com {
 
-	public class ExpressionSyntax {
+	public readonly struct ExpressionSyntax {
 		public readonly static string type = "TYPE";
 		public readonly static string identifier = "IDENTIFIER";
 		public readonly static string op = "OPERATOR";
