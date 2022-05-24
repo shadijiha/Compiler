@@ -14,9 +14,12 @@ namespace Cs_Compile_test.com {
 			objects.Add(obj.GetHashCode(), new WeakReference(obj));
 		}
 
-		public static ShadoObject GetByAddress(int address) {
+		public static ShadoObject GetByAddress(int? address) {
+			if (address == null)
+				return null;
+
 			try {
-				var obj =  objects[address];
+				var obj =  objects[(int)address];
 				return obj.IsAlive ? (ShadoObject)obj.Target : null;
 			} catch (Exception e) {
 				throw new RuntimeError("Cannot find the variable with address {0}", address);

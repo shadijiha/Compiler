@@ -336,6 +336,13 @@ namespace Cs_Compile_test.com {
 
 			// Get the function
 			ShadoObject method = scope.Get(1)?.type?.GetMethod(functionName) ?? VM.instance.Get(functionName);
+
+			// See if method can be got using a pointer
+			if (method == null) {
+				ShadoObject ptr = scope.GetVariable(functionName) ?? VM.instance.Get(functionName);
+				method = MemoryManager.GetByAddress(ptr.value as int?);
+			}
+
 			if (method == null || !method.IsMethod())
 				throw new RuntimeError("{0} is not a function", functionName);
 
