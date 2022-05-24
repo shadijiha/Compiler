@@ -5,7 +5,7 @@
     "main": "debug/electron.js",
     "scripts": {
         "watch": "tsc -w",
-        "dist": "electron-builder",
+        "dist": "tsc && electron-builder",
         "start": "electron ."
     },
     "build": {
