@@ -61,14 +61,25 @@ namespace Cs_Compile_test.com {
 				VM.instance.AddType(clazz);
 				temp.classes.Add(clazz); // TODO change this
 
+
 				ShadoObject returnObj = new ShadoObject(clazz, null);
 				foreach (var variable in VM.instance.variables) {
 					if (variable is ShadoMethod method)	
 						clazz.AddMethod(method);
 				}
 
+				ShadoMethod toString = new ShadoMethod("toString", 0, "string");
+				toString.SetCode((context, args) =>
+				{
+					return $"({clazz.name}: [\n{string.Join("\n\t", VM.instance.variables.Cast<ShadoMethod>().Select(e => $"{e.name}:\t{e.GetFullType()}").ToArray())}])";
+				});
+				clazz.AddMethod(toString);
+
+				VM.instance = temp;	// Maybe this should be removed??? idk
+
 				return returnObj;
 			});
+
 			this.PushVariable(import);
 		}
 

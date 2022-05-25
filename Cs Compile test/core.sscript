@@ -1,6 +1,9 @@
 // This is the core library of shado script
 #include "__PATH_TO_CORE__/math.sscript"
 #include "__PATH_TO_CORE__/attribute.sscript"
+#include "__PATH_TO_CORE__/reflection.sscript"
+
+
 #define MAX_INT 2147483647
 #define MIN_INT -2147483648
 
@@ -95,7 +98,8 @@ class object {
     public native int hashCode();
 }
 
-class function  {  
+native class function  { 
+    private native object call(Context context, object... args); 
 }
 
 interface IAutoClosable {
@@ -134,22 +138,22 @@ native class FileWriter implements IAutoClosable {
 
 /**
  * All arrays have this class as super class
- *
+ * @param class T any class
  * PLEASE NOTE: Objects are pushed into the array by reference!
  */ 
-native class Array {
+native class Array<T> {
 
     public native int length();
 
-    public native dynamic at(int index);
+    public native T at(int index);
 
     public native void add(dynamic element);
 
-    public native void addAt(int index, dynamic element);
+    public native void addAt(int index, T element);
 
-    public native dynamic pop();
+    public native T pop();
 
-    public native bool contains(dynamic element); 
+    public native bool contains(T element); 
 };
 
 /**
@@ -203,7 +207,10 @@ native class String {
  * Module coreModule = import("core.sscript");
  */
 native class Module<T> {
-    public native operator () (string funcName, dynamic... args);
+    native field private function[] functions;
+    
+    private native Module(string filepath);
+    private native function getFunction(string name);
 }
 
 class Random    {

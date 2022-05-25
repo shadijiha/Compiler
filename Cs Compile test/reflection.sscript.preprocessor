@@ -1,0 +1,24 @@
+
+
+
+native class __ExecutionCon(1) {
+native field private object[] contexts;
+
+native public __ExecutionCon(1)(object... objects);
+
+native public void attach(object obj);
+native public object get(int i);
+native public object getVariable(string name);
+native public object getByAddress(object* ptr);
+native public object addOrUpdateVariable(string type, string name, object val);
+native public object addVariable(string type, string name, object val);
+native public object addVariable(object obj);
+native public object[] getAllVariables();
+native public bool hasVariable();
+native public bool isEmpty();
+}
+
+
+
+
+

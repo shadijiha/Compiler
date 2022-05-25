@@ -1,0 +1,27 @@
+#define __Context __ExecutionCtx__LINE__
+#define Context __Context
+#define internal    native
+
+/**
+ * This class is for internal use only! Do not use it in your code!!
+ */
+internal class __Context {
+    native field private object[] contexts;
+    
+    native public __Context(object... objects);
+    
+    native public void attach(object obj);
+    native public object get(int i);
+    native public object getVariable(string name);   
+    native public object getByAddress(object* ptr);
+    native public object addOrUpdateVariable(string type, string name, object val);
+    native public object addVariable(string type, string name, object val);
+    native public object addVariable(object obj);
+    native public object[] getAllVariables();
+    native public bool hasVariable();
+    native public bool isEmpty();
+}
+
+
+
+
