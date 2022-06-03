@@ -75,6 +75,10 @@ namespace Cs_Compile_test.com.interfaces
         public bool IsEmpty() { 
             return contexts.Count == 0;
         }
+        public int Size()
+        {
+            return contexts.Count;
+        }
 
         public override string ToString()
         {

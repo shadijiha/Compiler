@@ -19,7 +19,11 @@ namespace Cs_Compile_test {
 				return int.Parse(result);
 
 			} catch (Exception e) {
+#if DEBUG
+				Console.Error.WriteLine(e.StackTrace);
+#else
 				Console.Error.WriteLine(e.Message);
+#endif
 				return -1;
 			} finally {
 				VM.instance.Shutdown();

@@ -151,6 +151,10 @@ namespace Cs_Compile_test.com {
 						try { className = tokens[i + 1]; } catch (Exception) { throw new SyntaxError("Class does not have a name"); }
 				}
 
+				ShadoClass superClass = null;
+				if (tokens.Length >= 4 && tokens[2] == "extends") {
+					superClass = VM.instance.GetClass(tokens[3].Trim());
+				}
 
 				// Register this class
 				ShadoClass clazz = new ShadoClass(className);
@@ -197,6 +201,9 @@ namespace Cs_Compile_test.com {
 					return null;
 				});
 				clazz.AddMethod(super);
+				
+				if (superClass != null)
+					clazz.AddParentClass(superClass);
 
 				VM.instance.AddType(clazz);
 

@@ -29,7 +29,7 @@ namespace Cs_Compile_test.com {
 			hasInitialized = true;
 
 			//AddType("object", o=> true);
-			AddType("function", o => o == null || o.GetType() == typeof(ShadoMethod));
+			AddType(new ShadoFunction());
 			AddType(new ShadoInt());
 			AddType(new ShadoFloat());
 			AddType(new ShadoDouble());
@@ -240,6 +240,18 @@ namespace Cs_Compile_test.com {
 
 		public IList<ShadoClass> GetAllTypes() {
 			return new List<ShadoClass>(classes);
+		}
+
+		/// <summary>
+		/// Get the all the classes that have clazz as their parent
+		/// </summary>
+		/// <param name="clazz">The parent class</param>
+		/// <returns></returns>
+		public IEnumerable<ShadoClass> GetChildrenOf(ShadoClass clazz) { 
+			var result = from klazz in classes
+						 where klazz.GetParentClasses().Contains(clazz)
+						 select klazz;
+			return result;
 		}
 
 		public static VM GetInstance() {

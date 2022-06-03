@@ -99,7 +99,13 @@ class object {
 }
 
 native class function  { 
-    private native object call(Context context, object... args); 
+    private native object call(Context context, object... args);
+
+    public native final string name();
+
+    public native final string return_type();
+
+    public native final int args_count(); 
 }
 
 interface IAutoClosable {

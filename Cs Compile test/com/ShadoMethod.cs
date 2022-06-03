@@ -1,5 +1,6 @@
 ﻿using Cs_Compile_test.com.exceptions;
 using Cs_Compile_test.com.interfaces;
+using Cs_Compile_test.com.nativeTypes;
 using System;
 
 namespace Cs_Compile_test.com {
@@ -21,6 +22,8 @@ namespace Cs_Compile_test.com {
 		protected string fullType;
 		protected Attributes attributes;
 
+		protected bool callBeforeAndAfter = true;
+
 		public ShadoMethod(string name, int argCount, string returnType, bool optionalArgs, string[] argTypes)
 			: base("function", name, null) {
 			this.argCount = argCount;
@@ -39,6 +42,21 @@ namespace Cs_Compile_test.com {
 
 			//VM.getInstance().addType(method_full_type, o -> true);
 			//this.type = VM.getInstance().getClass(method_full_type);
+
+			// Call the constructor if any (this allows you to override the default function constructor)
+			try
+			{
+				var funcClass = (ShadoFunction)VM.instance.GetClass("function");
+				ShadoFunction.currentCallee = this;
+				var childExtendsFunction = VM.instance.GetChildrenOf(funcClass);
+				foreach (var child in childExtendsFunction)
+				{
+					child.GetConstructor()?.Call(new Context(Global).Attach(this), null);
+				}
+			}
+			catch (Exception e)
+            {
+            }		
 		}
 
 		public ShadoMethod(string name, int argCount, string returnType, string[] argTypes)
@@ -78,6 +96,22 @@ namespace Cs_Compile_test.com {
 				AddOrUpdateVariable(argType, name, args[i]);
 			}
 
+			// Call the beforeCall function if exists
+			/*if (callBeforeAndAfter) {
+				var funcClass = (ShadoFunction)VM.instance.GetClass("function");
+				ShadoFunction.currentCallee = this;
+				var childExtendsFunction = VM.instance.GetChildrenOf(funcClass);
+				foreach (var child in childExtendsFunction)
+				{
+					var m = child.GetMethod("beforeCall");
+					if (m == null)
+						continue;
+					m.optionalArgs = true;
+					m.DisableBeforeAfterCall();
+					m.Call(new Context(Global).Attach(this), args);
+				}
+			}*/
+
 
 			return code(context, args);
 		}
@@ -99,6 +133,11 @@ namespace Cs_Compile_test.com {
 		/// <returns></returns>
 		public ShadoMethod AddAttribute(Attributes attributes) {
 			this.attributes |= attributes;
+			return this;
+		}
+
+		public ShadoMethod DisableBeforeAfterCall() {
+			callBeforeAndAfter = false;
 			return this;
 		}
 
@@ -145,6 +184,10 @@ namespace Cs_Compile_test.com {
 
 		public int GetArgCount() {
 			return argCount;
+		}
+
+		public string GetReturnType() { 
+			return returnType;
 		}
 
 		public bool ArgCountEquals(int count) { 
