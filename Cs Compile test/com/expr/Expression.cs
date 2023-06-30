@@ -514,6 +514,7 @@ namespace Cs_Compile_test.com {
 		
 		private object executeStaticVariableInit(ref ExecutionStatus status)
 		{
+			throw new NotImplementedException("<b>static</b> keyword is disabled for now.");
 			// Add result to VM as static variable if it is not there
 			Expression expr = new Expression(this.rhs, ShadoObject.Global);
 

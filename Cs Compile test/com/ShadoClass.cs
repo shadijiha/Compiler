@@ -31,7 +31,7 @@ namespace Cs_Compile_test.com {
 		}
 
 		public bool IsValidType(string name) {
-			return name == this.name || parents.Where(e => e.IsValidType(name)).FirstOrDefault() != null;
+			return name.Trim() == this.name.Trim() || parents.Select(e => e.IsValidType(name)).Aggregate(false, (a, b) => a || b);
 		}
 
 		public ShadoClass GetUnitType() {
@@ -69,7 +69,7 @@ namespace Cs_Compile_test.com {
 
 		public ShadoMethod GetConstructor(int argCount = 0) {
 			var SortedList = methods.OrderBy(o => o.optionalArgs).ToList();
-			foreach (var method in SortedList)	{
+			foreach (var method in SortedList) {
 				if (method.name == name && method.ArgCountEquals(argCount))
 					return method;
 			}
@@ -104,11 +104,16 @@ namespace Cs_Compile_test.com {
 			AddMethod(toString);
 
 			var hashcode = new ShadoMethod("hashCode", 0, "int");
-			hashcode.SetCode((ctx, objects)=> {
+			hashcode.SetCode((ctx, objects) => {
 				int temp = ctx.GetHashCode();
 				return temp;
 			});
 			AddMethod(hashcode);
+		}
+
+		public unsafe int GetSizeBytes() {
+			return sizeof(TypeValidator) + name.Length * sizeof(char)
+				+ methods.Select(e => e.GetSizeBytes()).Sum();
 		}
 
 		public override string ToString() {

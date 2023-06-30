@@ -8,8 +8,8 @@ class Attribute    {
 }
 
 /**
- * Used to indicate that a class is overriding another class
- * E.g.: You can override the object class (not recommended)
+ * Used to indicate that a _class is overriding another class
+ * E.g.: You can override the object _class (not recommended)
  */      
 class Override extends Attribute    {
     public Override()    {

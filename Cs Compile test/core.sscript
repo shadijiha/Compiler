@@ -36,6 +36,15 @@ native string input();
  */
 native string typeof(object obj);
 
+
+/**
+ * This function returns the size of object arg in bytes
+ * @param arg The argument to get the size of
+ * @returns string
+ * @example: sizeof(myvariable) --> 2357
+ */
+native int sizeof(object o);
+
 /**
  * Clears the console
  */ 
@@ -108,7 +117,7 @@ native class function  {
     public native final int args_count(); 
 }
 
-interface IAutoClosable {
+class IAutoClosable {
     public void close();
 }
 

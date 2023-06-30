@@ -2,6 +2,7 @@
 using Cs_Compile_test.com.interfaces;
 using Cs_Compile_test.com.nativeTypes;
 using System;
+using System.Linq;
 
 namespace Cs_Compile_test.com {
 	[Serializable]
@@ -213,5 +214,17 @@ namespace Cs_Compile_test.com {
 		public override string ToString() {
 			return name;
 		}
-	}
+
+        public unsafe override int GetSizeBytes()
+        {
+            return base.GetSizeBytes() + sizeof(int)
+				+ returnType.Length * sizeof(char)
+				+ sizeof(int)
+				+ argTypes.Select(e => e.Length * sizeof(char)).Sum()
+				+ sizeof(bool)
+				+ fullType.Length * sizeof(char)
+				+ sizeof(Attributes)
+				+ sizeof(MethodCall);
+        }
+    }
 }

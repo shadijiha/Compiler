@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Cs_Compile_test.com {
 
@@ -92,11 +93,26 @@ namespace Cs_Compile_test.com {
 						if (methodVar.type is ICloseBeforeExit closable) {
 							closable.Close(methodVar);
 						}
-					}
+                        else if (methodVar.type?.IsValidType("IAutoClosable") ?? false)
+                        {
+                            var close = methodVar.type.GetMethod("close");
+                            if (close is null)
+                                throw new RuntimeError("Classes extending IAutoClosable must implement a close() method");
+                            else
+                                close.Call(new Context(methodVar), new object[] { });
+                        }
+                    }
 				} else {
 					// Otherwise see if the variable is auto closable
 					if (variable.type is ICloseBeforeExit closable) {
 						closable.Close(variable);
+					}
+					else if (variable.type?.IsValidType("IAutoClosable") ?? false) {
+						var close = variable.type.GetMethod("close");
+						if (close is null)
+							throw new RuntimeError("Classes extending IAutoClosable must implement a close() method");
+						else
+							close.Call(new Context(variable), new object[] { });
 					}
 				}
 			}

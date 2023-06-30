@@ -180,6 +180,15 @@ namespace Cs_Compile_test.com {
 			ShadoMethod method_time = new ShadoMethod("time", 0, "int");
 			method_time.SetCode((ctx, obj) => VMSetup.CurrentTimeMillis());
 			vm.PushVariable(method_time);
+
+			ShadoMethod method_sizeof = new ShadoMethod("sizeof", 1, "int");
+			method_sizeof.SetCode((ctx, args) => {
+				ShadoObject obj = args[0] as ShadoObject;
+				if (obj == null)
+                    return 0;
+				return obj.GetSizeBytes();
+			});
+			vm.PushVariable(method_sizeof);
 		}
 
 		public static void SetupMathMethods(this VM vm) {

@@ -1,5 +1,6 @@
 ﻿using Cs_Compile_test.com.exceptions;
 using Cs_Compile_test.com.interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -114,5 +115,14 @@ namespace Cs_Compile_test.com {
 		public override string ToString() {
 			return type?.GetMethodOrThrow("toString")?.Call((Context)this, null)?.ToString() ?? value?.ToString() ?? "undefined@" + id;
 		}
-	}
+
+        public virtual unsafe int GetSizeBytes()
+        {
+             return name.Length * sizeof(char)
+                    + sizeof(int)
+                    + instanceVariables.Count == 0 ? 0 : instanceVariables.Select(e => e.GetSizeBytes()).Sum()
+                    + type?.GetSizeBytes() ?? 0
+					+ (value is string s ? s.Length * sizeof(char) : sizeof(object));
+        }
+    }
 }
