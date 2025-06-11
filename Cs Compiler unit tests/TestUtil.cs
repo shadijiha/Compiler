@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Cs_Compiler_unit_tests {
@@ -11,7 +12,9 @@ namespace Cs_Compiler_unit_tests {
 	public static class TestUtil {
 
 		//private static readonly string CORE_LIB_LOCATION = Directory.GetParent(Program.PATH).FullName + "\\Cs Compile test\\core.sscript";
-		private static readonly string CORE_LIB_LOCATION = TryGetSolutionDirectoryInfo() + "\\Cs Compile test\\core.sscript";
+		private static string CORE_LIB_LOCATION => TryGetSolutionDirectoryInfo() + "\\Cs Compile test\\core.sscript";
+		private static string CORE_LIB_PATH => TryGetSolutionDirectoryInfo() + "\\Cs Compile test";
+
 
 		public static string MainTemplate(params string[] lines) {
 			StringBuilder builder = new StringBuilder("int main()	{");
@@ -34,7 +37,10 @@ namespace Cs_Compiler_unit_tests {
 		}
 
 		public static void CompileAndRun(string code, string[] args = null) {
-			Compiler.compile(code);
+			Compiler compiler = new Compiler(null);
+			compiler.filecontent = code;
+			PreprocessorCommand.constants["__PATH_TO_CORE__"] = compiler => CORE_LIB_PATH;
+			compiler.compile();
 			RunMain(args);
 		}
 
@@ -43,15 +49,22 @@ namespace Cs_Compiler_unit_tests {
 				throw new Exception($"Input {actual} does not comply with range {min}-{max}");
 		}
 
-		public static DirectoryInfo TryGetSolutionDirectoryInfo(string currentPath = null)
+		public static string? TryGetSolutionDirectoryInfo(string currentPath = null)
 		{
-			var directory = new DirectoryInfo(
-				currentPath ?? Directory.GetCurrentDirectory());
-			while (directory != null && !directory.GetFiles("*.sln").Any())
+			var dir = new DirectoryInfo(currentPath ?? Environment.CurrentDirectory);
+			
+			while (dir != null)
 			{
-				directory = directory.Parent;
+				string filePath = Path.Combine(dir.FullName, "Cs Compile test.sln");
+				if (File.Exists(filePath))
+				{
+					return dir.FullName;
+				}
+			
+				dir = dir.Parent; // Move up one level
 			}
-			return directory;
+
+			return null;
 		}
 	}
 }

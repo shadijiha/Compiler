@@ -34,7 +34,7 @@ int main(int argc, string[] argv)	{
     println(index2);
     
     array.add(pi());
-    println(array)
+    println(array);
     println("---------------------------------");
 
     /* Strings (Check all string operations in core.sscript) */

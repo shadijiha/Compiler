@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using System;
 namespace Cs_Compile_test {
 	public class Compiler {
-		private string filecontent;
+		public string filecontent;
 		public string filename { get; private set; }
 		public uint lineNumber { get; set; }
 

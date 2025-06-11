@@ -98,20 +98,21 @@ namespace Cs_Compile_test.com {
 			}
 
 			// Call the beforeCall function if exists
-			/*if (callBeforeAndAfter) {
-				var funcClass = (ShadoFunction)VM.instance.GetClass("function");
-				ShadoFunction.currentCallee = this;
-				var childExtendsFunction = VM.instance.GetChildrenOf(funcClass);
-				foreach (var child in childExtendsFunction)
-				{
-					var m = child.GetMethod("beforeCall");
-					if (m == null)
-						continue;
-					m.optionalArgs = true;
-					m.DisableBeforeAfterCall();
-					m.Call(new Context(Global).Attach(this), args);
-				}
-			}*/
+			// if (callBeforeAndAfter) {
+			// 	var funcClass = (ShadoFunction)VM.instance.GetClass("function");
+			// 	ShadoFunction.currentCallee = this;
+			// 	
+			// 	var childExtendsFunction = VM.instance.GetChildrenOf(funcClass);
+			// 	foreach (var child in childExtendsFunction)
+			// 	{
+			// 		var m = child.GetMethod("beforeCall");
+			// 		if (m is not {callBeforeAndAfter: true})
+			// 			continue;
+			// 		m.optionalArgs = true;
+			// 		m.DisableBeforeAfterCall();
+			// 		m.Call(new Context(Global).Attach(this), args);
+			// 	}
+			// }
 
 
 			return code(context, args);

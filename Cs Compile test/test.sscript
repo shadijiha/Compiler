@@ -2,6 +2,13 @@
 
 /* Classses support */
 class TestClass {
+    public TestClass()    {
+        println("Constructor");    
+    }
+
+    public TestClass(int x)    {
+        println("Constructor with arg ", x);    
+    }
 
     public void sayHello()  {
         string name = TestClass.class();
